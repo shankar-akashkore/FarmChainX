@@ -7,11 +7,14 @@ import { AuthService } from '../../services/auth.service';
   selector: 'app-navbar',
   standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
-  templateUrl: './navbar.html'
+  templateUrl: './navbar.html',
+  styleUrls: ['./navbar.scss']
 })
 export class Navbar {
   private router = inject(Router);
   private auth = inject(AuthService);
+
+  isMenuOpen = false;
 
   get isLoggedIn() {
     return this.auth.isLoggedIn();
@@ -34,7 +37,20 @@ export class Navbar {
     return this.auth.isAdmin();
   }
 
+  get roleLabel() {
+    return (this.userRole || 'Guest').replace('ROLE_', '').toLowerCase();
+  }
+
+  toggleMenu() {
+    this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  closeMenu() {
+    this.isMenuOpen = false;
+  }
+
   logout() {
+    this.closeMenu();
     this.auth.logout();
     this.router.navigate(['/login']);
   }

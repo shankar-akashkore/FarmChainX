@@ -9,33 +9,51 @@ import { AuthService } from '../../services/auth.service';
   standalone: true,
   selector: 'app-login',
   templateUrl: './login.html',
+  styleUrls: ['./login.scss'],
   imports: [CommonModule, FormsModule, RouterModule]
 })
 export class Login {
   email = '';
   password = '';
+  showPassword = false;
+  loading = false;
+  errorMessage = '';
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private auth: AuthService   // ✔ Inject AuthService
+    private auth: AuthService
   ) {}
 
+  togglePassword() {
+    this.showPassword = !this.showPassword;
+  }
+
+  useDemo(email: string, password = '1234') {
+    this.email = email;
+    this.password = password;
+    this.errorMessage = '';
+  }
+
   login() {
+    if (this.loading) return;
+
+    this.loading = true;
+    this.errorMessage = '';
+
     this.http.post<any>('/api/auth/login', {
-      email: this.email,
+      email: this.email.trim(),
       password: this.password
     }).subscribe({
       next: (res) => {
-        // ✔ Store into service (also updates localStorage)
         this.auth.setAuthFromResponse(res);
-
-        alert('Login successful ✅');
+        this.loading = false;
         this.router.navigate(['/dashboard']);
       },
       error: (err) => {
+        this.loading = false;
         const msg = err?.error?.error || 'Invalid email or password';
-        alert(msg);
+        this.errorMessage = msg;
       }
     });
   }

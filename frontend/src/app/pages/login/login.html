@@ -1,74 +1,96 @@
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-emerald-900 to-slate-900 flex items-center justify-center px-6">
-  <!-- Animated background -->
-  <div class="absolute inset-0 -z-10 overflow-hidden">
-    <div class="absolute top-20 left-20 w-96 h-96 bg-emerald-600 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
-    <div class="absolute bottom-20 right-20 w-80 h-80 bg-lime-500 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
-  </div>
+<main class="login-page">
+  <section class="login-visual" aria-label="FarmChainX access summary">
+    <div class="visual-content">
+      <a routerLink="/" class="brand-lockup" aria-label="FarmChainX home">
+        <span class="brand-mark">FX</span>
+        <span>
+          <strong>FarmChainX</strong>
+          <small>Traceable agriculture</small>
+        </span>
+      </a>
 
-  <!-- Login Card -->
-  <div class="w-full max-w-md">
-    <div class="backdrop-blur-2xl bg-white/10 border border-white/20 rounded-3xl shadow-2xl p-10">
-      <!-- Logo + Title -->
-      <div class="text-center mb-10">
-        <h1 class="text-5xl font-black bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 to-lime-400">
-          FarmChainX
-        </h1>
-        <p class="text-xl text-gray-300 mt-3">Welcome back</p>
-      </div>
-
-      <!-- Login Form -->
-      <form (ngSubmit)="login()" #f="ngForm" autocomplete="off" class="space-y-6">
-        <div>
-          <input
-            class="w-full px-6 py-4 bg-white/10 border border-white/30 rounded-2xl placeholder-gray-400 text-white focus:outline-none focus:border-emerald-400 focus:ring-4 focus:ring-emerald-500/20 transition"
-            name="email"
-            type="email"
-            placeholder="Email address"
-            [(ngModel)]="email"
-            required
-          />
-        </div>
-
-        <div>
-          <input
-            class="w-full px-6 py-4 bg-white/10 border border-white/30 rounded-2xl placeholder-gray-400 text-white focus:outline-none focus:border-emerald-400 focus:ring-4 focus:ring-emerald-500/20 transition"
-            name="password"
-            type="password"
-            placeholder="Password"
-            [(ngModel)]="password"
-            required
-          />
-        </div>
-
-        <button
-          type="submit"
-          [disabled]="f.invalid"
-          class="w-full relative overflow-hidden bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-600 hover:to-teal-700 text-white font-bold text-lg py-5 rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <span class="relative z-10">Login to Dashboard</span>
-          <div class="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500"></div>
-        </button>
-      </form>
-
-      <!-- Register Link -->
-      <div class="mt-8 text-center">
-        <p class="text-gray-400">
-          Don't have an account?
-          <a routerLink="/register" class="font-bold text-emerald-400 hover:text-emerald-300 transition">
-            Register here
-          </a>
+      <div class="hero-copy">
+        <p class="eyebrow">Secure supply-chain access</p>
+        <h1>Track every harvest from field to final shelf.</h1>
+        <p>
+          Login to manage product uploads, scan QR codes, confirm supply-chain movement,
+          and monitor transparent product history.
         </p>
       </div>
 
-      <!-- Decorative bottom glow -->
-      <div class="mt-10 flex justify-center">
-        <div class="w-24 h-1 bg-gradient-to-r from-emerald-500 to-lime-500 rounded-full"></div>
+      <div class="trust-grid" aria-label="Platform capabilities">
+        <div>
+          <strong>5</strong>
+          <span>Role types</span>
+        </div>
+        <div>
+          <strong>QR</strong>
+          <span>Verification</span>
+        </div>
+        <div>
+          <strong>Hash</strong>
+          <span>Chain logs</span>
+        </div>
       </div>
     </div>
+  </section>
 
-    <!-- Trust badge -->
-    <p class="text-center text-gray-500 text-sm mt-8">
-      Secured by blockchain • End-to-end encrypted
-    </p>
-  </div>
-</div>
+  <section class="login-panel" aria-label="Login form">
+    <div class="panel-card">
+      <div class="panel-heading">
+        <p class="eyebrow">Welcome back</p>
+        <h2>Login to your account</h2>
+        <p>Use your FarmChainX credentials to continue.</p>
+      </div>
+
+      <form (ngSubmit)="login()" #f="ngForm" autocomplete="off" novalidate>
+        <label class="field">
+          <span>Email address</span>
+          <input
+            name="email"
+            type="email"
+            placeholder="you@example.com"
+            [(ngModel)]="email"
+            required
+            email
+          />
+        </label>
+
+        <label class="field">
+          <span>Password</span>
+          <div class="password-wrap">
+            <input
+              name="password"
+              [type]="showPassword ? 'text' : 'password'"
+              placeholder="Enter password"
+              [(ngModel)]="password"
+              required
+            />
+            <button type="button" class="password-toggle" (click)="togglePassword()">
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+        </label>
+
+        <p *ngIf="errorMessage" class="form-error" role="alert">{{ errorMessage }}</p>
+
+        <button type="submit" class="submit-button" [disabled]="f.invalid || loading">
+          <span *ngIf="!loading">Login to Dashboard</span>
+          <span *ngIf="loading">Signing in...</span>
+        </button>
+      </form>
+
+      <div class="demo-strip" aria-label="Demo accounts">
+        <span>Try demo:</span>
+        <button type="button" (click)="useDemo('farmer@farmchainx.com')">Farmer</button>
+        <button type="button" (click)="useDemo('distributor@farmchainx.com')">Distributor</button>
+        <button type="button" (click)="useDemo('consumer@farmchainx.com')">Consumer</button>
+      </div>
+
+      <p class="switch-link">
+        New to FarmChainX?
+        <a routerLink="/register">Create an account</a>
+      </p>
+    </div>
+  </section>
+</main>

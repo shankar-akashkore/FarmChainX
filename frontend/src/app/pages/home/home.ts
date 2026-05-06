@@ -6,7 +6,8 @@ import { RouterModule } from '@angular/router';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './home.html'
+  templateUrl: './home.html',
+  styleUrls: ['./home.scss']
 })
 export class Home {
   get isLoggedIn(): boolean {

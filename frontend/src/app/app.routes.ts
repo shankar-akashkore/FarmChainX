@@ -5,6 +5,7 @@ import { AdminGuard } from './guards/admin-guard';
 export const routes: Routes = [
   {
     path: '',
+    pathMatch: 'full',
     loadComponent: () => import('./pages/home/home').then(m => m.Home)
   },
   {
@@ -13,7 +14,7 @@ export const routes: Routes = [
   },
   {
     path: 'register',
-    loadComponent: () => import('./pages/register/register').then(m => m.Register)
+    loadComponent: () => import('./pages/register/register').then(m => m.RegisterPage)
   },
   {
     path: 'verify/:uuid',
