@@ -1,14 +1,15 @@
 import { Component, inject, AfterViewInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, UpperCasePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { AdminService } from '../../services/admin.service';
 
 @Component({
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, UpperCasePipe],
   selector: 'app-dashboard',
-  templateUrl: './dashboard.html'
+  templateUrl: './dashboard.html',
+  styleUrl: './dashboard.scss'
 })
 export class Dashboard implements AfterViewInit {
   private authService = inject(AuthService);

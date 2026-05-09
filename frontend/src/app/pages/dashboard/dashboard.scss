@@ -1,0 +1,566 @@
+// ─────────────────────────────────────────────
+//  FarmChainX Dashboard — Premium Theme
+//  Primary: #118067  |  Background: #ffffff
+// ─────────────────────────────────────────────
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+// ── Tokens ───────────────────────────────────
+$primary: #118067;
+$primary-light: #15a07e;
+$primary-dark: #0d6350;
+$primary-pale: #e8f5f1;
+$primary-muted: rgba(17, 128, 103, 0.12);
+
+$bg: #ffffff;
+$bg-subtle: #f7faf9;
+$bg-card: #ffffff;
+
+$text-heading: #0d1f1a;
+$text-body: #3d5a52;
+$text-muted: #7a9990;
+
+$border: rgba(17, 128, 103, 0.15);
+$shadow-sm: 0 2px 8px rgba(17, 128, 103, 0.08);
+$shadow-md: 0 8px 32px rgba(17, 128, 103, 0.12);
+$shadow-lg: 0 20px 60px rgba(17, 128, 103, 0.16);
+
+$radius-sm: 10px;
+$radius-md: 16px;
+$radius-lg: 24px;
+$radius-xl: 32px;
+
+// ── Reset ─────────────────────────────────────
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// ── Root ──────────────────────────────────────
+.dashboard-root {
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  background-color: $bg;
+  position: relative;
+  overflow: hidden;
+}
+
+// ── Background Decoration ─────────────────────
+.bg-decoration {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.bg-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.18;
+
+  &--1 {
+    width: 480px;
+    height: 480px;
+    background: $primary;
+    top: -120px;
+    right: -80px;
+    animation: floatOrb 10s ease-in-out infinite alternate;
+  }
+
+  &--2 {
+    width: 320px;
+    height: 320px;
+    background: $primary-light;
+    bottom: -80px;
+    left: -60px;
+    animation: floatOrb 13s ease-in-out infinite alternate-reverse;
+  }
+}
+
+.bg-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(17, 128, 103, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 128, 103, 0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+@keyframes floatOrb {
+  from {
+    transform: translate(0, 0) scale(1);
+  }
+
+  to {
+    transform: translate(30px, 20px) scale(1.08);
+  }
+}
+
+// ── Container ─────────────────────────────────
+.dashboard-container {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 32px 20px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// ── Header ────────────────────────────────────
+.dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: 14px 24px;
+  box-shadow: $shadow-sm;
+  transition: box-shadow 0.3s ease;
+
+  &:hover {
+    box-shadow: $shadow-md;
+  }
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .brand-icon {
+    font-size: 22px;
+  }
+
+  .brand-name {
+    font-size: 18px;
+    font-weight: 800;
+    color: $primary;
+    letter-spacing: -0.4px;
+  }
+}
+
+.header-status {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: $primary-muted;
+  border-radius: 999px;
+  padding: 5px 14px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: $primary;
+  border-radius: 50%;
+  animation: pulse 1.8s infinite;
+}
+
+.status-text {
+  font-size: 13px;
+  font-weight: 600;
+  color: $primary;
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.5;
+    transform: scale(1.3);
+  }
+}
+
+// ── Welcome Card ──────────────────────────────
+.welcome-card {
+  position: relative;
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-xl;
+  padding: 36px 36px 36px 40px;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+
+  &:hover {
+    box-shadow: $shadow-lg;
+    transform: translateY(-2px);
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  &__accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, $primary, $primary-light);
+    border-radius: 4px 0 0 4px;
+  }
+}
+
+// Avatar
+.welcome-avatar {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.avatar-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $primary, $primary-light);
+  color: #fff;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -1px;
+  box-shadow: 0 4px 16px rgba(17, 128, 103, 0.35);
+  position: relative;
+  z-index: 1;
+}
+
+.avatar-ring {
+  position: absolute;
+  inset: -5px;
+  border-radius: 50%;
+  border: 2px solid $primary;
+  opacity: 0.35;
+  animation: ringPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes ringPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 0.35;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 0.1;
+  }
+}
+
+// Welcome text
+.welcome-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.welcome-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 4px;
+}
+
+.welcome-name {
+  font-size: 20px;
+  font-weight: 500;
+  color: $text-heading;
+  letter-spacing: -1px;
+  line-height: 1.1;
+}
+
+.welcome-subtitle {
+  margin-top: 6px;
+  font-size: 15px;
+  color: $text-body;
+  font-weight: 400;
+}
+
+// Role chip
+.role-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: $primary-muted;
+  border: 1.5px solid rgba(17, 128, 103, 0.25);
+  border-radius: 999px;
+  padding: 8px 18px;
+  flex-shrink: 0;
+
+  &__dot {
+    width: 9px;
+    height: 9px;
+    background: $primary;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  &__label {
+    font-size: 14px;
+    font-weight: 700;
+    color: $primary;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+  }
+}
+
+// ── Stats Row ─────────────────────────────────
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+
+  @media (max-width: 560px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.stat-card {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  padding: 20px 22px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: $shadow-sm;
+  transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  cursor: default;
+
+  &:hover {
+    box-shadow: $shadow-md;
+    transform: translateY(-3px);
+    border-color: rgba(17, 128, 103, 0.35);
+  }
+
+  &__icon {
+    font-size: 26px;
+    width: 48px;
+    height: 48px;
+    background: $primary-pale;
+    border-radius: $radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  &__info {
+    min-width: 0;
+  }
+
+  &__value {
+    font-size: 15px;
+    font-weight: 700;
+    color: $text-heading;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__label {
+    font-size: 12px;
+    color: $text-muted;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+}
+
+// ── Actions Card ──────────────────────────────
+.actions-card {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-xl;
+  padding: 32px;
+  box-shadow: $shadow-md;
+}
+
+.actions-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: $text-muted;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// ── Buttons ───────────────────────────────────
+.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 14px 24px;
+  border-radius: $radius-md;
+  font-size: 15px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  letter-spacing: 0.1px;
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &__icon {
+    font-size: 17px;
+  }
+
+  // Primary: solid green
+  &--primary {
+    background: linear-gradient(135deg, $primary, $primary-light);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(17, 128, 103, 0.35);
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(17, 128, 103, 0.45);
+    }
+  }
+
+  // Outline: bordered green
+  &--outline {
+    background: $bg-card;
+    color: $primary;
+    border: 2px solid $primary;
+    box-shadow: $shadow-sm;
+
+    &:hover {
+      background: $primary-muted;
+      transform: translateY(-2px);
+      box-shadow: $shadow-md;
+    }
+  }
+}
+
+// ── Admin Panel Link ──────────────────────────
+.admin-panel-link {
+  display: block;
+  margin-top: 16px;
+  text-decoration: none;
+  background: linear-gradient(135deg, $primary-dark, $primary, $primary-light);
+  background-size: 200% 200%;
+  border-radius: $radius-lg;
+  padding: 2px;
+  box-shadow: 0 6px 24px rgba(17, 128, 103, 0.3);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  animation: gradientShift 5s ease infinite;
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(17, 128, 103, 0.45);
+  }
+
+  &__content {
+    background: $bg-card;
+    border-radius: calc(#{$radius-lg} - 2px);
+    padding: 22px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.2s;
+  }
+
+  &:hover &__content {
+    background: $primary-pale;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  &__icon {
+    font-size: 26px;
+    width: 52px;
+    height: 52px;
+    background: $primary-muted;
+    border-radius: $radius-sm;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-weight: 800;
+    color: $text-heading;
+    letter-spacing: -0.3px;
+  }
+
+  &__sub {
+    font-size: 13px;
+    color: $text-body;
+    margin-top: 3px;
+  }
+
+  &__arrow {
+    font-size: 22px;
+    color: $primary;
+    font-weight: 700;
+    transition: transform 0.2s ease;
+  }
+
+  &:hover &__arrow {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+// ── Footer ────────────────────────────────────
+.dashboard-footer {
+  text-align: center;
+  font-size: 13px;
+  color: $text-muted;
+  font-weight: 500;
+  padding-top: 8px;
+}
+
+.footer-online {
+  color: $primary;
+  font-weight: 700;
+}
