@@ -1,0 +1,576 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+// ─── Design Tokens ────────────────────────────────────────────────────────────
+$primary:         #118067;
+$primary-dark:    #0d6353;
+$primary-light:   #e6f4f1;
+$primary-mid:     #1aab88;
+$bg:              #ffffff;
+$surface:         #f7faf9;
+$border:          #d9e8e5;
+$border-light:    #edf3f2;
+$text-main:       #0d1f1a;
+$text-muted:      #4a7068;
+$text-subtle:     #7a9b94;
+$shadow-sm:       0 1px 4px rgba(17, 128, 103, 0.06);
+$shadow-card:     0 2px 16px rgba(17, 128, 103, 0.08);
+$shadow-hover:    0 8px 32px rgba(17, 128, 103, 0.16);
+
+// ─── Host ─────────────────────────────────────────────────────────────────────
+:host {
+  display: block;
+  font-family: 'Inter', system-ui, sans-serif;
+  background: $bg;
+  color: $text-main;
+}
+
+// ─── Page Shell ───────────────────────────────────────────────────────────────
+.my-products-page {
+  min-height: 100vh;
+  background: $bg;
+}
+
+// ─── Loading Overlay ──────────────────────────────────────────────────────────
+.loading-overlay {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(8px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  inset: 0;
+  justify-content: center;
+  position: fixed;
+  z-index: 100;
+}
+
+.loading-spinner {
+  animation: spin 0.8s linear infinite;
+  border: 3px solid $border;
+  border-radius: 50%;
+  border-top-color: $primary;
+  height: 48px;
+  width: 48px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.loading-text {
+  color: $text-muted;
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+// ─── Retry Banner ─────────────────────────────────────────────────────────────
+.retry-banner {
+  background: #fffbeb;
+  border-bottom: 1px solid #fde68a;
+  color: #92400e;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 12px 24px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+// ─── Page Header ──────────────────────────────────────────────────────────────
+.page-header {
+  background: $primary;
+  padding: 48px clamp(20px, 5vw, 72px) 44px;
+  position: relative;
+  overflow: hidden;
+
+  // Dot grid overlay
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1.5px, transparent 1.5px);
+    background-size: 28px 28px;
+    pointer-events: none;
+  }
+
+  // Decorative blob
+  &::after {
+    content: '';
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+    bottom: -180px;
+    right: -100px;
+    pointer-events: none;
+  }
+}
+
+.header-inner {
+  align-items: flex-end;
+  display: flex;
+  gap: 32px;
+  justify-content: space-between;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+
+  @media (max-width: 680px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
+
+.header-eyebrow {
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0 0 12px;
+  text-transform: uppercase;
+}
+
+.header-title {
+  color: #fff;
+  font-size: clamp(2rem, 5vw, 3.2rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin: 0;
+}
+
+.header-sub {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.6;
+  margin: 10px 0 0;
+}
+
+.header-stat-row {
+  display: flex;
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.header-stat {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 14px 20px;
+  text-align: center;
+  min-width: 80px;
+
+  strong {
+    color: #fff;
+    display: block;
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  span {
+    color: rgba(255, 255, 255, 0.6);
+    display: block;
+    font-size: 0.74rem;
+    font-weight: 600;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+}
+
+// ─── Page Body ────────────────────────────────────────────────────────────────
+.page-body {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 40px clamp(16px, 4vw, 56px) 64px;
+}
+
+// ─── Empty State ──────────────────────────────────────────────────────────────
+.empty-state {
+  text-align: center;
+  padding: 80px 24px;
+
+  .empty-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    line-height: 1;
+  }
+
+  h2 {
+    color: $text-main;
+    font-size: 1.8rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    margin: 0 0 12px;
+  }
+
+  p {
+    color: $text-muted;
+    font-size: 1rem;
+    font-weight: 500;
+    margin: 0;
+  }
+}
+
+// ─── Product Grid ─────────────────────────────────────────────────────────────
+.product-grid {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+}
+
+// ─── Product Card ─────────────────────────────────────────────────────────────
+.product-card {
+  background: $bg;
+  border: 1.5px solid $border;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow 220ms ease, transform 220ms ease, border-color 220ms ease;
+
+  &:hover {
+    border-color: rgba($primary, 0.4);
+    box-shadow: $shadow-hover;
+    transform: translateY(-3px);
+  }
+}
+
+// ─── Card Image ───────────────────────────────────────────────────────────────
+.card-image-wrap {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.card-image {
+  height: 100%;
+  object-fit: cover;
+  transition: transform 600ms ease;
+  width: 100%;
+
+  .product-card:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.card-image-overlay {
+  align-items: center;
+  background: linear-gradient(to top, rgba(13, 31, 26, 0.72) 0%, rgba(13, 31, 26, 0.1) 60%, transparent 100%);
+  display: flex;
+  inset: 0;
+  justify-content: center;
+  pointer-events: none;
+  position: absolute;
+}
+
+.card-emoji {
+  font-size: 4.5rem;
+  filter: drop-shadow(0 4px 12px rgba(0,0,0,0.4));
+  line-height: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -60%);
+}
+
+.card-image-footer {
+  bottom: 0;
+  left: 0;
+  padding: 12px 16px;
+  position: absolute;
+  right: 0;
+}
+
+.card-crop-name {
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin: 0;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+}
+
+.card-harvest-date {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin: 4px 0 0;
+}
+
+// ─── Card Body ────────────────────────────────────────────────────────────────
+.card-body {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+}
+
+// ─── Quality Badge ────────────────────────────────────────────────────────────
+.quality-badge {
+  align-items: center;
+  background: $primary-light;
+  border: 1px solid rgba($primary, 0.2);
+  border-radius: 10px;
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+}
+
+.quality-grade {
+  align-items: center;
+  background: $primary;
+  border-radius: 8px;
+  color: #fff;
+  display: inline-flex;
+  font-size: 1.1rem;
+  font-weight: 900;
+  height: 40px;
+  justify-content: center;
+  min-width: 40px;
+  padding: 0 8px;
+  flex-shrink: 0;
+}
+
+.quality-meta {
+  color: $primary-dark;
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+// ─── Card Meta ────────────────────────────────────────────────────────────────
+.card-meta {
+  border-top: 1px solid $border-light;
+  display: grid;
+  gap: 2px;
+  padding-top: 14px;
+}
+
+.meta-label {
+  color: $text-subtle;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.meta-value {
+  color: $text-main;
+  font-size: 0.96rem;
+  font-weight: 700;
+}
+
+.meta-id {
+  color: $text-subtle;
+  font-family: 'SF Mono', 'Fira Code', monospace;
+  font-size: 0.75rem;
+  font-weight: 500;
+  margin-top: 2px;
+}
+
+// ─── QR Status ────────────────────────────────────────────────────────────────
+.qr-status-row {
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}
+
+.qr-status-label {
+  color: $text-muted;
+  font-size: 0.82rem;
+  font-weight: 600;
+}
+
+.qr-status-badge {
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 3px 10px;
+
+  &.ready {
+    background: $primary-light;
+    color: $primary-dark;
+    border: 1px solid rgba($primary, 0.25);
+  }
+
+  &.pending {
+    background: #fff8ed;
+    border: 1px solid #fed7aa;
+    color: #92400e;
+  }
+}
+
+// ─── Action Buttons ───────────────────────────────────────────────────────────
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.btn {
+  align-items: center;
+  border-radius: 8px;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  justify-content: center;
+  padding: 9px 16px;
+  text-decoration: none;
+  transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  &--primary {
+    background: $primary;
+    border: 1.5px solid $primary;
+    box-shadow: 0 2px 10px rgba($primary, 0.28);
+    color: #fff;
+
+    &:hover {
+      background: $primary-dark;
+      border-color: $primary-dark;
+      box-shadow: 0 4px 16px rgba($primary, 0.36);
+    }
+  }
+
+  &--secondary {
+    background: $primary-light;
+    border: 1.5px solid rgba($primary, 0.28);
+    color: $primary-dark;
+
+    &:hover {
+      background: darken($primary-light, 4%);
+      border-color: rgba($primary, 0.5);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    border: 1.5px solid $border;
+    color: $text-muted;
+
+    &:hover {
+      background: $surface;
+      border-color: rgba($primary, 0.3);
+      color: $primary;
+    }
+  }
+}
+
+// ─── QR Preview ───────────────────────────────────────────────────────────────
+.qr-preview {
+  background: $surface;
+  border: 1px solid $border-light;
+  border-radius: 10px;
+  padding: 16px;
+  text-align: center;
+}
+
+.qr-image {
+  border-radius: 8px;
+  display: block;
+  margin: 0 auto;
+  max-width: 160px;
+  width: 100%;
+}
+
+.qr-caption {
+  color: $text-subtle;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin: 10px 0 0;
+}
+
+// ─── Pagination ───────────────────────────────────────────────────────────────
+.pagination {
+  align-items: center;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.page-indicator {
+  color: $text-muted;
+  font-size: 0.9rem;
+  font-weight: 600;
+  min-width: 120px;
+  text-align: center;
+}
+
+.page-btn {
+  background: $bg;
+  border: 1.5px solid $border;
+  border-radius: 10px;
+  color: $text-main;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 700;
+  padding: 10px 20px;
+  transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+
+  &:not(:disabled):hover {
+    border-color: rgba($primary, 0.4);
+    box-shadow: 0 2px 10px rgba($primary, 0.12);
+    transform: translateY(-1px);
+  }
+
+  &--next:not(:disabled) {
+    background: $primary;
+    border-color: $primary;
+    color: #fff;
+    box-shadow: 0 2px 10px rgba($primary, 0.28);
+
+    &:hover {
+      background: $primary-dark;
+      border-color: $primary-dark;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+}
+
+// ─── Responsive ───────────────────────────────────────────────────────────────
+@media (max-width: 768px) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .header-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-body {
+    padding: 24px 16px 48px;
+  }
+
+  .card-actions {
+    flex-direction: column;
+
+    .btn {
+      width: 100%;
+    }
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+}

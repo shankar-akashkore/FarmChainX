@@ -7,7 +7,8 @@ import { catchError, delay, retryWhen, scan, throwError } from 'rxjs';
 @Component({
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './my-products.html'
+  templateUrl: './my-products.html',
+  styleUrls: ['./my-products.scss']
 })
 export class MyProducts {
   products: any[] = [];
