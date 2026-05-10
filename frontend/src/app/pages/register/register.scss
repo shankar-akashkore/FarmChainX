@@ -1,16 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+// ─── Design Tokens ────────────────────────────────────────────────────────────
+$primary:       #118067;
+$primary-dark:  #0d6353;
+$primary-light: #e6f4f1;
+$primary-mid:   #1aab88;
+$bg:            #ffffff;
+$surface:       #f7faf9;
+$border:        #d9e8e5;
+$text-main:     #0d1f1a;
+$text-muted:    #4a7068;
+$text-subtle:   #7a9b94;
+
+// ─── Host ────────────────────────────────────────────────────────────────────
 :host {
   display: block;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
+// ─── Page Shell ──────────────────────────────────────────────────────────────
 .register-page {
-  background:
-    radial-gradient(circle at 20% 16%, rgba(52, 211, 153, 0.24), transparent 30%),
-    radial-gradient(circle at 86% 82%, rgba(20, 184, 166, 0.18), transparent 30%),
-    linear-gradient(135deg, #062d27 0%, #0f172a 52%, #020617 100%);
-  color: #fff;
+  background: $bg;
+  color: $text-main;
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(520px, 0.82fr);
-  min-height: calc(100dvh - 76px);
+  min-height: 100dvh;
   overflow: hidden;
 }
 
@@ -20,22 +34,51 @@
   display: flex;
 }
 
+// ─── Intro Panel (Left) ──────────────────────────────────────────────────────
 .register-intro {
+  background: $primary;
   min-height: inherit;
   padding: 60px clamp(28px, 6vw, 78px);
   position: relative;
+  overflow: hidden;
 }
 
+// Dot grid overlay
 .register-intro::before {
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.065) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.065) 1px, transparent 1px);
-  background-size: 44px 44px;
-  content: "";
-  inset: 0;
-  mask-image: linear-gradient(90deg, #000, transparent 88%);
-  opacity: 0.35;
+  content: '';
   position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(circle, rgba(255,255,255,0.18) 1.5px, transparent 1.5px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+// Bottom-right decorative blob
+.register-intro::after {
+  content: '';
+  position: absolute;
+  width: 580px;
+  height: 580px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  bottom: -200px;
+  right: -150px;
+  pointer-events: none;
+}
+
+.intro-blob {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+
+  &--top {
+    width: 320px;
+    height: 320px;
+    top: -110px;
+    left: -90px;
+    background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
+  }
 }
 
 .intro-content {
@@ -44,6 +87,7 @@
   z-index: 1;
 }
 
+// ─── Brand Lockup ────────────────────────────────────────────────────────────
 .brand-lockup {
   align-items: center;
   color: #fff;
@@ -55,203 +99,256 @@
 
 .brand-mark {
   align-items: center;
-  background: linear-gradient(135deg, #34d399, #14b8a6);
-  border-radius: 16px;
-  box-shadow: 0 20px 44px rgba(20, 184, 166, 0.3);
-  color: #042f2e;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.35);
+  border-radius: 14px;
+  color: #fff;
   display: inline-flex;
-  font-weight: 950;
-  height: 50px;
+  font-size: 1.1rem;
+  font-weight: 900;
+  height: 48px;
   justify-content: center;
-  width: 50px;
+  letter-spacing: -0.5px;
+  width: 48px;
+  backdrop-filter: blur(8px);
 }
 
 .brand-lockup strong,
 .brand-lockup small {
   display: block;
-  line-height: 1.08;
+  line-height: 1.1;
 }
 
 .brand-lockup strong {
-  font-size: 1.18rem;
-  font-weight: 950;
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 800;
 }
 
 .brand-lockup small {
-  color: #a7f3d0;
-  font-size: 0.76rem;
-  font-weight: 800;
-  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  margin-top: 4px;
   text-transform: uppercase;
 }
 
+// ─── Eyebrow ─────────────────────────────────────────────────────────────────
 .eyebrow {
-  color: #86efac;
-  font-size: 0.82rem;
-  font-weight: 900;
-  letter-spacing: 0;
-  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  margin: 0 0 16px;
   text-transform: uppercase;
 }
 
+// ─── Intro Copy ──────────────────────────────────────────────────────────────
 .intro-copy h1 {
-  font-size: clamp(2.55rem, 5vw, 5rem);
-  font-weight: 950;
-  letter-spacing: 0;
-  line-height: 0.98;
+  color: #fff;
+  font-size: clamp(2.2rem, 4.5vw, 4.4rem);
+  font-weight: 900;
+  letter-spacing: -0.03em;
+  line-height: 1;
   margin: 0;
 }
 
 .intro-copy > p:last-child {
-  color: #cbd5e1;
-  font-size: 1.05rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.03rem;
+  font-weight: 500;
   line-height: 1.8;
-  margin: 26px 0 0;
-  max-width: 620px;
+  margin: 24px 0 0;
+  max-width: 560px;
 }
 
+// ─── Process List ────────────────────────────────────────────────────────────
 .process-list {
   display: grid;
-  gap: 14px;
+  gap: 12px;
   margin-top: 42px;
-  max-width: 600px;
+  max-width: 560px;
 }
 
 .process-list div {
   align-items: center;
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
   display: grid;
-  gap: 4px 14px;
+  gap: 3px 14px;
   grid-template-columns: auto 1fr;
-  padding: 16px;
+  padding: 16px 18px;
+  transition: background 200ms ease, border-color 200ms ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.16);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
 }
 
 .process-list span {
   align-items: center;
-  background: rgba(52, 211, 153, 0.15);
+  background: rgba(255, 255, 255, 0.15);
   border-radius: 50%;
-  color: #bbf7d0;
+  color: #fff;
   display: inline-flex;
-  font-size: 0.82rem;
-  font-weight: 950;
+  font-size: 0.78rem;
+  font-weight: 800;
   grid-row: span 2;
-  height: 40px;
+  height: 38px;
   justify-content: center;
-  width: 40px;
+  width: 38px;
+  letter-spacing: 0.02em;
 }
 
 .process-list strong {
-  font-weight: 950;
+  color: #fff;
+  font-size: 0.94rem;
+  font-weight: 800;
 }
 
 .process-list small {
-  color: #cbd5e1;
-  font-weight: 700;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.4;
 }
 
+// ─── Register Panel (Right) ──────────────────────────────────────────────────
 .register-panel {
-  background: rgba(248, 250, 252, 0.97);
-  color: #0f172a;
+  background: $bg;
+  border-left: 1px solid $border;
+  color: $text-main;
   justify-content: center;
-  padding: 38px;
+  padding: 48px 40px;
 }
 
 .panel-card {
-  width: min(100%, 560px);
+  width: min(100%, 540px);
 }
 
+// ─── Panel Heading ───────────────────────────────────────────────────────────
 .panel-heading {
   margin-bottom: 28px;
 }
 
 .panel-heading .eyebrow {
-  color: #047857;
+  color: $primary;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
 }
 
 .panel-heading h2 {
-  color: #0f172a;
-  font-size: 2.05rem;
-  font-weight: 950;
-  letter-spacing: 0;
+  color: $text-main;
+  font-size: 1.95rem;
+  font-weight: 900;
+  letter-spacing: -0.03em;
   line-height: 1.08;
   margin: 0;
 }
 
 .panel-heading p:last-child {
-  color: #64748b;
-  font-weight: 700;
+  color: $text-muted;
+  font-size: 0.93rem;
+  font-weight: 500;
   line-height: 1.6;
   margin: 10px 0 0;
 }
 
+// ─── Form ────────────────────────────────────────────────────────────────────
 form {
   display: grid;
-  gap: 16px;
+  gap: 15px;
 }
 
 .field {
   display: grid;
-  gap: 8px;
+  gap: 7px;
 }
 
 .field > span,
 .role-field legend {
-  color: #334155;
-  font-size: 0.88rem;
-  font-weight: 900;
+  color: $text-main;
+  font-size: 0.86rem;
+  font-weight: 700;
 }
 
 .field input {
-  background: #fff;
-  border: 1px solid #dbe4ee;
-  border-radius: 8px;
+  background: $bg;
+  border: 1.5px solid $border;
+  border-radius: 10px;
   box-sizing: border-box;
-  color: #0f172a;
+  color: $text-main;
   font: inherit;
-  font-weight: 750;
+  font-size: 0.95rem;
+  font-weight: 500;
   min-height: 52px;
   outline: none;
   padding: 0 16px;
-  transition: border 160ms ease, box-shadow 160ms ease;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
   width: 100%;
+
+  &::placeholder {
+    color: $text-subtle;
+    font-weight: 400;
+  }
+
+  &:hover {
+    border-color: darken($border, 12%);
+  }
+
+  &:focus {
+    border-color: $primary;
+    box-shadow: 0 0 0 3.5px rgba($primary, 0.14);
+  }
 }
 
-.field input::placeholder {
-  color: #94a3b8;
-}
-
-.field input:focus {
-  border-color: #10b981;
-  box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.14);
-}
-
+// ─── Password Wrap ───────────────────────────────────────────────────────────
 .password-wrap {
   position: relative;
 }
 
 .password-wrap input {
-  padding-right: 78px;
+  padding-right: 82px;
 }
 
 .password-toggle {
-  color: #047857;
-  font-size: 0.84rem;
-  font-weight: 950;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: $primary;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 700;
   height: 36px;
   padding: 0 12px;
   position: absolute;
   right: 8px;
-  top: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: color 150ms ease;
+
+  &:hover {
+    color: $primary-dark;
+  }
 }
 
+// ─── Role Fieldset ───────────────────────────────────────────────────────────
 .role-field {
   border: 0;
   display: grid;
   gap: 10px;
   margin: 2px 0 0;
   padding: 0;
+}
+
+.role-field legend {
+  margin-bottom: 2px;
 }
 
 .role-grid {
@@ -261,107 +358,134 @@ form {
 }
 
 .role-card {
-  background: #fff !important;
-  border: 1px solid #dbe4ee;
-  border-radius: 8px;
+  background: $bg !important;
+  border: 1.5px solid $border;
+  border-radius: 12px;
   box-sizing: border-box;
-  color: #0f172a;
+  color: $text-main;
+  cursor: pointer;
   display: grid !important;
-  gap: 6px;
-  min-height: 112px;
-  padding: 14px;
+  gap: 5px;
+  min-height: 108px;
+  padding: 14px 16px;
   position: relative;
   text-align: left;
-  transition: border 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+  transition: border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease, background 160ms ease;
   width: 100%;
-}
 
-.role-card:hover,
-.role-card.is-selected {
-  border-color: #10b981;
-  box-shadow: 0 14px 28px rgba(16, 185, 129, 0.14);
-  transform: translateY(-1px);
+  &:hover {
+    background: $primary-light !important;
+    border-color: rgba($primary, 0.4);
+    box-shadow: 0 4px 16px rgba($primary, 0.1);
+    transform: translateY(-1px);
+  }
+
+  &.is-selected {
+    background: $primary-light !important;
+    border-color: $primary;
+    box-shadow: 0 4px 20px rgba($primary, 0.16);
+    transform: translateY(-1px);
+  }
 }
 
 .role-card strong {
-  font-size: 0.98rem;
-  font-weight: 950;
+  color: $text-main;
+  font-size: 0.95rem;
+  font-weight: 800;
 }
 
 .role-card small {
-  color: #64748b;
-  font-size: 0.82rem;
-  font-weight: 700;
+  color: $text-muted;
+  font-size: 0.8rem;
+  font-weight: 500;
   line-height: 1.45;
   max-width: 92%;
 }
 
 .role-check {
-  border: 2px solid #cbd5e1;
+  border: 2px solid $border;
   border-radius: 50%;
   height: 17px;
   position: absolute;
   right: 14px;
   top: 14px;
+  transition: background 150ms ease, border-color 150ms ease, box-shadow 150ms ease;
   width: 17px;
 }
 
 .role-card.is-selected .role-check {
-  background: #10b981;
-  border-color: #10b981;
-  box-shadow: inset 0 0 0 4px #fff;
+  background: $primary;
+  border-color: $primary;
+  box-shadow: inset 0 0 0 3.5px #fff;
 }
 
+// ─── Error ───────────────────────────────────────────────────────────────────
 .form-error {
-  background: #fff1f2;
-  border: 1px solid #fecdd3;
+  background: #fff5f5;
+  border: 1px solid #fecaca;
   border-radius: 8px;
-  color: #be123c;
-  font-size: 0.9rem;
-  font-weight: 800;
+  color: #c0392b;
+  font-size: 0.88rem;
+  font-weight: 600;
   margin: 0;
-  padding: 12px 14px;
+  padding: 11px 14px;
 }
 
+// ─── Submit Button ───────────────────────────────────────────────────────────
 .submit-button {
   align-items: center;
-  background: linear-gradient(135deg, #059669, #0f766e) !important;
-  border-radius: 8px;
-  box-shadow: 0 18px 34px rgba(5, 150, 105, 0.24);
+  background: $primary !important;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba($primary, 0.32);
   color: #fff;
   display: inline-flex !important;
-  font-size: 1rem;
-  font-weight: 950;
+  font-size: 0.97rem;
+  font-weight: 800;
   justify-content: center;
-  min-height: 56px;
+  letter-spacing: 0.01em;
+  min-height: 54px;
   text-align: center;
-  transition: opacity 160ms ease, transform 160ms ease, box-shadow 160ms ease;
+  transition: background 160ms ease, transform 150ms ease, box-shadow 160ms ease;
   width: 100%;
+
+  &:not(:disabled):hover {
+    background: $primary-dark !important;
+    box-shadow: 0 6px 28px rgba($primary, 0.38);
+    transform: translateY(-1px);
+  }
+
+  &:not(:disabled):active {
+    box-shadow: 0 2px 12px rgba($primary, 0.28);
+    transform: translateY(0);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
 }
 
-.submit-button:not(:disabled):hover {
-  box-shadow: 0 22px 40px rgba(5, 150, 105, 0.3);
-  transform: translateY(-1px);
-}
-
-.submit-button:disabled {
-  cursor: not-allowed;
-  opacity: 0.55;
-}
-
+// ─── Switch Link ─────────────────────────────────────────────────────────────
 .switch-link {
-  color: #64748b;
-  font-weight: 750;
-  margin: 24px 0 0;
+  color: $text-muted;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 22px 0 0;
   text-align: center;
+
+  a {
+    color: $primary;
+    font-weight: 700;
+    text-decoration: none;
+    transition: color 150ms ease;
+
+    &:hover {
+      color: $primary-dark;
+    }
+  }
 }
 
-.switch-link a {
-  color: #047857;
-  font-weight: 950;
-  text-decoration: none;
-}
-
+// ─── Responsive ──────────────────────────────────────────────────────────────
 @media (max-width: 1080px) {
   .register-page {
     grid-template-columns: 1fr;
@@ -369,37 +493,41 @@ form {
 
   .register-intro {
     min-height: auto;
-    padding: 42px 24px 18px;
+    padding: 42px 24px 24px;
   }
 
   .brand-lockup {
     margin-bottom: 36px;
   }
 
+  .intro-copy h1 {
+    font-size: clamp(2rem, 8vw, 3.4rem);
+  }
+
+  .process-list {
+    max-width: 100%;
+  }
+
   .register-panel {
-    background: transparent;
-    padding: 18px 24px 44px;
+    border-left: none;
+    border-top: 1px solid $border;
+    padding: 36px 24px 48px;
   }
 
   .panel-card {
-    background: rgba(248, 250, 252, 0.97);
-    border-radius: 8px;
-    box-shadow: 0 22px 50px rgba(2, 6, 23, 0.2);
-    padding: 28px;
+    margin: 0 auto;
+    max-width: 540px;
+    width: 100%;
   }
 }
 
 @media (max-width: 620px) {
   .register-intro {
-    padding: 34px 18px 16px;
+    padding: 32px 18px 20px;
   }
 
   .register-panel {
-    padding: 16px 18px 36px;
-  }
-
-  .panel-card {
-    padding: 24px 18px;
+    padding: 28px 18px 40px;
   }
 
   .role-grid {
@@ -407,6 +535,6 @@ form {
   }
 
   .panel-heading h2 {
-    font-size: 1.8rem;
+    font-size: 1.75rem;
   }
 }

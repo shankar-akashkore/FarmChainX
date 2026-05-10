@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
   selector: 'app-upload-product',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './upload-product.html'
+  templateUrl: './upload-product.html',
+  styleUrl: './upload-product.scss'
 })
 export class UploadProduct {
   cropName = '';

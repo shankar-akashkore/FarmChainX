@@ -1,0 +1,412 @@
+// ─────────────────────────────────────────────
+//  FarmChainX Upload Product — Premium Theme
+//  Primary: #118067  |  Background: #ffffff
+// ─────────────────────────────────────────────
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+// ── Tokens ───────────────────────────────────
+$primary:       #118067;
+$primary-light: #15a07e;
+$primary-dark:  #0d6350;
+$primary-pale:  #e8f5f1;
+$primary-muted: rgba(17, 128, 103, 0.10);
+
+$bg:            #ffffff;
+$bg-card:       #ffffff;
+$bg-subtle:     #f7faf9;
+
+$text-heading:  #0d1f1a;
+$text-body:     #3d5a52;
+$text-muted:    #7a9990;
+
+$border:        rgba(17, 128, 103, 0.18);
+$border-focus:  $primary;
+
+$shadow-sm:     0 2px 8px rgba(17, 128, 103, 0.08);
+$shadow-md:     0 8px 32px rgba(17, 128, 103, 0.12);
+$shadow-lg:     0 24px 64px rgba(17, 128, 103, 0.16);
+
+$radius-sm:  10px;
+$radius-md:  14px;
+$radius-lg:  20px;
+$radius-xl:  28px;
+
+// ── Reset ─────────────────────────────────────
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+// ── Root ──────────────────────────────────────
+.upload-root {
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  background: $bg;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+// ── Background ────────────────────────────────
+.upload-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.upload-bg__orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.14;
+
+  &--1 {
+    width: 500px;
+    height: 500px;
+    background: $primary;
+    top: -120px;
+    left: -80px;
+    animation: floatOrb 12s ease-in-out infinite alternate;
+  }
+
+  &--2 {
+    width: 350px;
+    height: 350px;
+    background: $primary-light;
+    bottom: -80px;
+    right: -60px;
+    animation: floatOrb 9s ease-in-out infinite alternate-reverse;
+  }
+}
+
+.upload-bg__grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(17, 128, 103, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(17, 128, 103, 0.03) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+@keyframes floatOrb {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(28px, 20px) scale(1.1); }
+}
+
+// ── Wrapper & Card ────────────────────────────
+.upload-wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 640px;
+}
+
+.upload-card {
+  background: $bg-card;
+  border: 1px solid $border;
+  border-radius: $radius-xl;
+  box-shadow: $shadow-lg;
+  padding: 48px 44px;
+  transition: box-shadow 0.3s ease;
+
+  @media (max-width: 600px) {
+    padding: 32px 24px;
+  }
+}
+
+// ── Card Header ───────────────────────────────
+.upload-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.upload-header__icon {
+  font-size: 44px;
+  margin-bottom: 16px;
+  display: block;
+  animation: floatIcon 3s ease-in-out infinite;
+}
+
+@keyframes floatIcon {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+
+.upload-header__title {
+  font-size: 30px;
+  font-weight: 900;
+  color: $text-heading;
+  letter-spacing: -0.8px;
+  line-height: 1.1;
+
+  background: linear-gradient(135deg, $primary-dark, $primary-light);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.upload-header__sub {
+  margin-top: 10px;
+  font-size: 15px;
+  color: $text-muted;
+  font-weight: 500;
+}
+
+// ── Form ──────────────────────────────────────
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 520px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-size: 13px;
+  font-weight: 700;
+  color: $text-body;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 14px 18px;
+  background: $bg-subtle;
+  border: 1.5px solid $border;
+  border-radius: $radius-md;
+  font-size: 15px;
+  font-family: inherit;
+  color: $text-heading;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+
+  &::placeholder {
+    color: $text-muted;
+    font-weight: 400;
+  }
+
+  &:focus {
+    border-color: $border-focus;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(17, 128, 103, 0.1);
+  }
+
+  &--date {
+    color-scheme: light;
+  }
+
+  &[readonly] {
+    cursor: default;
+    opacity: 0.8;
+  }
+}
+
+// ── GPS Row ───────────────────────────────────
+.gps-row {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+
+  @media (max-width: 480px) {
+    flex-direction: column;
+  }
+
+  &__input {
+    flex: 1;
+  }
+}
+
+// ── Buttons ───────────────────────────────────
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: inherit;
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  border-radius: $radius-md;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+
+  &:active { transform: scale(0.97); }
+
+  &--gps {
+    padding: 14px 20px;
+    background: $primary-muted;
+    color: $primary;
+    border: 1.5px solid rgba(17, 128, 103, 0.28);
+    white-space: nowrap;
+    flex-shrink: 0;
+
+    &:hover:not(:disabled) {
+      background: $primary-pale;
+      transform: translateY(-1px);
+      box-shadow: $shadow-sm;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &--submit {
+    width: 100%;
+    padding: 18px 24px;
+    background: linear-gradient(135deg, $primary-dark, $primary, $primary-light);
+    background-size: 200% 200%;
+    color: #fff;
+    font-size: 16px;
+    border-radius: $radius-lg;
+    box-shadow: 0 6px 22px rgba(17, 128, 103, 0.38);
+    animation: gradientShift 5s ease infinite;
+
+    &:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 36px rgba(17, 128, 103, 0.48);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    &__loading {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+  }
+}
+
+@keyframes gradientShift {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+// ── Spinner ───────────────────────────────────
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ── File Drop Zone ────────────────────────────
+.file-drop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 32px 20px;
+  border: 2px dashed $border;
+  border-radius: $radius-lg;
+  background: $bg-subtle;
+  cursor: pointer;
+  transition: border-color 0.22s ease, background 0.22s ease, box-shadow 0.22s ease;
+  text-align: center;
+
+  &:hover {
+    border-color: $primary;
+    background: $primary-pale;
+    box-shadow: 0 0 0 4px rgba(17, 128, 103, 0.08);
+  }
+
+  &__icon {
+    font-size: 32px;
+  }
+
+  &__text {
+    font-size: 14px;
+    font-weight: 600;
+    color: $primary;
+    word-break: break-all;
+  }
+
+  &__hint {
+    font-size: 12px;
+    color: $text-muted;
+    font-weight: 500;
+  }
+
+  &__input {
+    display: none;
+  }
+}
+
+// ── Image Preview ─────────────────────────────
+.preview-box {
+  margin-top: 20px;
+  text-align: center;
+  animation: fadeIn 0.4s ease;
+
+  &__img {
+    max-height: 280px;
+    width: auto;
+    max-width: 100%;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    border: 2px solid $border;
+    object-fit: cover;
+  }
+
+  &__label {
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 700;
+    color: $primary;
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ── Card Footer ───────────────────────────────
+.upload-card__footer {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 13px;
+  color: $text-muted;
+  font-weight: 500;
+
+  strong {
+    color: $primary;
+    font-weight: 700;
+  }
+}
