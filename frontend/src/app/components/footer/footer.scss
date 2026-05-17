@@ -1,0 +1,459 @@
+// ============================================================
+//  FarmChainX — Footer  |  Parchment & Leaf — with Motion
+// ============================================================
+
+:host {
+  display: block;
+}
+
+// ─── Keyframes ──────────────────────────────────────────────
+
+// Top border shimmer — matches navbar
+@keyframes leaf-shimmer {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: -300% 0%; }
+}
+
+// Watermark leaf drifts slowly like a leaf on still water
+@keyframes watermark-drift {
+  0%   { transform: rotate(18deg) translateY(0px) scale(1); }
+  33%  { transform: rotate(20deg) translateY(-14px) scale(1.02); }
+  66%  { transform: rotate(16deg) translateY(6px) scale(0.98); }
+  100% { transform: rotate(18deg) translateY(0px) scale(1); }
+}
+
+// Heartbeat — two quick pulses then rest
+@keyframes heartbeat {
+  0%, 100% { transform: scale(1); }
+  14%       { transform: scale(1.35); }
+  28%       { transform: scale(1); }
+  42%       { transform: scale(1.2); }
+  70%       { transform: scale(1); }
+}
+
+// Badge seal spins very slowly on loop
+@keyframes seal-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+// Badge border glow pulse
+@keyframes badge-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(84, 107, 65, 0.0), 0 0 0 0 rgba(168, 124, 58, 0.0); }
+  50%       { box-shadow: 0 0 0 5px rgba(84, 107, 65, 0.1), 0 0 0 10px rgba(168, 124, 58, 0.05); }
+}
+
+// Scroll-reveal base: fade up from below
+@keyframes fade-up-in {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Bottom bar slides in from the bottom
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// ─── Shell ──────────────────────────────────────────────────
+
+.footer-shell {
+  --bg:           #FCF9EA;
+  --primary:      #546B41;
+  --primary-deep: #3d5030;
+  --primary-pale: rgba(84, 107, 65, 0.07);
+  --accent:       #A87C3A;
+  --text:         #2c3a22;
+  --text-muted:   #7a8a72;
+  --border:       rgba(84, 107, 65, 0.14);
+
+  position: relative;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  overflow: hidden;
+
+  // Shimmer top border
+  &::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(
+      90deg,
+      transparent       0%,
+      var(--primary)   20%,
+      #8ab56e          45%,
+      var(--accent)    55%,
+      var(--primary)   80%,
+      transparent      100%
+    );
+    background-size: 300% 100%;
+    animation: leaf-shimmer 7s linear infinite;
+    opacity: 0.5;
+  }
+}
+
+// ─── Scroll-reveal — default hidden state ───────────────────
+
+.footer-brand,
+.footer-col,
+.footer-bottom {
+  opacity: 0;
+  transform: translateY(28px);
+}
+
+// ─── Scroll-reveal — triggered when :host.in-view ───────────
+
+:host.in-view {
+
+  .footer-brand {
+    animation: fade-up-in 640ms cubic-bezier(0.22, 1, 0.36, 1) 0ms both;
+  }
+
+  // nth-child positions: brand=1, col1=2, col2=3, col3=4
+  .footer-inner > div:nth-child(2) {
+    animation: fade-up-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 110ms both;
+  }
+
+  .footer-inner > div:nth-child(3) {
+    animation: fade-up-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 220ms both;
+  }
+
+  .footer-inner > div:nth-child(4) {
+    animation: fade-up-in 600ms cubic-bezier(0.22, 1, 0.36, 1) 330ms both;
+  }
+
+  .footer-bottom {
+    animation: slide-up 500ms cubic-bezier(0.22, 1, 0.36, 1) 460ms both;
+  }
+}
+
+// ─── Watermark leaf — continuous slow drift ─────────────────
+
+.footer-watermark {
+  position: absolute;
+  right: -60px;
+  bottom: -40px;
+  font-size: 340px;
+  line-height: 1;
+  color: var(--primary);
+  opacity: 0.04;
+  pointer-events: none;
+  user-select: none;
+  transform: rotate(18deg);
+  animation: watermark-drift 18s ease-in-out infinite;
+}
+
+// ─── Main Grid ──────────────────────────────────────────────
+
+.footer-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 52px;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 68px 28px 52px;
+  position: relative;
+  z-index: 1;
+}
+
+// ─── Brand Column ───────────────────────────────────────────
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  color: var(--text);
+  width: fit-content;
+
+  &:hover .logo-mark {
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 10px 28px rgba(84, 107, 65, 0.3);
+  }
+
+  &:hover .logo-name em {
+    color: var(--accent);
+  }
+}
+
+.logo-mark {
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: var(--primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 6px 20px rgba(84, 107, 65, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition:
+    transform 280ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 280ms ease;
+  flex-shrink: 0;
+
+  i {
+    font-size: 1.3rem;
+    color: #fff;
+  }
+}
+
+.logo-copy {
+  display: grid;
+  gap: 3px;
+}
+
+.logo-name {
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 1.16rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--text);
+  line-height: 1;
+
+  em {
+    font-style: normal;
+    color: var(--primary);
+    transition: color 200ms ease;
+  }
+}
+
+.logo-tagline {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.footer-desc {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.72;
+  max-width: 320px;
+  margin: 0;
+}
+
+// Badge — glows on a 3s loop
+.footer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  background: var(--primary-pale);
+  border: 1px solid rgba(84, 107, 65, 0.18);
+  border-radius: 999px;
+  width: fit-content;
+  animation: badge-pulse 3.5s ease-in-out infinite;
+
+  // Seal icon rotates very slowly
+  i {
+    font-size: 1rem;
+    color: var(--primary);
+    animation: seal-spin 12s linear infinite;
+    display: inline-block;
+  }
+
+  span {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: var(--primary-deep);
+    text-transform: uppercase;
+  }
+}
+
+// ─── Link Columns ───────────────────────────────────────────
+
+.footer-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.col-title {
+  font-family: 'Red Hat Display', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary-deep);
+  margin: 0;
+
+  &::after {
+    content: '·';
+    margin-left: 5px;
+    color: var(--accent);
+    font-size: 1.1em;
+  }
+}
+
+.col-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+
+  li a {
+    display: inline-flex;
+    align-items: center;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 5px 0;
+    position: relative;
+    transition: color 180ms ease, padding-left 220ms cubic-bezier(0.34, 1.2, 0.64, 1);
+
+    // Arrow slides in from left on hover
+    &::before {
+      content: '→';
+      position: absolute;
+      left: -16px;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 200ms ease, transform 220ms cubic-bezier(0.34, 1.4, 0.64, 1);
+      font-size: 0.78rem;
+      color: var(--primary);
+    }
+
+    &:hover {
+      color: var(--primary-deep);
+      padding-left: 20px;
+
+      &::before {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
+// ─── Bottom Bar ─────────────────────────────────────────────
+
+.footer-bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 20px 28px;
+  border-top: 1px solid var(--border);
+}
+
+.copyright {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.footer-tagline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'Work Sans', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+
+  // Heart beats on a 2s rhythm
+  i {
+    font-size: 0.85rem;
+    color: #b94a4a;
+    opacity: 0.85;
+    display: inline-block;
+    animation: heartbeat 2.2s ease-in-out infinite;
+  }
+}
+
+// ─── Responsive ─────────────────────────────────────────────
+
+@media (max-width: 960px) {
+  .footer-inner {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 36px;
+    padding: 52px 24px 40px;
+
+    .footer-brand {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      flex-wrap: wrap;
+      align-items: flex-start;
+      gap: 24px;
+
+      .footer-desc { max-width: 480px; }
+    }
+  }
+}
+
+@media (max-width: 640px) {
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    padding: 44px 20px 32px;
+
+    .footer-brand {
+      flex-direction: column;
+      gap: 16px;
+    }
+  }
+
+  .footer-watermark {
+    font-size: 200px;
+    right: -30px;
+    bottom: -20px;
+  }
+
+  .footer-bottom {
+    padding: 18px 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 400px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Respect reduced-motion preference
+@media (prefers-reduced-motion: reduce) {
+  .footer-brand,
+  .footer-col,
+  .footer-bottom {
+    opacity: 1 !important;
+    transform: none !important;
+    animation: none !important;
+  }
+
+  .footer-watermark,
+  .footer-badge,
+  .footer-badge i,
+  .footer-tagline i {
+    animation: none !important;
+  }
+}
