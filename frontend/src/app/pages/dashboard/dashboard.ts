@@ -1,4 +1,4 @@
-import { Component, inject, AfterViewInit } from '@angular/core';
+import { Component, inject, AfterViewInit, OnDestroy, ElementRef } from '@angular/core';
 import { CommonModule, UpperCasePipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
@@ -11,21 +11,38 @@ import { AdminService } from '../../services/admin.service';
   templateUrl: './dashboard.html',
   styleUrl: './dashboard.scss'
 })
-export class Dashboard implements AfterViewInit {
+export class Dashboard implements AfterViewInit, OnDestroy {
   private authService = inject(AuthService);
   private adminService = inject(AdminService);
-  private router = inject(Router);
+  private router     = inject(Router);
+  private el         = inject(ElementRef);
+  private observer: IntersectionObserver | null = null;
 
-  name = this.authService.getName() || 'User';
-  role = this.authService.getRole()?.replace('ROLE_', '') || 'USER';
-  isAdmin = this.authService.isAdmin();
+  name     = this.authService.getName() || 'User';
+  role     = (this.authService.getRole() || 'USER').replace('ROLE_', '');
+  isAdmin  = this.authService.isAdmin();
+  isFarmer = this.authService.hasRole('ROLE_FARMER');
+
+  get initial(): string {
+    return (this.name[0] || 'U').toUpperCase();
+  }
 
   ngAfterViewInit(): void {
-    const ringColor =
-      getComputedStyle(document.documentElement)
-        .getPropertyValue('--tw-ring-color') || '(not set)';
-    console.log('tw-ring-color:', ringColor);
+    this.observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          this.observer?.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.07 });
+
+    this.el.nativeElement
+      .querySelectorAll('.reveal')
+      .forEach((el: Element) => this.observer?.observe(el));
   }
+
+  ngOnDestroy() { this.observer?.disconnect(); }
 
   logout() {
     this.authService.logout();
@@ -34,7 +51,7 @@ export class Dashboard implements AfterViewInit {
 
   requestAdminAccess() {
     this.adminService.requestAdminAccess().subscribe({
-      next: () => alert('Admin access requested!'),
+      next:  () => alert('Admin access requested!'),
       error: () => alert('Already requested or you are admin'),
     });
   }

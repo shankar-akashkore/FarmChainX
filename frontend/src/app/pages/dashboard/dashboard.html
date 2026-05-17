@@ -1,121 +1,219 @@
-<div class="dashboard-root">
+<div class="dash-root">
 
-  <!-- Decorative Background Elements -->
-  <div class="bg-decoration">
-    <div class="bg-orb bg-orb--1"></div>
-    <div class="bg-orb bg-orb--2"></div>
-    <div class="bg-grid"></div>
+  <!-- Background -->
+  <div class="dash-bg" aria-hidden="true">
+    <div class="dash-orb dash-orb--1"></div>
+    <div class="dash-orb dash-orb--2"></div>
+    <div class="dash-dots"></div>
   </div>
 
-  <div class="dashboard-container">
+  <div class="dash-wrap">
 
-    <!-- Top Header Bar -->
-    <header class="dashboard-header">
-      <div class="header-brand">
-        <span class="brand-icon"><i class="ph-fill ph-plant"></i></span>
-        <span class="brand-name">FarmChainX</span>
+    <!-- ════════════════════════════════
+         WELCOME BANNER
+    ════════════════════════════════ -->
+    <header class="dash-header">
+      <div class="dash-header__pattern" aria-hidden="true"></div>
+      <div class="dash-header__deco" aria-hidden="true">{{ initial }}</div>
+
+      <div class="dash-header__left">
+        <p class="dash-greeting">Good to see you back</p>
+        <h1 class="dash-name">{{ name }}</h1>
+        <div class="dash-badges">
+          <span class="role-badge">
+            <i class="ph-fill ph-user-circle"></i>
+            {{ role }}
+          </span>
+          <span class="live-badge">
+            <span class="live-dot"></span>
+            Blockchain Live
+          </span>
+        </div>
       </div>
-      <div class="header-status">
-        <span class="status-dot"></span>
-        <span class="status-text">Live</span>
+
+      <div class="dash-header__right">
+        <div class="dash-avatar">{{ initial }}</div>
+        <div class="dash-avatar-ring"></div>
       </div>
     </header>
 
-    <!-- Welcome Card -->
-    <div class="welcome-card">
-      <div class="welcome-card__inner">
-        <div class="welcome-avatar">
-          <span class="avatar-initials">{{ name[0] | uppercase }}</span>
-          <span class="avatar-ring"></span>
-        </div>
+    <!-- ════════════════════════════════
+         STATS GRID
+    ════════════════════════════════ -->
+    <div class="stats-grid reveal">
 
-        <div class="welcome-text">
-          <p class="welcome-label">Good to see you back</p>
-          <h1 class="welcome-name">{{ name }}</h1>
-          <p class="welcome-subtitle">Ready to manage your farm operations?</p>
+      <div class="stat-card reveal-item">
+        <div class="stat-icon stat-icon--green">
+          <i class="ph-fill ph-plant"></i>
         </div>
+        <div class="stat-body">
+          <span class="stat-value">Active</span>
+          <span class="stat-label">Farm Status</span>
+        </div>
+        <span class="stat-pill stat-pill--green">Online</span>
+      </div>
 
-        <div class="role-chip">
-          <span class="role-chip__dot"></span>
-          <span class="role-chip__label">{{ role }}</span>
+      <div class="stat-card reveal-item">
+        <div class="stat-icon stat-icon--green">
+          <i class="ph-fill ph-link-simple"></i>
+        </div>
+        <div class="stat-body">
+          <span class="stat-value">Live</span>
+          <span class="stat-label">Blockchain Sync</span>
+        </div>
+        <span class="stat-pill stat-pill--green">Synced</span>
+      </div>
+
+      <div class="stat-card reveal-item">
+        <div class="stat-icon stat-icon--amber">
+          <i class="ph-fill ph-shield-check"></i>
+        </div>
+        <div class="stat-body">
+          <span class="stat-value">{{ role }}</span>
+          <span class="stat-label">Access Level</span>
         </div>
       </div>
 
-      <!-- Decorative side accent -->
-      <div class="welcome-card__accent"></div>
+      <div class="stat-card reveal-item">
+        <div class="stat-icon stat-icon--muted">
+          <i class="ph-fill ph-package"></i>
+        </div>
+        <div class="stat-body">
+          <span class="stat-value">—</span>
+          <span class="stat-label">Products Tracked</span>
+        </div>
+      </div>
+
     </div>
 
-    <!-- Stats Row -->
-    <div class="stats-row">
-      <div class="stat-card">
-        <div class="stat-card__icon">🌱</div>
-        <div class="stat-card__info">
-          <p class="stat-card__value">Active</p>
-          <p class="stat-card__label">Farm Status</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card__icon">📊</div>
-        <div class="stat-card__info">
-          <p class="stat-card__value">Dashboard</p>
-          <p class="stat-card__label">Current View</p>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-card__icon">🔐</div>
-        <div class="stat-card__info">
-          <p class="stat-card__value">{{ role }}</p>
-          <p class="stat-card__label">Access Level</p>
-        </div>
-      </div>
-    </div>
+    <!-- ════════════════════════════════
+         MAIN CONTENT
+    ════════════════════════════════ -->
+    <div class="dash-content">
 
-    <!-- Action Buttons -->
-    <div class="actions-card">
-      <h2 class="actions-title">Quick Actions</h2>
+      <!-- ─── Quick Actions ──────────────── -->
+      <section class="actions-section reveal">
+        <div class="section-head">
+          <h2 class="section-title">Quick Actions</h2>
+          <p class="section-sub">Everything you need, one click away</p>
+        </div>
 
-      <div class="actions-grid">
-        <!-- Logout Button -->
-        <button class="btn btn--outline" (click)="logout()" id="logout-btn">
-          <span class="btn__icon">↩</span>
-          <span class="btn__text">Sign Out</span>
+        <div class="actions-grid">
+
+          <!-- My Products (always) -->
+          <a routerLink="/products/my" class="action-card">
+            <div class="action-card__icon action-card__icon--primary">
+              <i class="ph-fill ph-package"></i>
+            </div>
+            <div class="action-card__body">
+              <h3>My Products</h3>
+              <p>View and manage all your tracked product batches on the blockchain.</p>
+            </div>
+            <i class="ph ph-arrow-right action-card__arrow"></i>
+          </a>
+
+          <!-- Scan QR (always) -->
+          <a routerLink="/scanner" class="action-card">
+            <div class="action-card__icon action-card__icon--amber">
+              <i class="ph-fill ph-qr-code"></i>
+            </div>
+            <div class="action-card__body">
+              <h3>Scan QR Code</h3>
+              <p>Verify any product's provenance and full blockchain record instantly.</p>
+            </div>
+            <i class="ph ph-arrow-right action-card__arrow"></i>
+          </a>
+
+          <!-- Upload Harvest (farmer only) -->
+          <a *ngIf="isFarmer" routerLink="/upload" class="action-card action-card--featured">
+            <div class="action-card__icon action-card__icon--white">
+              <i class="ph-fill ph-upload-simple"></i>
+            </div>
+            <div class="action-card__body">
+              <h3>Upload Harvest</h3>
+              <p>Record a new product batch with certifications to the blockchain.</p>
+            </div>
+            <i class="ph ph-arrow-right action-card__arrow"></i>
+          </a>
+
+          <!-- Admin Panel (admin only) -->
+          <a *ngIf="isAdmin" routerLink="/admin" class="action-card action-card--admin">
+            <div class="action-card__icon action-card__icon--dark">
+              <i class="ph-fill ph-shield-check"></i>
+            </div>
+            <div class="action-card__body">
+              <h3>Admin Panel</h3>
+              <p>Manage users, product approvals, and system-wide settings.</p>
+            </div>
+            <i class="ph ph-arrow-right action-card__arrow"></i>
+          </a>
+
+        </div>
+
+        <!-- Request Admin (non-admin) -->
+        <button *ngIf="!isAdmin" class="request-btn" (click)="requestAdminAccess()">
+          <i class="ph ph-shield-plus"></i>
+          <span>Request Admin Access</span>
         </button>
 
-        <!-- Request Admin Access -->
-        <button
-          *ngIf="!isAdmin"
-          class="btn btn--primary"
-          (click)="requestAdminAccess()"
-          id="request-admin-btn">
-          <span class="btn__icon">🛡️</span>
-          <span class="btn__text">Request Admin Access</span>
-        </button>
-      </div>
+      </section>
 
-      <!-- Admin Panel Link -->
-      <a
-        *ngIf="isAdmin"
-        routerLink="/admin"
-        class="admin-panel-link"
-        id="admin-panel-link">
-        <div class="admin-panel-link__content">
-          <div class="admin-panel-link__left">
-            <span class="admin-panel-link__icon">⚡</span>
-            <div>
-              <p class="admin-panel-link__title">Admin Panel</p>
-              <p class="admin-panel-link__sub">You have elevated access privileges</p>
+      <!-- ─── Sidebar ────────────────────── -->
+      <aside class="dash-sidebar reveal">
+
+        <!-- Blockchain Health -->
+        <div class="sidebar-card">
+          <h3 class="sidebar-card__title">
+            <i class="ph-fill ph-activity"></i>
+            Blockchain Health
+          </h3>
+          <div class="health-list">
+            <div class="health-row">
+              <span class="health-label">Network Status</span>
+              <span class="health-val health-val--green">Operational</span>
+            </div>
+            <div class="health-row">
+              <span class="health-label">Data Integrity</span>
+              <span class="health-val health-val--green">100%</span>
+            </div>
+            <div class="health-row">
+              <span class="health-label">Sync Latency</span>
+              <span class="health-val">&lt; 1s</span>
+            </div>
+            <div class="health-row">
+              <span class="health-label">Counterfeit Risk</span>
+              <span class="health-val health-val--green">0%</span>
             </div>
           </div>
-          <span class="admin-panel-link__arrow">→</span>
         </div>
-      </a>
-    </div>
 
-    <!-- Footer -->
-    <!-- <footer class="dashboard-footer">
-      <span class="footer-online">● Online</span>
-      &nbsp;•&nbsp; FarmChainX Dashboard v2
-    </footer> -->
+        <!-- Account Card -->
+        <!-- <div class="sidebar-card sidebar-card--account">
+          <div class="account-row">
+            <div class="account-avatar">{{ initial }}</div>
+            <div class="account-info">
+              <strong>{{ name }}</strong>
+              <span>{{ role }}</span>
+            </div>
+          </div>
+          <button class="sign-out-btn" (click)="logout()">
+            <i class="ph ph-sign-out"></i>
+            <span>Sign Out</span>
+          </button>
+        </div> -->
+
+        <!-- Platform Tip -->
+        <div class="sidebar-card sidebar-card--tip">
+          <div class="tip-icon"><i class="ph-fill ph-lightbulb"></i></div>
+          <p class="tip-text">
+            Every product you upload is permanently recorded on the blockchain —
+            immutable, verifiable, and trusted by consumers.
+          </p>
+        </div>
+
+      </aside>
+
+    </div>
 
   </div>
 </div>
