@@ -1,48 +1,102 @@
-<nav class="nav-shell" aria-label="Primary navigation">
+<nav class="nav-shell" [class.scrolled]="isScrolled" aria-label="Primary navigation">
+
   <div class="nav-inner">
+
+    <!-- ─── Brand ─────────────────────────────────────────── -->
     <a routerLink="/" class="brand" aria-label="FarmChainX home" (click)="closeMenu()">
-      <span class="brand-mark">FX</span>
-      <span class="brand-copy">
-        <span class="brand-name">FarmChainX</span>
-        <span class="brand-tagline">Traceable harvests</span>
-      </span>
+      <div class="brand-mark">
+        <i class="ph-fill ph-leaf"></i>
+      </div>
+      <div class="brand-copy">
+        <span class="brand-name">FarmChain<em>X</em></span>
+        <span class="brand-tagline">On-chain provenance</span>
+      </div>
     </a>
 
+    <!-- ─── Desktop Nav ───────────────────────────────────── -->
     <div class="desktop-nav" aria-label="Main links">
-      <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">Home</a>
+      <a routerLink="/" routerLinkActive="active-link" [routerLinkActiveOptions]="{ exact: true }">
+        <i class="ph ph-house-simple"></i><span>Home</span>
+      </a>
 
       <ng-container *ngIf="isLoggedIn">
-        <a routerLink="/dashboard" routerLinkActive="active-link">Dashboard</a>
-        <a routerLink="/scanner" routerLinkActive="active-link">Scan QR</a>
+        <a routerLink="/dashboard" routerLinkActive="active-link">
+          <i class="ph ph-squares-four"></i><span>Dashboard</span>
+        </a>
+        <a routerLink="/scanner" routerLinkActive="active-link">
+          <i class="ph ph-qr-code"></i><span>Scan QR</span>
+        </a>
 
         <ng-container *ngIf="isFarmer">
-          <a routerLink="/upload" routerLinkActive="active-link">Upload</a>
-          <a routerLink="/products/my" routerLinkActive="active-link">My Products</a>
+          <a routerLink="/upload" routerLinkActive="active-link">
+            <i class="ph ph-upload-simple"></i><span>Upload</span>
+          </a>
+          <a routerLink="/products/my" routerLinkActive="active-link">
+            <i class="ph ph-package"></i><span>My Products</span>
+          </a>
         </ng-container>
 
-        <a *ngIf="isAdmin" routerLink="/admin" routerLinkActive="active-link">Admin</a>
+        <a *ngIf="isAdmin" routerLink="/admin" routerLinkActive="active-link">
+          <i class="ph ph-shield-check"></i><span>Admin</span>
+        </a>
       </ng-container>
     </div>
 
+    <!-- ─── Desktop Actions ───────────────────────────────── -->
     <div class="desktop-actions">
+
+      <!-- Guest -->
       <ng-container *ngIf="!isLoggedIn; else signedInActions">
-        <a routerLink="/login" class="ghost-action">Login</a>
-        <a routerLink="/register" class="primary-action">Register</a>
+        <a routerLink="/login" class="btn-ghost">Login</a>
+        <a routerLink="/register" class="btn-primary">
+          <span>Get Started</span>
+          <i class="ph ph-arrow-right"></i>
+        </a>
       </ng-container>
 
+      <!-- Signed In -->
       <ng-template #signedInActions>
-        <div class="user-chip" [attr.aria-label]="'Signed in as ' + userName">
-          <span class="avatar">{{ (userName || 'U').charAt(0).toUpperCase() }}</span>
-          <span class="user-meta">
-            <span class="user-name">{{ userName }}</span>
-            <span class="user-role">{{ roleLabel }}</span>
-          </span>
-        </div>
+        <div
+          class="user-menu"
+          [class.is-open]="isDropdownOpen"
+          (click)="toggleDropdown($event)"
+          [attr.aria-expanded]="isDropdownOpen"
+          aria-haspopup="true"
+          role="button"
+          tabindex="0">
 
-        <button type="button" class="logout-action" (click)="logout()">Logout</button>
+          <div class="avatar-wrap">
+            <span class="avatar">{{ displayName.charAt(0).toUpperCase() }}</span>
+          </div>
+
+          <div class="user-label">
+            <span class="user-display">{{ displayName }}</span>
+            <span class="user-role-badge">{{ roleLabel }}</span>
+          </div>
+
+          <i class="ph ph-caret-down caret-icon"></i>
+
+          <!-- Dropdown -->
+          <div class="user-dropdown" (click)="$event.stopPropagation()">
+            <div class="dropdown-header">
+              <span class="d-avatar">{{ displayName.charAt(0).toUpperCase() }}</span>
+              <div class="d-info">
+                <span class="d-name">{{ displayName }}</span>
+                <span class="d-role">{{ roleLabel }}</span>
+              </div>
+            </div>
+            <div class="dropdown-divider"></div>
+            <button type="button" class="d-logout" (click)="logout()">
+              <i class="ph ph-sign-out"></i>
+              <span>Sign out</span>
+            </button>
+          </div>
+        </div>
       </ng-template>
+
     </div>
 
+    <!-- ─── Mobile Hamburger ──────────────────────────────── -->
     <button
       type="button"
       class="menu-button"
@@ -51,45 +105,66 @@
       aria-controls="mobile-menu"
       aria-label="Toggle navigation menu"
       (click)="toggleMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
     </button>
+
   </div>
 
+  <!-- ─── Mobile Panel ────────────────────────────────────── -->
   <div id="mobile-menu" class="mobile-panel" [class.is-open]="isMenuOpen">
+
     <div class="mobile-links">
-      <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active-link" (click)="closeMenu()">Home</a>
+      <a routerLink="/" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active-link" (click)="closeMenu()">
+        <i class="ph ph-house-simple"></i><span>Home</span>
+      </a>
 
       <ng-container *ngIf="isLoggedIn">
-        <a routerLink="/dashboard" routerLinkActive="active-link" (click)="closeMenu()">Dashboard</a>
-        <a routerLink="/scanner" routerLinkActive="active-link" (click)="closeMenu()">Scan QR</a>
+        <a routerLink="/dashboard" routerLinkActive="active-link" (click)="closeMenu()">
+          <i class="ph ph-squares-four"></i><span>Dashboard</span>
+        </a>
+        <a routerLink="/scanner" routerLinkActive="active-link" (click)="closeMenu()">
+          <i class="ph ph-qr-code"></i><span>Scan QR</span>
+        </a>
 
         <ng-container *ngIf="isFarmer">
-          <a routerLink="/upload" routerLinkActive="active-link" (click)="closeMenu()">Upload Product</a>
-          <a routerLink="/products/my" routerLinkActive="active-link" (click)="closeMenu()">My Products</a>
+          <a routerLink="/upload" routerLinkActive="active-link" (click)="closeMenu()">
+            <i class="ph ph-upload-simple"></i><span>Upload Product</span>
+          </a>
+          <a routerLink="/products/my" routerLinkActive="active-link" (click)="closeMenu()">
+            <i class="ph ph-package"></i><span>My Products</span>
+          </a>
         </ng-container>
 
-        <a *ngIf="isAdmin" routerLink="/admin" routerLinkActive="active-link" (click)="closeMenu()">Admin Panel</a>
+        <a *ngIf="isAdmin" routerLink="/admin" routerLinkActive="active-link" (click)="closeMenu()">
+          <i class="ph ph-shield-check"></i><span>Admin Panel</span>
+        </a>
       </ng-container>
     </div>
 
-    <div class="mobile-actions">
+    <div class="mobile-footer">
       <ng-container *ngIf="!isLoggedIn; else mobileSignedIn">
-        <a routerLink="/login" class="ghost-action" (click)="closeMenu()">Login</a>
-        <a routerLink="/register" class="primary-action" (click)="closeMenu()">Register</a>
+        <a routerLink="/login" class="btn-ghost full" (click)="closeMenu()">Login</a>
+        <a routerLink="/register" class="btn-primary full" (click)="closeMenu()">
+          <span>Get Started</span>
+          <i class="ph ph-arrow-right"></i>
+        </a>
       </ng-container>
 
       <ng-template #mobileSignedIn>
         <div class="mobile-user">
-          <span class="avatar">{{ (userName || 'U').charAt(0).toUpperCase() }}</span>
-          <span>
-            <strong>{{ userName }}</strong>
+          <span class="avatar">{{ displayName.charAt(0).toUpperCase() }}</span>
+          <div class="mobile-user-info">
+            <strong>{{ displayName }}</strong>
             <small>{{ roleLabel }}</small>
-          </span>
+          </div>
         </div>
-        <button type="button" class="logout-action" (click)="logout()">Logout</button>
+        <button type="button" class="btn-logout full" (click)="logout()">
+          <i class="ph ph-sign-out"></i><span>Sign out</span>
+        </button>
       </ng-template>
     </div>
+
   </div>
 </nav>

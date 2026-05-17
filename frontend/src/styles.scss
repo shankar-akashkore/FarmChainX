@@ -10,6 +10,7 @@ html, body {
   min-height: 100dvh;
   overflow-x: hidden;
   background-color: transparent !important;
+  font-family: 'Poppins', 'Plus Jakarta Sans', 'Nunito Sans', sans-serif;
 }
 
 body {
@@ -20,6 +21,12 @@ body {
 app-root {
   display: block;
   min-height: 100dvh;
+}
+
+main {
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 app-root button {
