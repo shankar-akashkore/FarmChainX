@@ -1,81 +1,332 @@
 <div class="home-root">
 
-  <!-- Background Decoration -->
-  <div class="home-bg">
-    <div class="home-bg__orb home-bg__orb--1"></div>
-    <div class="home-bg__orb home-bg__orb--2"></div>
-    <div class="home-bg__grid"></div>
-  </div>
-
-  <!-- Hero Section -->
+  <!-- ════════════════════════════════════════
+       HERO
+  ════════════════════════════════════════ -->
   <section class="hero">
-    <!-- Live badge -->
-    <div class="hero__badge">
-      <span class="hero__badge-dot"></span>
-      <span>Live Blockchain Traceability &bull; 100% Transparent</span>
+    <div class="hero-decor" aria-hidden="true">
+      <div class="decor-orb decor-orb--1"></div>
+      <div class="decor-orb decor-orb--2"></div>
+      <div class="decor-dots"></div>
     </div>
 
-    <h1 class="hero__title">
-      FarmChainX
-      <span class="hero__title-sub">From Soil to Shelf</span>
-    </h1>
+    <div class="hero-inner">
 
-    <p class="hero__desc">
-      The future of agriculture is transparent. Track every grain, fruit, and harvest on an immutable blockchain.
-      Empowering <strong class="hero__hl hero__hl--1">Farmers</strong>,
-      trusted by <strong class="hero__hl hero__hl--2">Distributors</strong>,
-      loved by <strong class="hero__hl hero__hl--3">Consumers</strong>.
-    </p>
+      <!-- Text Side -->
+      <div class="hero-text">
+        <div class="hero-badge">
+          <span class="badge-dot"></span>
+          Live Blockchain Traceability &nbsp;·&nbsp; 100% Transparent
+        </div>
 
-    <!-- CTA Buttons -->
-    <div class="hero__cta">
-      <ng-container *ngIf="!isLoggedIn">
-        <a routerLink="/login" class="btn btn--solid" id="home-login-btn">
-          Login to Dashboard
-        </a>
-        <a routerLink="/register" class="btn btn--outline" id="home-register-btn">
-          Create Free Account
-        </a>
-      </ng-container>
+        <h1 class="hero-title">
+          Know Every Step,<br>
+          <em>Soil&nbsp;to&nbsp;Shelf</em>
+        </h1>
 
-      <ng-container *ngIf="isLoggedIn">
-        <a routerLink="/dashboard" class="btn btn--solid" id="home-dashboard-btn">
-          Open My Dashboard
-        </a>
-        <a *ngIf="isFarmer" routerLink="/upload" class="btn btn--accent" id="home-upload-btn">
-          Upload New Harvest
-        </a>
-        <a routerLink="/products/my" class="btn btn--outline" id="home-products-btn">
-          View My Products
-        </a>
-      </ng-container>
+        <p class="hero-desc">
+          FarmChainX brings radical transparency to agriculture. Every product
+          tracked, every step recorded — immutably — on the blockchain.
+          Empowering <strong>Farmers</strong>, trusted by
+          <strong>Distributors</strong>, loved by <strong>Consumers</strong>.
+        </p>
+
+        <div class="hero-cta">
+          <ng-container *ngIf="!isLoggedIn">
+            <a routerLink="/register" class="btn-primary-hero">
+              <span>Start for Free</span>
+              <i class="ph ph-arrow-right"></i>
+            </a>
+            <a routerLink="/login" class="btn-ghost-hero">Log In</a>
+          </ng-container>
+
+          <ng-container *ngIf="isLoggedIn">
+            <a routerLink="/dashboard" class="btn-primary-hero">
+              <span>Open Dashboard</span>
+              <i class="ph ph-squares-four"></i>
+            </a>
+            <a *ngIf="isFarmer" routerLink="/upload" class="btn-accent-hero">
+              <i class="ph ph-upload-simple"></i>
+              <span>Upload Harvest</span>
+            </a>
+          </ng-container>
+        </div>
+
+        <div class="hero-trust">
+          <span><i class="ph-fill ph-seal-check"></i> Immutable Records</span>
+          <span class="trust-sep">·</span>
+          <span><i class="ph-fill ph-qr-code"></i> QR Traceability</span>
+          <span class="trust-sep">·</span>
+          <span><i class="ph-fill ph-shield-check"></i> Zero Counterfeits</span>
+        </div>
+      </div>
+
+      <!-- Visual: Floating Trace Card -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="trace-card">
+          <div class="tc-header">
+            <div class="tc-verified">
+              <i class="ph-fill ph-seal-check"></i>
+              <span>Blockchain Verified</span>
+            </div>
+            <span class="tc-live">
+              <span class="tc-live-dot"></span> Live
+            </span>
+          </div>
+
+          <div class="tc-product">
+            <div class="tc-product-icon">
+              <i class="ph-fill ph-leaf"></i>
+            </div>
+            <div class="tc-product-info">
+              <strong>Heritage Wheat</strong>
+              <span>Green Valley Farm · Punjab</span>
+              <span>Lot: #FCX-2024-0041</span>
+            </div>
+          </div>
+
+          <div class="tc-timeline">
+            <div class="tc-step">
+              <div class="tc-dot tc-dot--done"></div>
+              <span class="tc-step-label">Planted</span>
+              <span class="tc-step-date">Jan 12</span>
+            </div>
+            <div class="tc-line"></div>
+            <div class="tc-step">
+              <div class="tc-dot tc-dot--done"></div>
+              <span class="tc-step-label">Harvested</span>
+              <span class="tc-step-date">Mar 15</span>
+            </div>
+            <div class="tc-line"></div>
+            <div class="tc-step">
+              <div class="tc-dot tc-dot--active"></div>
+              <span class="tc-step-label">Delivered</span>
+              <span class="tc-step-date">Mar 20</span>
+            </div>
+          </div>
+
+          <div class="tc-footer">
+            <i class="ph ph-qr-code tc-qr"></i>
+            <div class="tc-footer-text">
+              <span>Scan to verify</span>
+              <strong>#FCX-2024-0041</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="float-chip float-chip--1">
+          <i class="ph-fill ph-check-circle"></i> 100% Organic
+        </div>
+        <div class="float-chip float-chip--2">
+          <i class="ph-fill ph-clock-countdown"></i> Live tracking
+        </div>
+        <div class="float-chip float-chip--3">
+          <i class="ph-fill ph-lock-simple"></i> Tamper-proof
+        </div>
+      </div>
+
     </div>
-
-    <!-- Trust Badges -->
-    <div class="trust-row">
-      <div class="trust-card">
-        <span class="trust-card__value">100%</span>
-        <span class="trust-card__label">Traceable</span>
-      </div>
-      <div class="trust-card">
-        <span class="trust-card__value">24/7</span>
-        <span class="trust-card__label">Blockchain Sync</span>
-      </div>
-      <div class="trust-card">
-        <span class="trust-card__value">0%</span>
-        <span class="trust-card__label">Counterfeit Risk</span>
-      </div>
-      <div class="trust-card">
-        <span class="trust-card__value">1.2M+</span>
-        <span class="trust-card__label">Products Tracked</span>
-      </div>
-    </div>
-
-    <!-- Bottom Tagline -->
-    <p class="hero__tagline">
-      Built for the future of food. Powered by
-      <strong class="hero__hl hero__hl--1">Blockchain</strong> &amp;
-      <strong class="hero__hl hero__hl--2">Trust</strong>.
-    </p>
   </section>
+
+  <!-- ════════════════════════════════════════
+       STATS
+  ════════════════════════════════════════ -->
+  <section class="stats-section reveal">
+    <div class="stats-inner">
+      <div class="stat-card reveal-item">
+        <span class="stat-value">1.2M<em>+</em></span>
+        <span class="stat-label">Products Tracked</span>
+      </div>
+      <div class="stat-card reveal-item">
+        <span class="stat-value">100<em>%</em></span>
+        <span class="stat-label">Traceable</span>
+      </div>
+      <div class="stat-card reveal-item">
+        <span class="stat-value">24<em>/7</em></span>
+        <span class="stat-label">Blockchain Sync</span>
+      </div>
+      <div class="stat-card reveal-item">
+        <span class="stat-value">0<em>%</em></span>
+        <span class="stat-label">Counterfeit Risk</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       HOW IT WORKS
+  ════════════════════════════════════════ -->
+  <section class="how-section reveal">
+    <div class="section-inner">
+      <p class="section-eyebrow reveal-item">How It Works</p>
+      <h2 class="section-title reveal-item">Simple. Transparent. Unbreakable.</h2>
+      <p class="section-sub reveal-item">Three steps that transform how agriculture works forever.</p>
+
+      <div class="steps reveal-item">
+        <div class="step">
+          <div class="step-num">01</div>
+          <div class="step-icon"><i class="ph-fill ph-upload-simple"></i></div>
+          <h3>Farmers Upload</h3>
+          <p>Register your farm and upload harvest details — crop type, location, date, and certifications — in minutes.</p>
+        </div>
+
+        <div class="step-arrow"><i class="ph ph-arrow-right"></i></div>
+
+        <div class="step">
+          <div class="step-num">02</div>
+          <div class="step-icon"><i class="ph-fill ph-link-simple"></i></div>
+          <h3>Blockchain Records</h3>
+          <p>Every data point is written immutably to the blockchain. No edits, no deletions, no deception. Ever.</p>
+        </div>
+
+        <div class="step-arrow"><i class="ph ph-arrow-right"></i></div>
+
+        <div class="step">
+          <div class="step-num">03</div>
+          <div class="step-icon"><i class="ph-fill ph-qr-code"></i></div>
+          <h3>Anyone Verifies</h3>
+          <p>Consumers, retailers, and regulators scan a QR code for instant, verified provenance data — no account needed.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       WHO IT'S FOR
+  ════════════════════════════════════════ -->
+  <section class="for-section reveal">
+    <div class="section-inner">
+      <p class="section-eyebrow reveal-item">Who It's For</p>
+      <h2 class="section-title reveal-item">Built for the Entire Chain</h2>
+
+      <div class="role-cards">
+
+        <div class="role-card role-card--featured reveal-item">
+          <div class="role-icon">
+            <i class="ph-fill ph-plant"></i>
+          </div>
+          <div class="role-tag">Core User</div>
+          <h3>Farmers</h3>
+          <p>Register your farm, upload harvests, generate QR-linked product batches, and build unbreakable consumer trust.</p>
+          <ul class="role-list">
+            <li><i class="ph-fill ph-check-circle"></i> Batch management</li>
+            <li><i class="ph-fill ph-check-circle"></i> QR code generation</li>
+            <li><i class="ph-fill ph-check-circle"></i> Certification upload</li>
+            <li><i class="ph-fill ph-check-circle"></i> Product dashboard</li>
+          </ul>
+          <a routerLink="/register" class="role-btn role-btn--primary">
+            Join as Farmer <i class="ph ph-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="role-card reveal-item">
+          <div class="role-icon">
+            <i class="ph-fill ph-package"></i>
+          </div>
+          <h3>Distributors</h3>
+          <p>Monitor supply chains in real time, verify product origins, and ensure compliance across every shipment.</p>
+          <ul class="role-list">
+            <li><i class="ph-fill ph-check-circle"></i> Live shipment tracking</li>
+            <li><i class="ph-fill ph-check-circle"></i> Origin verification</li>
+            <li><i class="ph-fill ph-check-circle"></i> Compliance reports</li>
+          </ul>
+          <a routerLink="/register" class="role-btn">
+            Join as Distributor <i class="ph ph-arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="role-card reveal-item">
+          <div class="role-icon">
+            <i class="ph-fill ph-storefront"></i>
+          </div>
+          <h3>Consumers</h3>
+          <p>Scan a QR code at point of purchase to see the full journey of your food — farm, date, and certification.</p>
+          <ul class="role-list">
+            <li><i class="ph-fill ph-check-circle"></i> Instant QR scan</li>
+            <li><i class="ph-fill ph-check-circle"></i> Full product history</li>
+            <li><i class="ph-fill ph-check-circle"></i> No account needed</li>
+          </ul>
+          <a routerLink="/scanner" class="role-btn">
+            Try Scanner <i class="ph ph-arrow-right"></i>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       FEATURES
+  ════════════════════════════════════════ -->
+  <section class="features-section reveal">
+    <div class="section-inner">
+      <p class="section-eyebrow reveal-item">Platform Features</p>
+      <h2 class="section-title reveal-item">Everything You Need. Nothing You Don't.</h2>
+
+      <div class="features-grid">
+        <div class="feature-card reveal-item">
+          <div class="feature-icon"><i class="ph-fill ph-lock-simple"></i></div>
+          <h4>Immutable Records</h4>
+          <p>Once written, data cannot be altered or deleted. Blockchain ensures a permanent, tamper-proof history.</p>
+        </div>
+        <div class="feature-card reveal-item">
+          <div class="feature-icon"><i class="ph-fill ph-qr-code"></i></div>
+          <h4>QR Traceability</h4>
+          <p>Every batch gets a unique QR code linking directly to its full, verified blockchain record in seconds.</p>
+        </div>
+        <div class="feature-card reveal-item">
+          <div class="feature-icon"><i class="ph-fill ph-users-three"></i></div>
+          <h4>Role-Based Access</h4>
+          <p>Farmers, distributors, and admins each see exactly what they need — no more, no less. By design.</p>
+        </div>
+        <div class="feature-card reveal-item">
+          <div class="feature-icon"><i class="ph-fill ph-arrows-clockwise"></i></div>
+          <h4>Real-time Sync</h4>
+          <p>Data propagates across the network the moment it's recorded. Always current, always reliable.</p>
+        </div>
+        <div class="feature-card reveal-item">
+          <div class="feature-icon"><i class="ph-fill ph-shield-check"></i></div>
+          <h4>Admin Dashboard</h4>
+          <p>Powerful oversight tools for managing users, products, and promotions — all in one clean interface.</p>
+        </div>
+        <div class="feature-card reveal-item">
+          <div class="feature-icon"><i class="ph-fill ph-globe"></i></div>
+          <h4>Open Verification</h4>
+          <p>No account needed to verify a product. Anyone with a QR scan gets instant, trusted provenance data.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════════════════════════════════
+       FINAL CTA
+  ════════════════════════════════════════ -->
+  <section class="cta-section reveal">
+    <div class="cta-decor" aria-hidden="true">
+      <div class="cta-orb cta-orb--1"></div>
+      <div class="cta-orb cta-orb--2"></div>
+    </div>
+    <div class="cta-inner reveal-item">
+      <div class="cta-badge">
+        <i class="ph-fill ph-leaf"></i> Ready to transform your harvest?
+      </div>
+      <h2 class="cta-title">
+        Bring Transparency to<br>Every Harvest
+      </h2>
+      <p class="cta-desc">
+        Join thousands of farmers and distributors who trust FarmChainX to prove
+        the provenance and quality of their products on the blockchain.
+      </p>
+      <div class="cta-actions">
+        <a routerLink="/register" class="btn-cta-primary">
+          <span>Create Free Account</span>
+          <i class="ph ph-arrow-right"></i>
+        </a>
+        <a routerLink="/scanner" class="btn-cta-ghost">
+          <i class="ph ph-qr-code"></i>
+          <span>Try the Scanner</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
 </div>

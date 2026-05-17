@@ -29,12 +29,6 @@
   to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-// Bottom accent line shimmer
-@keyframes leaf-shimmer {
-  0%   { background-position: 0% 0%; }
-  100% { background-position: -300% 0%; }
-}
-
 // ─── Shell ──────────────────────────────────────────────────
 
 .nav-shell {
@@ -56,38 +50,18 @@
   position: relative;
   background: var(--bg);
   border-bottom: 1px solid var(--border);
+  border-bottom-left-radius: 28px;
+  border-bottom-right-radius: 28px;
   color: var(--text);
-  box-shadow: var(--shadow-sm);
+  box-shadow: 0 8px 28px rgba(44, 58, 34, 0.18), 0 2px 8px rgba(44, 58, 34, 0.1);
   transition: background 280ms ease, box-shadow 280ms ease;
 
   // Entrance animation
   animation: nav-enter 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
 
-  // Living forest-green shimmer at bottom
-  &::after {
-    content: '';
-    position: absolute;
-    bottom: -1px;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: linear-gradient(
-      90deg,
-      transparent        0%,
-      var(--primary)    20%,
-      #8ab56e           45%,
-      var(--accent)     55%,
-      var(--primary)    80%,
-      transparent       100%
-    );
-    background-size: 300% 100%;
-    animation: leaf-shimmer 6s linear infinite;
-    opacity: 0.55;
-  }
-
   &.scrolled {
     background: var(--bg-scroll);
-    box-shadow: 0 6px 32px rgba(44, 58, 34, 0.12);
+    box-shadow: 0 10px 36px rgba(44, 58, 34, 0.22), 0 2px 8px rgba(44, 58, 34, 0.1);
 
     .nav-inner {
       height: 60px;
