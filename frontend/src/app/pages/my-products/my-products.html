@@ -1,118 +1,197 @@
-<div class="my-products-page">
+<div class="mp-root">
 
-  <!-- Loading Overlay -->
-  <div *ngIf="loading" class="loading-overlay" role="status" aria-label="Loading products">
-    <div class="loading-spinner"></div>
-    <p class="loading-text">Loading your harvest...</p>
+  <!-- ─── Background ─────────────────────────────────────────────────────── -->
+  <div class="mp-bg" aria-hidden="true">
+    <div class="mp-orb mp-orb--1"></div>
+    <div class="mp-orb mp-orb--2"></div>
+    <div class="mp-dots"></div>
   </div>
 
-  <!-- Retry Banner -->
-  <div *ngIf="retryMessage" class="retry-banner" role="alert">
-    {{ retryMessage }}
+  <!-- ─── Loading overlay ────────────────────────────────────────────────── -->
+  <div *ngIf="loading" class="load-overlay" role="status">
+    <div class="load-ring">
+      <span class="load-ring__arc"></span>
+      <i class="ph-fill ph-plant load-ring__icon"></i>
+    </div>
+    <p class="load-text">Loading your harvest…</p>
+    <p *ngIf="retryMessage" class="load-retry">{{ retryMessage }}</p>
   </div>
 
-  <!-- Page Header -->
-  <header class="page-header">
-    <div class="header-inner">
-      <div class="header-copy">
-        <p class="header-eyebrow">My Dashboard</p>
-        <h1 class="header-title">My Products</h1>
-        <p class="header-sub">Your harvest, recorded on-chain — transparent and trusted.</p>
+  <!-- ─── Page Header ─────────────────────────────────────────────────────── -->
+  <header class="mp-hero">
+    <div class="mp-hero__inner">
+      <div class="mp-hero__left">
+        <span class="mp-eyebrow">
+          <i class="ph-fill ph-package"></i>
+          My Blockchain Records
+        </span>
+        <h1 class="mp-title">My Products</h1>
+        <p class="mp-sub">Your harvest, permanently recorded on-chain — transparent and trusted by consumers.</p>
       </div>
-      <div class="header-stat-row">
-        <div class="header-stat">
+
+      <div class="mp-stats" *ngIf="!loading">
+        <div class="mp-stat">
           <strong>{{ products.length }}</strong>
-          <span>On this page</span>
+          <span>This page</span>
         </div>
-        <div class="header-stat">
+        <div class="mp-stat">
           <strong>{{ totalPages }}</strong>
           <span>Total pages</span>
         </div>
       </div>
     </div>
+
+    <!-- Header decoration -->
+    <div class="mp-hero__deco" aria-hidden="true">
+      <i class="ph-fill ph-plant"></i>
+    </div>
   </header>
 
-  <!-- Page Body -->
-  <div class="page-body">
+  <!-- ─── Body ────────────────────────────────────────────────────────────── -->
+  <div class="mp-body">
 
-    <!-- Empty State -->
-    <div *ngIf="!loading && products.length === 0" class="empty-state">
-      <div class="empty-icon">🌱</div>
-      <h2>No Products Yet</h2>
-      <p>Upload your first harvest to get started on the chain.</p>
+    <!-- Retry banner -->
+    <div *ngIf="retryMessage && !loading" class="retry-banner" role="alert">
+      <i class="ph ph-arrows-clockwise"></i>
+      {{ retryMessage }}
     </div>
 
-    <!-- Product Grid -->
-    <div *ngIf="products.length > 0" class="product-grid">
-      <article *ngFor="let p of products" class="product-card">
+    <!-- ── Empty state ─────────────────────────────────────────────────── -->
+    <div *ngIf="!loading && products.length === 0" class="empty-state reveal">
+      <div class="empty-state__icon">
+        <i class="ph-fill ph-plant"></i>
+      </div>
+      <h2>No Products Yet</h2>
+      <p>Upload your first harvest to record it on the blockchain.</p>
+      <a routerLink="/upload" class="empty-cta">
+        <i class="ph-fill ph-upload-simple"></i>
+        Upload Harvest
+      </a>
+    </div>
 
-        <!-- Product Image -->
-        <div class="card-image-wrap">
-          <img [src]="getImageUrl(p.imagePath)" [alt]="p.cropName" class="card-image" />
-          <div class="card-image-overlay">
-            <span class="card-emoji">{{ getCropEmoji(p.cropName) }}</span>
+    <!-- ── Product grid ────────────────────────────────────────────────── -->
+    <div *ngIf="!loading && products.length > 0" class="product-grid">
+      <article
+        *ngFor="let p of products; let i = index"
+        class="product-card reveal-item"
+        [style.transition-delay]="(i % 3) * 80 + 'ms'">
+
+        <!-- Image zone -->
+        <div class="card-img-wrap">
+          <img [src]="getImageUrl(p.imagePath)" [alt]="p.cropName" class="card-img" loading="lazy" />
+          <div class="card-img-overlay" aria-hidden="true"></div>
+
+          <!-- Emoji badge -->
+          <span class="card-emoji" aria-hidden="true">{{ getCropEmoji(p.cropName) }}</span>
+
+          <!-- Name over image -->
+          <div class="card-img-footer">
+            <h3 class="card-crop">{{ p.cropName | titlecase }}</h3>
+            <p class="card-date">
+              <i class="ph ph-calendar-blank"></i>
+              {{ formatDate(p.harvestDate) }}
+            </p>
           </div>
-          <div class="card-image-footer">
-            <h3 class="card-crop-name">{{ p.cropName | titlecase }}</h3>
-            <p class="card-harvest-date">Harvested {{ formatDate(p.harvestDate) }}</p>
-          </div>
+
+          <!-- QR ready chip -->
+          <span *ngIf="p.qrCodePath" class="qr-ready-chip">
+            <i class="ph-fill ph-qr-code"></i> QR Ready
+          </span>
         </div>
 
-        <!-- Card Body -->
+        <!-- Body -->
         <div class="card-body">
 
-          <!-- Quality Badge -->
-          <div class="quality-badge">
-            <span class="quality-grade">{{ p.qualityGrade || 'A+' }}</span>
-            <span class="quality-meta">AI Certified &bull; {{ p.confidenceScore | number:'1.0-0' }}% confidence</span>
+          <!-- Quality badge -->
+          <div class="quality-row">
+            <div class="quality-grade">{{ p.qualityGrade || 'A+' }}</div>
+            <div class="quality-meta">
+              <span class="quality-label">AI Certified</span>
+              <span class="quality-conf">{{ p.confidenceScore | number:'1.0-0' }}% confidence</span>
+            </div>
           </div>
 
-          <!-- Farmer Info -->
+          <!-- Meta info -->
           <div class="card-meta">
-            <span class="meta-label">Registered by</span>
-            <span class="meta-value">{{ p.farmer?.name || 'You' }}</span>
-            <span class="meta-id">ID #{{ p.id }} &bull; {{ p.publicUuid?.substring(0, 8) }}...</span>
+            <div class="meta-row">
+              <span class="meta-key"><i class="ph ph-user"></i> Farmer</span>
+              <span class="meta-val">{{ p.farmer?.name || 'You' }}</span>
+            </div>
+            <div class="meta-row">
+              <span class="meta-key"><i class="ph ph-hash"></i> Batch ID</span>
+              <span class="meta-val meta-id">#{{ p.id }} · {{ p.publicUuid?.substring(0, 8) }}…</span>
+            </div>
           </div>
 
-          <!-- QR Status -->
-          <div class="qr-status-row">
-            <span class="qr-status-label">QR Code</span>
-            <span class="qr-status-badge" [class.ready]="p.qrCodePath" [class.pending]="!p.qrCodePath">
-              {{ p.qrCodePath ? 'Ready' : 'Not Generated' }}
-            </span>
-          </div>
-
-          <!-- Action Buttons -->
+          <!-- Actions -->
           <div class="card-actions">
-            <button *ngIf="!p.qrCodePath" (click)="generateQr(p.id)" class="btn btn--primary" type="button">
+            <button
+              *ngIf="!p.qrCodePath"
+              type="button"
+              class="btn btn--primary"
+              (click)="generateQr(p.id)">
+              <i class="ph-fill ph-qr-code"></i>
               Generate QR
             </button>
-            <button *ngIf="p.qrCodePath" (click)="downloadQr(p.id)" class="btn btn--secondary" type="button">
+
+            <button
+              *ngIf="p.qrCodePath"
+              type="button"
+              class="btn btn--primary"
+              (click)="downloadQr(p.id)">
+              <i class="ph ph-download-simple"></i>
               Download QR
             </button>
-            <a *ngIf="p.qrCodePath" [href]="getQrUrl(p.qrCodePath)" target="_blank" class="btn btn--ghost">
-              View Full QR
+
+            <a
+              *ngIf="p.qrCodePath"
+              [href]="getQrUrl(p.qrCodePath)"
+              target="_blank"
+              class="btn btn--ghost">
+              <i class="ph ph-arrow-square-out"></i>
+              View QR
             </a>
           </div>
 
-          <!-- QR Preview -->
+          <!-- QR preview -->
           <div *ngIf="p.qrCodePath" class="qr-preview">
-            <img [src]="getQrUrl(p.qrCodePath)" alt="QR Code for {{ p.cropName }}" class="qr-image" />
-            <p class="qr-caption">Scan to verify on blockchain</p>
+            <img [src]="getQrUrl(p.qrCodePath)" [alt]="'QR for ' + p.cropName" class="qr-img" />
+            <p class="qr-caption">
+              <i class="ph-fill ph-shield-check"></i>
+              Scan to verify on blockchain
+            </p>
           </div>
 
         </div>
       </article>
     </div>
 
-    <!-- Pagination -->
-    <nav *ngIf="!loading && totalPages > 1" class="pagination" aria-label="Products pagination">
-      <button (click)="prevPage()" [disabled]="page === 0" class="page-btn page-btn--prev" type="button">
-        ← Previous
+    <!-- ── Pagination ──────────────────────────────────────────────────── -->
+    <nav *ngIf="!loading && totalPages > 1" class="pagination reveal" aria-label="Products pagination">
+      <button
+        type="button"
+        class="page-btn page-btn--prev"
+        (click)="prevPage()"
+        [disabled]="page === 0">
+        <i class="ph ph-arrow-left"></i>
+        Previous
       </button>
-      <span class="page-indicator">Page {{ page + 1 }} of {{ totalPages }}</span>
-      <button (click)="nextPage()" [disabled]="page >= totalPages - 1" class="page-btn page-btn--next" type="button">
-        Next →
+
+      <div class="page-dots">
+        <span
+          *ngFor="let n of [].constructor(totalPages); let i = index"
+          class="page-dot"
+          [class.active]="i === page">
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="page-btn page-btn--next"
+        (click)="nextPage()"
+        [disabled]="page >= totalPages - 1">
+        Next
+        <i class="ph ph-arrow-right"></i>
       </button>
     </nav>
 
