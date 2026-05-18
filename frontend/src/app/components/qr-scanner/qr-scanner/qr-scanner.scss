@@ -1,476 +1,338 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-
-// ─── Design Tokens ────────────────────────────────────────────────────────────
-$primary:         #118067;
-$primary-dark:    #0d6353;
-$primary-light:   #e6f4f1;
-$bg:              #ffffff;
-$surface:         #f7faf9;
-$border:          #d9e8e5;
-$border-light:    #edf3f2;
-$text-main:       #0d1f1a;
-$text-muted:      #4a7068;
-$text-subtle:     #7a9b94;
-
-// ─── Host ─────────────────────────────────────────────────────────────────────
 :host {
   display: block;
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Work Sans', system-ui, sans-serif;
 }
 
-// ─── Page Shell ───────────────────────────────────────────────────────────────
-.scanner-page {
-  background: $bg;
-  color: $text-main;
+// ─── Page ─────────────────────────────────────────────────────────────────────
+.scan-root {
+  background: #FCF9EA;
   min-height: 100vh;
   display: flex;
-  flex-direction: column;
-}
-
-// ─── Page Header ──────────────────────────────────────────────────────────────
-.scanner-header {
-  background: $primary;
-  padding: 44px clamp(20px, 5vw, 72px) 40px;
-  position: relative;
-  overflow: hidden;
-  text-align: center;
-}
-
-.scanner-header__blob {
-  border-radius: 50%;
-  pointer-events: none;
-  position: absolute;
-}
-
-.scanner-header__blob--tl {
-  width: 280px;
-  height: 280px;
-  top: -120px;
-  left: -80px;
-  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
-}
-
-.scanner-header__blob--br {
-  width: 360px;
-  height: 360px;
-  bottom: -160px;
-  right: -100px;
-  background: radial-gradient(circle, rgba(255,255,255,0.07) 0%, transparent 70%);
-}
-
-// Dot grid
-.scanner-header::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, rgba(255,255,255,0.16) 1.5px, transparent 1.5px);
-  background-size: 28px 28px;
-  pointer-events: none;
-}
-
-.scanner-header__inner {
-  position: relative;
-  z-index: 1;
-}
-
-.scanner-header__eyebrow {
-  color: rgba(255,255,255,0.65);
-  font-size: 0.76rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  margin: 0 0 12px;
-  text-transform: uppercase;
-}
-
-.scanner-header__title {
-  color: #fff;
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  margin: 0;
-}
-
-.scanner-header__sub {
-  color: rgba(255,255,255,0.68);
-  font-size: 1rem;
-  font-weight: 500;
-  margin: 10px 0 0;
-}
-
-// ─── Body ─────────────────────────────────────────────────────────────────────
-.scanner-body {
-  align-items: flex-start;
-  display: flex;
-  flex: 1;
+  align-items: center;
   justify-content: center;
-  padding: 40px clamp(16px, 4vw, 40px) 64px;
+  padding: 40px 16px;
 }
 
 // ─── Card ─────────────────────────────────────────────────────────────────────
-.scanner-card {
-  background: $bg;
-  border: 1.5px solid $border;
+.scan-card {
+  background: #fff;
+  border: 1.5px solid rgba(84, 107, 65, 0.18);
   border-radius: 20px;
-  box-shadow: 0 4px 32px rgba($primary, 0.08);
-  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(44, 58, 34, 0.12);
+  padding: 28px 28px 24px;
   width: 100%;
-  max-width: 520px;
+  max-width: 420px;
 }
 
-// ─── Mode Tabs ────────────────────────────────────────────────────────────────
-.scanner-tabs {
-  border-bottom: 1px solid $border-light;
+// ─── Title ────────────────────────────────────────────────────────────────────
+.scan-title {
+  align-items: center;
+  color: #1e2a18;
   display: flex;
-  padding: 6px 6px 0;
-  gap: 4px;
+  font-family: 'Red Hat Display', system-ui, sans-serif;
+  font-size: 1.25rem;
+  font-weight: 800;
+  gap: 9px;
+  letter-spacing: -0.02em;
+  margin: 0 0 20px;
+
+  i {
+    color: #546B41;
+    font-size: 1.4rem;
+  }
 }
 
-.tab-btn {
+// ─── Tabs ─────────────────────────────────────────────────────────────────────
+.scan-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 16px;
+  background: #f4f1e4;
+  border-radius: 10px;
+  padding: 4px;
+}
+
+.scan-tab {
   align-items: center;
   background: transparent;
   border: none;
-  border-bottom: 2.5px solid transparent;
-  border-radius: 8px 8px 0 0;
-  color: $text-muted;
+  border-radius: 8px;
+  color: #5a6e50;
   cursor: pointer;
   display: inline-flex;
+  flex: 1;
   font-family: inherit;
-  font-size: 0.86rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  gap: 8px;
-  padding: 10px 16px 12px;
-  transition: color 150ms ease, border-color 150ms ease, background 150ms ease;
+  gap: 7px;
+  justify-content: center;
+  padding: 9px 12px;
+  transition: background 150ms, color 150ms;
 
-  svg {
-    flex-shrink: 0;
-    opacity: 0.6;
-    transition: opacity 150ms ease;
-  }
-
-  &:hover {
-    background: $surface;
-    color: $primary;
-
-    svg { opacity: 0.9; }
+  i {
+    font-size: 0.95rem;
   }
 
   &.active {
-    border-bottom-color: $primary;
-    color: $primary;
-
-    svg { opacity: 1; }
+    background: #fff;
+    color: #546B41;
+    box-shadow: 0 1px 6px rgba(44, 58, 34, 0.10);
   }
 }
 
-// ─── Scanner Viewport ────────────────────────────────────────────────────────
-.scanner-viewport {
-  position: relative;
-  background: #0d1f1a;
+// ─── Camera viewport ──────────────────────────────────────────────────────────
+.scan-viewport {
+  background: #111a0c;
+  border-radius: 14px;
   overflow: hidden;
-}
-
-.scanner-zxing {
-  display: block;
+  position: relative;
+  aspect-ratio: 1 / 1;
   width: 100%;
 }
 
-// Scan frame corners
+.scan-zxing {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+// ─── Corner frame ─────────────────────────────────────────────────────────────
 .scan-frame {
   inset: 0;
   pointer-events: none;
   position: absolute;
 }
 
-.scan-frame__corner {
-  border-color: $primary;
+.corner {
+  border-color: #9dc77a;
   border-style: solid;
-  height: 28px;
+  height: 32px;
   position: absolute;
-  width: 28px;
+  width: 32px;
+  filter: drop-shadow(0 0 5px rgba(157, 199, 122, 0.6));
 
-  &--tl { border-width: 3px 0 0 3px; top: 20px; left: 20px; border-radius: 4px 0 0 0; }
-  &--tr { border-width: 3px 3px 0 0; top: 20px; right: 20px; border-radius: 0 4px 0 0; }
-  &--bl { border-width: 0 0 3px 3px; bottom: 20px; left: 20px; border-radius: 0 0 0 4px; }
-  &--br { border-width: 0 3px 3px 0; bottom: 20px; right: 20px; border-radius: 0 0 4px 0; }
+  &--tl {
+    border-width: 3px 0 0 3px;
+    top: 16px;
+    left: 16px;
+    border-radius: 4px 0 0 0;
+  }
+
+  &--tr {
+    border-width: 3px 3px 0 0;
+    top: 16px;
+    right: 16px;
+    border-radius: 0 4px 0 0;
+  }
+
+  &--bl {
+    border-width: 0 0 3px 3px;
+    bottom: 16px;
+    left: 16px;
+    border-radius: 0 0 0 4px;
+  }
+
+  &--br {
+    border-width: 0 3px 3px 0;
+    bottom: 16px;
+    right: 16px;
+    border-radius: 0 0 4px 0;
+  }
 }
 
-.scan-frame__line {
-  animation: scan-sweep 2.4s ease-in-out infinite;
-  background: linear-gradient(to bottom, transparent, rgba($primary, 0.7), transparent);
+.sweep {
+  animation: sweep 2.6s ease-in-out infinite;
+  background: linear-gradient(to bottom,
+      transparent,
+      rgba(157, 199, 122, 0.5) 40%,
+      rgba(157, 199, 122, 0.85) 50%,
+      rgba(157, 199, 122, 0.5) 60%,
+      transparent);
   height: 3px;
-  left: 20px;
+  left: 16px;
+  right: 16px;
   position: absolute;
-  right: 20px;
-  top: 20px;
+  top: 16px;
+  border-radius: 2px;
+  box-shadow: 0 0 8px rgba(157, 199, 122, 0.45);
 }
 
-@keyframes scan-sweep {
-  0%   { top: 20px; opacity: 1; }
-  50%  { top: calc(100% - 20px); opacity: 1; }
-  100% { top: 20px; opacity: 1; }
+@keyframes sweep {
+  0% {
+    top: 16px;
+  }
+
+  50% {
+    top: calc(100% - 19px);
+  }
+
+  100% {
+    top: 16px;
+  }
 }
 
-// ─── Torch Button ─────────────────────────────────────────────────────────────
+// ─── Torch button ─────────────────────────────────────────────────────────────
 .torch-btn {
   align-items: center;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 999px;
-  bottom: 16px;
+  bottom: 12px;
   color: #fff;
   cursor: pointer;
   display: inline-flex;
   font-family: inherit;
-  font-size: 0.82rem;
+  font-size: 0.78rem;
   font-weight: 700;
-  gap: 8px;
+  gap: 6px;
   left: 50%;
-  padding: 9px 18px;
+  padding: 6px 14px;
   position: absolute;
   transform: translateX(-50%);
-  transition: background 150ms ease, border-color 150ms ease;
+  transition: background 150ms;
   white-space: nowrap;
 
   &.active {
-    background: rgba(253, 224, 71, 0.25);
-    border-color: rgba(253, 224, 71, 0.5);
-    color: #fde047;
-  }
-
-  &:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(253, 220, 71, 0.22);
+    border-color: rgba(253, 220, 71, 0.45);
+    color: #fddc47;
   }
 }
 
-// ─── Upload Section ───────────────────────────────────────────────────────────
-.upload-section {
-  padding: 36px 28px;
+// ─── Upload area ──────────────────────────────────────────────────────────────
+.upload-area {
+  border-radius: 14px;
+  overflow: hidden;
 }
 
-.upload-drop-area {
+.upload-drop {
   align-items: center;
-  background: $surface;
-  border: 2px dashed $border;
+  background: #f7f5ea;
+  border: 2px dashed rgba(84, 107, 65, 0.25);
   border-radius: 14px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
-  padding: 40px 24px;
+  gap: 10px;
+  padding: 36px 20px;
   text-align: center;
-  transition: border-color 200ms ease, background 200ms ease;
+  transition: border-color 180ms, background 180ms;
 
   &:hover {
-    background: $primary-light;
-    border-color: rgba($primary, 0.4);
+    border-color: #546B41;
+    background: #eff5e8;
+  }
+
+  i {
+    color: #2a3521;
+    font-size: 2.4rem;
+    opacity: 0.6;
+    line-height: 1;
+
+    &:hover {
+      color: #9dc77a;
+    }
+  }
+
+  p {
+    color: #5a6e50;
+    font-size: 0.88rem;
+    font-weight: 600;
+    margin: 0;
   }
 }
 
-.upload-icon {
-  color: $primary;
-  opacity: 0.7;
-}
-
-.upload-hint {
-  color: $text-main;
-  font-size: 1rem;
-  font-weight: 700;
-  margin: 0;
-}
-
-.upload-label {
+.upload-btn {
   align-items: center;
-  background: $primary;
-  border-radius: 8px;
-  box-shadow: 0 2px 12px rgba($primary, 0.28);
+  background: #546B41;
+  border-radius: 9px;
   color: #fff;
   cursor: pointer;
   display: inline-flex;
-  font-size: 0.9rem;
+  font-family: inherit;
+  font-size: 0.87rem;
   font-weight: 700;
+  gap: 7px;
   padding: 10px 22px;
   position: relative;
-  transition: background 150ms ease, box-shadow 150ms ease, transform 150ms ease;
+  transition: background 150ms, transform 150ms;
 
   &:hover {
-    background: $primary-dark;
-    box-shadow: 0 4px 18px rgba($primary, 0.36);
+    background: #3a4e2c;
     transform: translateY(-1px);
   }
 }
 
-.upload-input {
+.sr-only {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
   height: 1px;
-  opacity: 0;
+  overflow: hidden;
   position: absolute;
+  white-space: nowrap;
   width: 1px;
 }
 
-.upload-note {
-  color: $text-subtle;
-  font-size: 0.78rem;
-  font-weight: 500;
-  margin: 0;
-}
-
-// ─── Upload Preview ───────────────────────────────────────────────────────────
-.upload-preview {
-  display: grid;
-  gap: 16px;
-}
-
-.upload-preview__img {
-  border: 2px solid $border;
-  border-radius: 12px;
-  display: block;
-  max-width: 280px;
-  margin: 0 auto;
-  width: 100%;
-}
-
-.scanning-indicator {
-  align-items: center;
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-}
-
-.scanning-dot {
-  animation: pulse-dot 1.2s ease-in-out infinite;
-  background: $primary;
-  border-radius: 50%;
-  display: inline-block;
-  height: 10px;
-  width: 10px;
-}
-
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.75); }
-}
-
-.scanning-text {
-  color: $primary;
-  font-size: 0.92rem;
-  font-weight: 700;
-}
-
-// ─── Success State ────────────────────────────────────────────────────────────
-.success-state {
+// ─── Preview ──────────────────────────────────────────────────────────────────
+.preview-wrap {
   align-items: center;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 48px 28px;
-  text-align: center;
+  gap: 14px;
+  padding: 8px 0;
 }
 
-.success-icon {
+.preview-img {
+  border: 2px solid rgba(84, 107, 65, 0.2);
+  border-radius: 12px;
+  display: block;
+  max-width: 240px;
+  width: 100%;
+}
+
+.scanning-badge {
   align-items: center;
-  background: $primary-light;
-  border-radius: 50%;
-  color: $primary;
+  background: #eef3e8;
+  border: 1px solid rgba(84, 107, 65, 0.2);
+  border-radius: 999px;
+  color: #546B41;
   display: inline-flex;
-  height: 80px;
-  justify-content: center;
-  width: 80px;
-  animation: pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  font-size: 0.82rem;
+  font-weight: 700;
+  gap: 8px;
+  padding: 6px 16px;
 }
 
-@keyframes pop-in {
-  from { opacity: 0; transform: scale(0.6); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-.success-title {
-  color: $text-main;
-  font-size: 1.75rem;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  margin: 0;
-}
-
-.success-sub {
-  color: $text-muted;
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin: 0;
-}
-
-// ─── Button ───────────────────────────────────────────────────────────────────
-.btn {
-  align-items: center;
-  border-radius: 10px;
-  cursor: pointer;
-  display: inline-flex;
-  font-family: inherit;
-  font-size: 0.9rem;
-  font-weight: 800;
-  justify-content: center;
-  padding: 11px 28px;
-  transition: background 150ms ease, box-shadow 150ms ease, transform 150ms ease;
-
-  &--primary {
-    background: $primary;
-    border: 1.5px solid $primary;
-    box-shadow: 0 2px 12px rgba($primary, 0.28);
-    color: #fff;
-
-    &:hover {
-      background: $primary-dark;
-      border-color: $primary-dark;
-      box-shadow: 0 4px 20px rgba($primary, 0.36);
-      transform: translateY(-1px);
-    }
-
-    &:active {
-      transform: translateY(0);
-    }
-  }
-}
-
-// ─── Footer Note ─────────────────────────────────────────────────────────────
-.scanner-footer {
-  align-items: center;
-  border-top: 1px solid $border-light;
-  color: $text-subtle;
-  display: flex;
-  font-size: 0.76rem;
-  font-weight: 600;
-  gap: 10px;
-  justify-content: center;
-  padding: 14px 20px;
-}
-
-.footer-dot {
-  background: $border;
+.badge-dot {
+  animation: dot-pulse 1.2s ease-in-out infinite;
+  background: #546B41;
   border-radius: 50%;
   display: inline-block;
-  height: 4px;
-  width: 4px;
+  height: 8px;
+  width: 8px;
 }
 
-// ─── Responsive ───────────────────────────────────────────────────────────────
-@media (max-width: 560px) {
-  .scanner-body {
-    padding: 24px 12px 48px;
+@keyframes dot-pulse {
+
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
   }
 
-  .scanner-card {
-    border-radius: 14px;
+  50% {
+    opacity: 0.35;
+    transform: scale(0.65);
   }
+}
 
-  .upload-section {
-    padding: 24px 16px;
-  }
-
-  .success-state {
-    padding: 36px 20px;
-  }
-
-  .scanner-footer {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
+// ─── Bottom hint ──────────────────────────────────────────────────────────────
+.scan-hint {
+  color: #8a9e7a;
+  font-size: 0.78rem;
+  font-weight: 500;
+  line-height: 1.5;
+  margin: 16px 0 0;
+  text-align: center;
 }

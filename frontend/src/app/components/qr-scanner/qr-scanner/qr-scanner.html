@@ -1,141 +1,71 @@
-<div class="scanner-page">
+<div class="scan-root">
 
-  <!-- Page Header -->
-  <header class="scanner-header">
-    <div class="scanner-header__blob scanner-header__blob--tl"></div>
-    <div class="scanner-header__blob scanner-header__blob--br"></div>
-    <div class="scanner-header__inner">
-      <p class="scanner-header__eyebrow">Supply Chain Verification</p>
-      <h1 class="scanner-header__title">Scan QR Code</h1>
-      <p class="scanner-header__sub">Verify product authenticity on the blockchain instantly.</p>
+  <div class="scan-card">
+
+    <h2 class="scan-title">
+      <i class="ph-fill ph-qr-code"></i>
+      Scan QR Code
+    </h2>
+
+    <!-- Tabs -->
+    <div class="scan-tabs">
+      <button type="button" class="scan-tab" [class.active]="!usingFileUpload" (click)="restart()">
+        <i class="ph-fill ph-camera"></i> Camera
+      </button>
+      <button type="button" class="scan-tab" [class.active]="usingFileUpload" (click)="usingFileUpload = true; isScanning = false">
+        <i class="ph-fill ph-upload-simple"></i> Upload Photo
+      </button>
     </div>
-  </header>
 
-  <!-- Main Content -->
-  <div class="scanner-body">
-    <div class="scanner-card">
+    <!-- Camera scanner -->
+    <div *ngIf="isScanning && !usingFileUpload" class="scan-viewport">
+      <zxing-scanner
+        [formats]="formats"
+        (scanSuccess)="onScanSuccess($event)"
+        (scanError)="onScanError($event)"
+        (permissionResponse)="onPermission($event)"
+        (camerasFound)="onCamerasFound($event)"
+        [torch]="torchEnabled"
+        class="scan-zxing">
+      </zxing-scanner>
 
-      <!-- Mode Tabs -->
-      <div class="scanner-tabs" role="tablist" aria-label="Scanner mode">
-        <button
-          type="button"
-          role="tab"
-          class="tab-btn"
-          [class.active]="!usingFileUpload"
-          (click)="restart()"
-          aria-label="Use live camera">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/>
-          </svg>
-          Live Camera
-        </button>
-        <button
-          type="button"
-          role="tab"
-          class="tab-btn"
-          [class.active]="usingFileUpload"
-          (click)="usingFileUpload = true; isScanning = false"
-          aria-label="Upload QR image">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
-          </svg>
-          Upload Photo
-        </button>
+      <div class="scan-frame" aria-hidden="true">
+        <span class="corner corner--tl"></span>
+        <span class="corner corner--tr"></span>
+        <span class="corner corner--bl"></span>
+        <span class="corner corner--br"></span>
+        <span class="sweep"></span>
       </div>
 
-      <!-- Live Camera Scanner -->
-      <div *ngIf="isScanning && !usingFileUpload" class="scanner-viewport">
-        <zxing-scanner
-          [formats]="formats"
-          (scanSuccess)="onScanSuccess($event)"
-          (scanError)="onScanError($event)"
-          (permissionResponse)="onPermission($event)"
-          (camerasFound)="onCamerasFound($event)"
-          [torch]="torchEnabled"
-          class="scanner-zxing">
-        </zxing-scanner>
+      <button *ngIf="hasTorch" type="button" class="torch-btn" (click)="torchEnabled = !torchEnabled" [class.active]="torchEnabled">
+        <i class="ph-fill ph-flashlight"></i>
+        {{ torchEnabled ? 'Torch ON' : 'Torch OFF' }}
+      </button>
+    </div>
 
-        <!-- Scan Frame Overlay -->
-        <div class="scan-frame" aria-hidden="true">
-          <span class="scan-frame__corner scan-frame__corner--tl"></span>
-          <span class="scan-frame__corner scan-frame__corner--tr"></span>
-          <span class="scan-frame__corner scan-frame__corner--bl"></span>
-          <span class="scan-frame__corner scan-frame__corner--br"></span>
-          <span class="scan-frame__line"></span>
-        </div>
+    <!-- Upload -->
+    <div *ngIf="!isScanning || usingFileUpload" class="upload-area">
 
-        <!-- Torch Toggle -->
-        <button
-          *ngIf="hasTorch"
-          type="button"
-          class="torch-btn"
-          (click)="torchEnabled = !torchEnabled"
-          [class.active]="torchEnabled"
-          aria-label="Toggle torch">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0114 18.469V21a2 2 0 11-4 0v-2.531a3.374 3.374 0 01-.547-2.97z"/>
-          </svg>
-          Torch {{ torchEnabled ? 'ON' : 'OFF' }}
-        </button>
+      <div *ngIf="!uploadedImageUrl" class="upload-drop">
+        <i class="ph-fill ph-image-square"></i>
+        <p>Choose a photo of the QR code</p>
+        <label class="upload-btn" for="qr-file">
+          <i class="ph ph-folder-open"></i> Choose Photo
+          <input id="qr-file" type="file" accept="image/*" (change)="onFileSelected($event)" class="sr-only" />
+        </label>
       </div>
 
-      <!-- File Upload -->
-      <div *ngIf="!isScanning || usingFileUpload" class="upload-section">
-        <div *ngIf="!uploadedImageUrl" class="upload-drop-area">
-          <div class="upload-icon" aria-hidden="true">
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-              <path d="M3 9h18M9 21V9"/>
-            </svg>
-          </div>
-          <p class="upload-hint">Upload a photo of your QR code</p>
-          <label class="upload-label" for="qr-file-input">
-            Choose Photo
-            <input
-              id="qr-file-input"
-              type="file"
-              accept="image/*"
-              (change)="onFileSelected($event)"
-              class="upload-input"
-            />
-          </label>
-          <p class="upload-note">Supports JPG, PNG, WEBP</p>
+      <div *ngIf="uploadedImageUrl" class="preview-wrap">
+        <img [src]="uploadedImageUrl" alt="Uploaded QR" class="preview-img" />
+        <div class="scanning-badge">
+          <span class="badge-dot"></span> Scanning…
         </div>
-
-        <div *ngIf="uploadedImageUrl" class="upload-preview">
-          <img [src]="uploadedImageUrl" alt="Uploaded QR code" class="upload-preview__img" />
-          <div class="scanning-indicator">
-            <span class="scanning-dot"></span>
-            <span class="scanning-text">Scanning image...</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Success State -->
-      <div *ngIf="scanResult && !isScanning && !usingFileUpload" class="success-state">
-        <div class="success-icon" aria-hidden="true">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
-        </div>
-        <h2 class="success-title">QR Verified!</h2>
-        <p class="success-sub">This product is authenticated on the blockchain.</p>
-        <button type="button" class="btn btn--primary" (click)="restart()">
-          Scan Another
-        </button>
-      </div>
-
-      <!-- Footer Note -->
-      <div class="scanner-footer">
-        <span>Camera scan</span>
-        <span class="footer-dot" aria-hidden="true"></span>
-        <span>Photo upload</span>
-        <span class="footer-dot" aria-hidden="true"></span>
-        <span>End-to-end encrypted</span>
       </div>
 
     </div>
+
+    <p class="scan-hint">Point at any FarmChainX product QR code to verify it on the blockchain.</p>
+
   </div>
 
 </div>

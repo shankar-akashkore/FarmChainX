@@ -1,6 +1,6 @@
 <div class="dash-root">
 
-  <!-- Background -->
+  
   <div class="dash-bg" aria-hidden="true">
     <div class="dash-orb dash-orb--1"></div>
     <div class="dash-orb dash-orb--2"></div>
@@ -9,9 +9,7 @@
 
   <div class="dash-wrap">
 
-    <!-- ════════════════════════════════
-         WELCOME BANNER
-    ════════════════════════════════ -->
+    
     <header class="dash-header">
       <div class="dash-header__pattern" aria-hidden="true"></div>
       <div class="dash-header__deco" aria-hidden="true">{{ initial }}</div>
@@ -37,9 +35,7 @@
       </div>
     </header>
 
-    <!-- ════════════════════════════════
-         STATS GRID
-    ════════════════════════════════ -->
+   
     <div class="stats-grid reveal">
 
       <div class="stat-card reveal-item">
@@ -86,12 +82,9 @@
 
     </div>
 
-    <!-- ════════════════════════════════
-         MAIN CONTENT
-    ════════════════════════════════ -->
+    
     <div class="dash-content">
 
-      <!-- ─── Quick Actions ──────────────── -->
       <section class="actions-section reveal">
         <div class="section-head">
           <h2 class="section-title">Quick Actions</h2>
@@ -100,7 +93,6 @@
 
         <div class="actions-grid">
 
-          <!-- My Products (always) -->
           <a routerLink="/products/my" class="action-card">
             <div class="action-card__icon action-card__icon--primary">
               <i class="ph-fill ph-package"></i>
@@ -112,7 +104,6 @@
             <i class="ph ph-arrow-right action-card__arrow"></i>
           </a>
 
-          <!-- Scan QR (always) -->
           <a routerLink="/scanner" class="action-card">
             <div class="action-card__icon action-card__icon--amber">
               <i class="ph-fill ph-qr-code"></i>
@@ -124,7 +115,6 @@
             <i class="ph ph-arrow-right action-card__arrow"></i>
           </a>
 
-          <!-- Upload Harvest (farmer only) -->
           <a *ngIf="isFarmer" routerLink="/upload" class="action-card action-card--featured">
             <div class="action-card__icon action-card__icon--white">
               <i class="ph-fill ph-upload-simple"></i>
@@ -136,7 +126,6 @@
             <i class="ph ph-arrow-right action-card__arrow"></i>
           </a>
 
-          <!-- Admin Panel (admin only) -->
           <a *ngIf="isAdmin" routerLink="/admin" class="action-card action-card--admin">
             <div class="action-card__icon action-card__icon--dark">
               <i class="ph-fill ph-shield-check"></i>
@@ -150,7 +139,6 @@
 
         </div>
 
-        <!-- Request Admin (non-admin) -->
         <button *ngIf="!isAdmin" class="request-btn" (click)="requestAdminAccess()">
           <i class="ph ph-shield-plus"></i>
           <span>Request Admin Access</span>
@@ -158,10 +146,8 @@
 
       </section>
 
-      <!-- ─── Sidebar ────────────────────── -->
       <aside class="dash-sidebar reveal">
 
-        <!-- Blockchain Health -->
         <div class="sidebar-card">
           <h3 class="sidebar-card__title">
             <i class="ph-fill ph-activity"></i>
@@ -202,7 +188,6 @@
           </button>
         </div> -->
 
-        <!-- Platform Tip -->
         <div class="sidebar-card sidebar-card--tip">
           <div class="tip-icon"><i class="ph-fill ph-lightbulb"></i></div>
           <p class="tip-text">
