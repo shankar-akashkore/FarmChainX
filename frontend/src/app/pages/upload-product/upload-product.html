@@ -1,138 +1,205 @@
-<div class="upload-root">
+<div class="up-root">
 
-  <!-- Background -->
-  <div class="upload-bg">
-    <div class="upload-bg__orb upload-bg__orb--1"></div>
-    <div class="upload-bg__orb upload-bg__orb--2"></div>
-    <div class="upload-bg__grid"></div>
+  <!-- ─── Background ──────────────────────────────────────────────────────── -->
+  <div class="up-bg" aria-hidden="true">
+    <div class="up-orb up-orb--1"></div>
+    <div class="up-orb up-orb--2"></div>
+    <div class="up-dots"></div>
   </div>
 
-  <div class="upload-wrap">
-    <div class="upload-card">
+  <div class="up-wrap">
 
-      <!-- Header -->
-      <div class="upload-header">
-        <div class="upload-header__icon">🌾</div>
-        <h1 class="upload-header__title">Upload New Harvest</h1>
-        <p class="upload-header__sub">Add your crop to the blockchain — forever trusted</p>
+    <!-- ─── Page Header ─────────────────────────────────────────────────── -->
+    <header class="up-hero reveal">
+      <div class="up-hero__icon" aria-hidden="true">
+        <i class="ph-fill ph-plant"></i>
+      </div>
+      <div class="up-hero__copy">
+        <span class="up-eyebrow">
+          <i class="ph-fill ph-link-simple"></i>
+          Blockchain Record
+        </span>
+        <h1 class="up-title">Upload New Harvest</h1>
+        <p class="up-sub">Record your crop on the blockchain — immutable, verifiable, trusted by consumers.</p>
       </div>
 
-      <form (ngSubmit)="uploadProduct()" class="upload-form">
+      <!-- Trust chips -->
+      <div class="up-chips">
+        <span class="up-chip"><i class="ph-fill ph-shield-check"></i> Tamper-proof</span>
+        <span class="up-chip"><i class="ph-fill ph-qr-code"></i> QR Generated</span>
+        <span class="up-chip"><i class="ph-fill ph-lock-simple"></i> Encrypted</span>
+      </div>
+    </header>
 
-        <!-- Crop Name -->
-        <div class="form-group">
-          <label class="form-label" for="cropName">Crop Name</label>
-          <input
-            id="cropName"
-            [(ngModel)]="cropName"
-            name="cropName"
-            required
-            class="form-input"
-            placeholder="e.g. Basmati Rice, Red Onion, Organic Tomato">
-        </div>
+    <!-- ─── Form Card ────────────────────────────────────────────────────── -->
+    <div class="up-card reveal">
 
-        <!-- Soil & Pesticides -->
-        <div class="form-row">
+      <form (ngSubmit)="uploadProduct()" class="up-form" novalidate>
+
+        <!-- ── Section: Crop Info ───────────────────────────────────────── -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <span class="section-num">1</span>
+            Crop Information
+          </h2>
+
           <div class="form-group">
-            <label class="form-label" for="soilType">Soil Type</label>
+            <label class="form-label" for="cropName">
+              <i class="ph ph-leaf"></i> Crop Name <span class="required">*</span>
+            </label>
             <input
-              id="soilType"
-              [(ngModel)]="soilType"
-              name="soilType"
+              id="cropName"
+              [(ngModel)]="cropName"
+              name="cropName"
+              required
               class="form-input"
-              placeholder="e.g. Loamy, Red Soil">
+              placeholder="e.g. Basmati Rice, Red Onion, Organic Tomato"
+            />
           </div>
-          <div class="form-group">
-            <label class="form-label" for="pesticides">Pesticides Used</label>
-            <input
-              id="pesticides"
-              [(ngModel)]="pesticides"
-              name="pesticides"
-              class="form-input"
-              placeholder="e.g. None, Neem Oil, Organic">
-          </div>
-        </div>
 
-        <!-- Harvest Date -->
-        <div class="form-group">
-          <label class="form-label" for="harvestDate">Harvest Date</label>
-          <input
-            id="harvestDate"
-            type="date"
-            [(ngModel)]="harvestDate"
-            name="harvestDate"
-            [max]="today"
-            required
-            class="form-input form-input--date">
-        </div>
-
-        <!-- GPS Location -->
-        <div class="form-group">
-          <label class="form-label" for="gpsLocation">GPS Location</label>
-          <div class="gps-row">
-            <input
-              id="gpsLocation"
-              [(ngModel)]="gpsLocation"
-              name="gpsLocation"
-              readonly
-              class="form-input gps-row__input"
-              placeholder="Auto-detected location">
-            <button
-              type="button"
-              (click)="detectGPS()"
-              [disabled]="loading"
-              class="btn btn--gps"
-              id="detect-gps-btn">
-              <span>📍</span> Detect GPS
-            </button>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="soilType">
+                <i class="ph ph-mountains"></i> Soil Type
+              </label>
+              <input
+                id="soilType"
+                [(ngModel)]="soilType"
+                name="soilType"
+                class="form-input"
+                placeholder="e.g. Loamy, Red Soil"
+              />
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="pesticides">
+                <i class="ph ph-flask"></i> Pesticides Used
+              </label>
+              <input
+                id="pesticides"
+                [(ngModel)]="pesticides"
+                name="pesticides"
+                class="form-input"
+                placeholder="e.g. None, Neem Oil, Organic"
+              />
+            </div>
           </div>
         </div>
 
-        <!-- Image Upload -->
-        <div class="form-group">
-          <label class="form-label">Product Image</label>
-          <label class="file-drop" for="imageUpload">
-            <span class="file-drop__icon">📷</span>
-            <span class="file-drop__text">
-              {{ imageFile ? imageFile.name : 'Click to upload product image' }}
+        <!-- ── Section: Location & Date ────────────────────────────────── -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <span class="section-num">2</span>
+            Location &amp; Date
+          </h2>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="harvestDate">
+                <i class="ph ph-calendar-blank"></i> Harvest Date <span class="required">*</span>
+              </label>
+              <input
+                id="harvestDate"
+                type="date"
+                [(ngModel)]="harvestDate"
+                name="harvestDate"
+                [max]="today"
+                required
+                class="form-input"
+              />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="gpsLocation">
+                <i class="ph ph-map-pin"></i> GPS Location
+              </label>
+              <div class="gps-row">
+                <input
+                  id="gpsLocation"
+                  [(ngModel)]="gpsLocation"
+                  name="gpsLocation"
+                  readonly
+                  class="form-input gps-input"
+                  placeholder="Auto-detected"
+                />
+                <button
+                  type="button"
+                  (click)="detectGPS()"
+                  [disabled]="loading || gpsLoading"
+                  class="gps-btn"
+                  [class.loading]="gpsLoading">
+                  <span *ngIf="!gpsLoading"><i class="ph-fill ph-navigation-arrow"></i></span>
+                  <span *ngIf="gpsLoading" class="mini-spinner"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Section: Product Image ───────────────────────────────────── -->
+        <div class="form-section">
+          <h2 class="section-title">
+            <span class="section-num">3</span>
+            Product Image
+          </h2>
+
+          <!-- Drop zone (shown when no image) -->
+          <label *ngIf="!previewUrl" class="file-drop" for="imageUpload">
+            <div class="file-drop__icon" aria-hidden="true">
+              <i class="ph-fill ph-camera"></i>
+            </div>
+            <p class="file-drop__title">Click to upload product image</p>
+            <p class="file-drop__sub">PNG · JPG · WEBP &nbsp;—&nbsp; max 10 MB</p>
+            <span class="file-drop__btn">
+              <i class="ph ph-folder-open"></i> Browse Files
             </span>
-            <span class="file-drop__hint">PNG, JPG, WEBP accepted</span>
             <input
               id="imageUpload"
               type="file"
               (change)="onFileSelected($event)"
               accept="image/*"
-              required
-              class="file-drop__input">
+              class="sr-only"
+            />
           </label>
 
-          <!-- Image Preview -->
-          <div *ngIf="previewUrl" class="preview-box">
-            <img [src]="previewUrl" class="preview-box__img" alt="Product preview">
-            <p class="preview-box__label">✅ Image ready — looks amazing!</p>
+          <!-- Preview (shown when image selected) -->
+          <div *ngIf="previewUrl" class="preview-card">
+            <img [src]="previewUrl" class="preview-card__img" alt="Product preview" />
+            <div class="preview-card__overlay">
+              <div class="preview-card__info">
+                <i class="ph-fill ph-check-circle"></i>
+                <span>{{ imageFile?.name }}</span>
+              </div>
+              <button type="button" class="preview-card__change" (click)="clearImage()">
+                <i class="ph ph-arrow-counter-clockwise"></i> Change
+              </button>
+            </div>
           </div>
         </div>
 
-        <!-- Submit Button -->
+        <!-- ── Submit ────────────────────────────────────────────────────── -->
         <button
           type="submit"
-          [disabled]="loading || !imageFile"
-          class="btn btn--submit"
-          id="upload-submit-btn">
-          <span *ngIf="!loading">🚀 Upload &amp; Generate QR Code</span>
-          <span *ngIf="loading" class="btn--submit__loading">
-            <span class="spinner"></span> Uploading to Blockchain...
+          [disabled]="loading || !imageFile || !cropName || !harvestDate"
+          class="submit-btn">
+          <span *ngIf="!loading" class="submit-btn__inner">
+            <i class="ph-fill ph-upload-simple"></i>
+            Upload &amp; Generate QR Code
+          </span>
+          <span *ngIf="loading" class="submit-btn__inner">
+            <span class="spinner"></span>
+            Uploading to Blockchain…
           </span>
         </button>
 
       </form>
 
-      <!-- Card Footer -->
-      <div class="upload-card__footer">
-        <p>Powered by <strong>FarmChainX</strong> • Transparent • Trusted • Immutable</p>
+      <!-- Card footer -->
+      <div class="up-card-footer">
+        <i class="ph-fill ph-shield-check"></i>
+        Powered by <strong>FarmChainX</strong> &nbsp;·&nbsp; Transparent &nbsp;·&nbsp; Immutable
       </div>
 
     </div>
-  </div>
 
+  </div>
 </div>
