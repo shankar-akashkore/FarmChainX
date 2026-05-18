@@ -1,132 +1,169 @@
-<div class="verify-page">
+<div class="vp-root">
 
-  <!-- Loading Overlay -->
-  <div *ngIf="loading" class="loading-overlay" role="status" aria-label="Verifying product">
-    <div class="loading-spinner"></div>
-    <p class="loading-text">Verifying on Blockchain...</p>
-  </div>
-
-  <!-- Error State -->
-  <div *ngIf="error" class="error-state">
-    <div class="error-icon" aria-hidden="true">
-      <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"/>
-        <line x1="12" y1="8" x2="12" y2="12"/>
-        <line x1="12" y1="16" x2="12.01" y2="16"/>
-      </svg>
+  <!-- ─── Loading ────────────────────────────────────────────────────────── -->
+  <div *ngIf="loading" class="vp-loading" role="status">
+    <div class="vp-loading__ring">
+      <span class="vp-loading__arc"></span>
+      <i class="ph-fill ph-shield-check vp-loading__icon"></i>
     </div>
-    <h1 class="error-title">Invalid QR Code</h1>
-    <p class="error-msg">{{ error }}</p>
-    <p class="error-sub">This product is not registered on FarmChainX.</p>
+    <p class="vp-loading__text">Verifying on Blockchain…</p>
+    <p class="vp-loading__sub">Fetching immutable record</p>
   </div>
 
-  <!-- Product Content -->
-  <div *ngIf="product" class="product-content">
+  <!-- ─── Error ──────────────────────────────────────────────────────────── -->
+  <div *ngIf="error && !loading" class="vp-error">
+    <div class="vp-error__icon-wrap">
+      <i class="ph-fill ph-warning-circle vp-error__icon"></i>
+    </div>
+    <h1 class="vp-error__title">Invalid QR Code</h1>
+    <p class="vp-error__msg">{{ error }}</p>
+    <p class="vp-error__sub">This product is not registered on FarmChainX.</p>
+  </div>
 
-    <!-- Hero Section -->
-    <section class="hero-section">
-      <div class="hero-image-wrap">
-        <img [src]="getImageUrl(product.imageUrl)" [alt]="product.cropName" class="hero-image" />
-        <div class="hero-overlay"></div>
+  <!-- ─── Product ────────────────────────────────────────────────────────── -->
+  <div *ngIf="product && !loading" class="vp-product">
+
+    <!-- Hero -->
+    <section class="vp-hero">
+      <div class="vp-hero__img-wrap">
+        <img [src]="getImageUrl(product.imageUrl)" [alt]="product.cropName" class="vp-hero__img" />
+        <div class="vp-hero__overlay" aria-hidden="true"></div>
       </div>
-      <div class="hero-info">
-        <div class="hero-emoji" aria-hidden="true">{{ getCropEmoji() }}</div>
-        <div class="hero-copy">
-          <h1 class="hero-crop">{{ product.cropName | titlecase }}</h1>
-          <p class="hero-date">Harvested {{ product.harvestDate | date:'fullDate' }}</p>
+
+      <div class="vp-hero__content">
+        <div class="vp-hero__emoji" aria-hidden="true">{{ getCropEmoji() }}</div>
+        <div class="vp-hero__copy">
+          <div class="vp-hero__eyebrow">
+            <i class="ph-fill ph-seal-check"></i>
+            Blockchain Verified Product
+          </div>
+          <h1 class="vp-hero__crop">{{ product.cropName | titlecase }}</h1>
+          <p class="vp-hero__date">
+            <i class="ph ph-calendar-blank"></i>
+            Harvested {{ product.harvestDate | date:'fullDate' }}
+          </p>
         </div>
       </div>
     </section>
 
-    <!-- Verified Banner -->
-    <div class="verified-banner" role="note" aria-label="Blockchain verified">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-        <polyline points="9 12 11 14 15 10"/>
-      </svg>
-      <span>100% Blockchain Verified &bull; Tamper-Proof &bull; Immutable &bull; Transparent</span>
+    <!-- Verified ribbon -->
+    <div class="vp-ribbon" role="note">
+      <span class="vp-ribbon__item"><i class="ph-fill ph-shield-check"></i> 100% Blockchain Verified</span>
+      <span class="vp-ribbon__dot" aria-hidden="true"></span>
+      <span class="vp-ribbon__item"><i class="ph-fill ph-lock-simple"></i> Tamper-Proof</span>
+      <span class="vp-ribbon__dot" aria-hidden="true"></span>
+      <span class="vp-ribbon__item"><i class="ph-fill ph-link-simple"></i> Immutable Record</span>
+      <span class="vp-ribbon__dot" aria-hidden="true"></span>
+      <span class="vp-ribbon__item"><i class="ph-fill ph-eye"></i> Transparent</span>
     </div>
 
-    <!-- Page Body -->
-    <div class="verify-body">
+    <!-- Body -->
+    <div class="vp-body">
 
-      <!-- Quality + Meta Row -->
-      <section class="info-row" aria-label="Product details">
+      <!-- ── Info cards ─────────────────────────────────────────────────── -->
+      <section class="info-grid reveal" aria-label="Product details">
+
+        <!-- Quality -->
         <div class="quality-card">
-          <span class="quality-grade">{{ product.qualityGrade || 'A+' }}</span>
-          <div>
-            <p class="quality-label">AI Quality Grade</p>
-            <p class="quality-confidence">{{ product.confidence | number:'1.0-0' }}% Confidence</p>
+          <div class="quality-card__grade">{{ product.qualityGrade || 'A+' }}</div>
+          <div class="quality-card__meta">
+            <span class="quality-card__label">AI Quality Grade</span>
+            <span class="quality-card__conf">{{ product.confidence | number:'1.0-0' }}% Confidence</span>
+          </div>
+          <div class="quality-card__badge">
+            <i class="ph-fill ph-robot"></i> AI Certified
           </div>
         </div>
 
-        <div class="meta-card">
-          <p class="meta-label">Farm Origin</p>
-          <p class="meta-value">{{ displayLocation || 'Protected Location' }}</p>
+        <!-- Farm origin -->
+        <div class="info-card">
+          <div class="info-card__icon"><i class="ph-fill ph-map-pin"></i></div>
+          <div>
+            <p class="info-card__label">Farm Origin</p>
+            <p class="info-card__value">{{ displayLocation || 'Protected Location' }}</p>
+          </div>
         </div>
 
-        <div class="meta-card">
-          <p class="meta-label">Blockchain ID</p>
-          <p class="meta-value meta-value--mono">#{{ product.productId }}</p>
-          <p class="meta-uuid">{{ product.publicUuid }}</p>
+        <!-- Blockchain ID -->
+        <div class="info-card">
+          <div class="info-card__icon"><i class="ph-fill ph-fingerprint"></i></div>
+          <div>
+            <p class="info-card__label">Blockchain ID</p>
+            <p class="info-card__value info-card__value--mono">#{{ product.productId }}</p>
+            <p class="info-card__uuid">{{ product.publicUuid }}</p>
+          </div>
         </div>
+
       </section>
 
-      <!-- Supply Chain Timeline -->
-      <section class="section" aria-label="Supply chain journey">
-        <div class="section-header">
-          <h2 class="section-title">Supply Chain Journey</h2>
-          <p class="section-sub">End-to-end product trail, recorded on-chain.</p>
+      <!-- ── Supply chain timeline ──────────────────────────────────────── -->
+      <section class="vp-section reveal" aria-label="Supply chain journey">
+        <div class="vp-section__head">
+          <div class="vp-section__icon"><i class="ph-fill ph-path"></i></div>
+          <div>
+            <h2 class="vp-section__title">Supply Chain Journey</h2>
+            <p class="vp-section__sub">End-to-end product trail — every step recorded on-chain.</p>
+          </div>
         </div>
 
         <ol class="timeline" aria-label="Tracking history">
-          <li *ngFor="let log of product.trackingHistory; let i = index; let last = last" class="timeline-item">
+          <li
+            *ngFor="let log of product.trackingHistory; let i = index; let last = last"
+            class="timeline-item reveal-item"
+            [style.transition-delay]="i * 60 + 'ms'">
+
             <div class="timeline-step">
               <span class="timeline-num">{{ i + 1 }}</span>
               <span *ngIf="!last" class="timeline-line" aria-hidden="true"></span>
             </div>
+
             <div class="timeline-card">
               <div class="timeline-card__head">
-                <h3 class="timeline-location">{{ log.location || 'Farm Origin' }}</h3>
+                <h3 class="timeline-loc">{{ log.location || 'Farm Origin' }}</h3>
                 <time class="timeline-time">{{ log.timestamp | date:'medium' }}</time>
               </div>
               <p class="timeline-note">{{ log.notes || 'Product entered supply chain' }}</p>
-              <div class="timeline-footer">
-                <span class="timeline-actor">By {{ actorFromLog(log) }}</span>
+              <div class="timeline-foot">
+                <span class="timeline-actor">
+                  <i class="ph-fill ph-user-circle"></i>
+                  {{ actorFromLog(log) }}
+                </span>
                 <span *ngIf="log.confirmed" class="timeline-confirmed">
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                  Confirmed Receipt
+                  <i class="ph-fill ph-check-circle"></i> Confirmed Receipt
                 </span>
               </div>
             </div>
+
           </li>
         </ol>
       </section>
 
-      <!-- Consumer Feedback -->
-      <section class="section" aria-label="Consumer reviews">
-        <div class="section-header">
-          <h2 class="section-title">Consumer Reviews</h2>
-          <p class="section-sub">Real feedback from verified consumers.</p>
+      <!-- ── Consumer reviews ───────────────────────────────────────────── -->
+      <section class="vp-section reveal" aria-label="Consumer reviews">
+        <div class="vp-section__head">
+          <div class="vp-section__icon"><i class="ph-fill ph-star"></i></div>
+          <div>
+            <h2 class="vp-section__title">Consumer Reviews</h2>
+            <p class="vp-section__sub">Real feedback from verified consumers.</p>
+          </div>
         </div>
 
         <!-- Empty -->
         <p *ngIf="feedbacks?.length === 0" class="feedback-empty">
+          <i class="ph ph-chat-circle-dots"></i>
           No reviews yet — be the first to share your experience.
         </p>
 
-        <!-- Feedback Cards -->
+        <!-- Review cards -->
         <div class="feedback-list">
           <div *ngFor="let fb of feedbacks" class="feedback-card">
             <div class="feedback-card__head">
-              <div class="feedback-rating">
-                <span class="rating-stars">
-                  <span *ngFor="let s of [1,2,3,4,5]" [class.filled]="s <= fb.rating">★</span>
-                </span>
-                <span class="rating-num">{{ fb.rating }}/5</span>
+              <div class="stars">
+                <span *ngFor="let s of [1,2,3,4,5]" class="star" [class.filled]="s <= fb.rating">★</span>
+                <span class="stars__num">{{ fb.rating }}/5</span>
               </div>
               <div class="feedback-meta">
-                <span class="feedback-user">User #{{ fb.consumerId }}</span>
+                <span class="feedback-user"><i class="ph ph-user-circle"></i> User #{{ fb.consumerId }}</span>
                 <time class="feedback-date">{{ fb.createdAt | date:'mediumDate' }}</time>
               </div>
             </div>
@@ -135,62 +172,83 @@
         </div>
 
         <!-- Already submitted -->
-        <p *ngIf="userRole === 'Consumer' && !consumerCanGiveFeedback && currentUserId" class="feedback-notice">
+        <div *ngIf="userRole === 'Consumer' && !consumerCanGiveFeedback && currentUserId" class="feedback-notice feedback-notice--done">
+          <i class="ph-fill ph-check-circle"></i>
           You have already submitted feedback for this product.
-        </p>
+        </div>
 
-        <!-- Submit feedback form (consumer only) -->
-        <div *ngIf="userRole === 'Consumer' && consumerCanGiveFeedback" class="feedback-form-wrap">
-          <h3 class="feedback-form-title">Leave Your Review</h3>
-          <div class="feedback-form-grid">
-            <label class="form-field">
-              <span class="form-field__label">Rating (1–5)</span>
+        <!-- Feedback form (consumer only) -->
+        <div *ngIf="userRole === 'Consumer' && consumerCanGiveFeedback" class="feedback-form">
+          <h3 class="feedback-form__title">
+            <i class="ph-fill ph-pencil-simple"></i>
+            Leave Your Review
+          </h3>
+
+          <div class="feedback-form__grid">
+            <div class="field">
+              <label class="field__label" for="fb-rating">Rating (1–5)</label>
               <input
+                id="fb-rating"
                 type="number"
                 min="1"
                 max="5"
                 [(ngModel)]="myRating"
-                class="form-field__input form-field__input--center"
+                class="field__input field__input--center"
               />
-            </label>
-            <label class="form-field">
-              <span class="form-field__label">Your Comment</span>
+            </div>
+            <div class="field">
+              <label class="field__label" for="fb-comment">Your Comment</label>
               <textarea
+                id="fb-comment"
                 [(ngModel)]="myComment"
                 rows="4"
-                placeholder="Share your experience..."
-                class="form-field__input form-field__textarea"
+                placeholder="Share your experience with this product…"
+                class="field__input field__textarea"
               ></textarea>
-            </label>
+            </div>
           </div>
+
           <div class="form-actions">
-            <button type="button" class="btn btn--primary" (click)="submitFeedback()">Submit Feedback</button>
+            <button type="button" class="btn btn--primary" (click)="submitFeedback()">
+              <i class="ph-fill ph-paper-plane-tilt"></i>
+              Submit Review
+            </button>
           </div>
         </div>
 
-        <!-- Role notices -->
-        <p *ngIf="currentUserId && userRole !== 'Consumer'" class="feedback-notice">
-          Only consumers can submit feedback.
-        </p>
-        <p *ngIf="!currentUserId" class="feedback-notice">
+        <!-- Not logged in -->
+        <div *ngIf="!currentUserId" class="feedback-notice">
+          <i class="ph ph-sign-in"></i>
           Sign in as a Consumer to submit feedback. You can still read reviews above.
-        </p>
+        </div>
+        <div *ngIf="currentUserId && userRole !== 'Consumer' && userRole !== 'Guest'" class="feedback-notice">
+          <i class="ph ph-info"></i>
+          Only consumers can submit feedback.
+        </div>
+
       </section>
 
-      <!-- Supply Chain Actions (role-based) -->
-      <section *ngIf="showUpdatePossible()" class="section actions-section" aria-label="Supply chain actions">
-        <div class="section-header">
-          <h2 class="section-title">Chain Actions</h2>
-          <p class="section-sub">Update the product's supply-chain status.</p>
+      <!-- ── Chain actions (role-based) ──────────────────────────────────── -->
+      <section *ngIf="showUpdatePossible()" class="vp-section reveal actions-section" aria-label="Supply chain actions">
+        <div class="vp-section__head">
+          <div class="vp-section__icon vp-section__icon--amber"><i class="ph-fill ph-git-branch"></i></div>
+          <div>
+            <h2 class="vp-section__title">Chain Actions</h2>
+            <p class="vp-section__sub">Update this product's supply-chain status.</p>
+          </div>
         </div>
 
         <!-- Distributor: first claim -->
         <div *ngIf="userRole === 'Distributor' && !hasDistributorTakenPossession()" class="action-block action-block--warning">
           <div class="action-block__copy">
-            <h3 class="action-block__title">First Time Scanning</h3>
-            <p class="action-block__desc">By confirming, you declare you have physically received this product from the farmer.</p>
+            <h3 class="action-block__title">
+              <i class="ph-fill ph-hand-tap"></i>
+              First Time Scanning
+            </h3>
+            <p class="action-block__desc">By confirming, you declare you have physically received this product from the farmer and are taking possession.</p>
           </div>
-          <button type="button" class="btn btn--warning" (click)="openForm('update')">
+          <button type="button" class="btn btn--amber" (click)="openForm('update')">
+            <i class="ph-fill ph-check-circle"></i>
             I Have Taken From Farmer
           </button>
         </div>
@@ -198,57 +256,79 @@
         <!-- Distributor: in possession -->
         <div *ngIf="userRole === 'Distributor' && hasDistributorTakenPossession()" class="action-block action-block--success">
           <div class="action-block__copy">
-            <h3 class="action-block__title">You Have Confirmed Possession</h3>
-            <p class="action-block__desc">Add a tracking update or hand over to a retailer.</p>
+            <h3 class="action-block__title">
+              <i class="ph-fill ph-package"></i>
+              You Have Confirmed Possession
+            </h3>
+            <p class="action-block__desc">Add a tracking update or initiate final handover to a retailer.</p>
           </div>
           <div class="action-btn-row">
-            <button type="button" class="btn btn--primary" (click)="openForm('update')">+ Add Tracking Update</button>
-            <button type="button" class="btn btn--danger" (click)="openForm('handover')">Final Handover to Retailer</button>
+            <button type="button" class="btn btn--primary" (click)="openForm('update')">
+              <i class="ph ph-plus-circle"></i>
+              Add Tracking Update
+            </button>
+            <button type="button" class="btn btn--danger" (click)="openForm('handover')">
+              <i class="ph ph-arrow-right-circle"></i>
+              Handover to Retailer
+            </button>
           </div>
         </div>
 
         <!-- Retailer: confirm receipt -->
         <div *ngIf="userRole === 'Retailer'" class="action-block action-block--info">
           <div class="action-block__copy">
-            <h3 class="action-block__title">Pending Receipt</h3>
-            <p class="action-block__desc">The distributor has handed this product over to you. Confirm receipt to continue the chain.</p>
+            <h3 class="action-block__title">
+              <i class="ph-fill ph-storefront"></i>
+              Pending Receipt
+            </h3>
+            <p class="action-block__desc">The distributor has handed this product to you. Confirm receipt to update the blockchain.</p>
           </div>
-          <button type="button" class="btn btn--primary" (click)="openForm('update')">Confirm Receipt</button>
+          <button type="button" class="btn btn--primary" (click)="openForm('update')">
+            <i class="ph-fill ph-seal-check"></i>
+            Confirm Receipt
+          </button>
         </div>
 
-        <!-- Inline Form -->
+        <!-- Inline chain form -->
         <div *ngIf="showAddForm" class="chain-form">
           <h3 class="chain-form__title">
-            {{ mode === 'handover' ? 'Handover to Retailer' : userRole === 'Retailer' ? 'Confirm Receipt' : 'Add Tracking Update' }}
+            <i class="ph-fill ph-pencil-simple-line"></i>
+            {{ mode === 'handover' ? 'Handover to Retailer'
+               : userRole === 'Retailer' ? 'Confirm Receipt'
+               : 'Add Tracking Update' }}
           </h3>
 
-          <div *ngIf="mode === 'handover'" class="form-field">
-            <label class="form-field__label" for="retailer-select">Select Retailer</label>
-            <select id="retailer-select" [(ngModel)]="selectedRetailerId" required class="form-field__input form-field__select">
-              <option [ngValue]="null" disabled>Select retailer...</option>
+          <div *ngIf="mode === 'handover'" class="field">
+            <label class="field__label" for="retailer-select">Select Retailer</label>
+            <select id="retailer-select" [(ngModel)]="selectedRetailerId" required class="field__input field__select">
+              <option [ngValue]="null" disabled>Choose retailer…</option>
               <option *ngFor="let r of retailers" [ngValue]="r.id">{{ r.name }} ({{ r.email }})</option>
             </select>
           </div>
 
-          <div class="form-field">
-            <label class="form-field__label" for="chain-location">Current Location / Action Taken</label>
+          <div class="field">
+            <label class="field__label" for="chain-location">
+              Current Location / Action Taken <span class="field__req">*</span>
+            </label>
             <input
               id="chain-location"
               [(ngModel)]="newLocation"
               placeholder="e.g. Mumbai Warehouse, Gate 3"
               required
-              class="form-field__input"
+              class="field__input"
             />
           </div>
 
-          <div class="form-field">
-            <label class="form-field__label" for="chain-notes">Additional Notes <span class="optional">(optional)</span></label>
+          <div class="field">
+            <label class="field__label" for="chain-notes">
+              Additional Notes <span class="field__opt">(optional)</span>
+            </label>
             <textarea
               id="chain-notes"
               [(ngModel)]="newNote"
               rows="3"
-              placeholder="Any extra information..."
-              class="form-field__input form-field__textarea"
+              placeholder="Any extra information…"
+              class="field__input field__textarea"
             ></textarea>
           </div>
 
@@ -258,22 +338,26 @@
               class="btn btn--primary"
               (click)="submitChainUpdate()"
               [disabled]="mode === 'handover' && !selectedRetailerId">
+              <i class="ph-fill ph-upload-simple"></i>
               {{ !hasDistributorTakenPossession() && userRole === 'Distributor' ? 'Confirm Taken From Farmer'
                  : mode === 'handover' ? 'Handover to Retailer'
                  : userRole === 'Retailer' ? 'Confirm Receipt'
                  : 'Update Blockchain' }}
             </button>
-            <button type="button" class="btn btn--ghost" (click)="cancelForm()">Cancel</button>
+            <button type="button" class="btn btn--ghost" (click)="cancelForm()">
+              <i class="ph ph-x"></i>
+              Cancel
+            </button>
           </div>
         </div>
+
       </section>
 
-      <!-- Already completed actions notice -->
-      <div *ngIf="!showUpdatePossible() && (userRole === 'Distributor' || userRole === 'Retailer')" class="completed-notice">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-          <polyline points="22 4 12 14.01 9 11.01"/>
-        </svg>
+      <!-- ── Completed notice ──────────────────────────────────────────── -->
+      <div
+        *ngIf="!showUpdatePossible() && (userRole === 'Distributor' || userRole === 'Retailer')"
+        class="completed-notice reveal">
+        <div class="completed-notice__icon"><i class="ph-fill ph-check-circle"></i></div>
         <p>
           {{ userRole === 'Distributor'
             ? 'You have already handed over this product to a retailer.'

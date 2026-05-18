@@ -1,13 +1,11 @@
 <div class="mp-root">
 
-  <!-- ─── Background ─────────────────────────────────────────────────────── -->
   <div class="mp-bg" aria-hidden="true">
     <div class="mp-orb mp-orb--1"></div>
     <div class="mp-orb mp-orb--2"></div>
     <div class="mp-dots"></div>
   </div>
 
-  <!-- ─── Loading overlay ────────────────────────────────────────────────── -->
   <div *ngIf="loading" class="load-overlay" role="status">
     <div class="load-ring">
       <span class="load-ring__arc"></span>
@@ -17,7 +15,6 @@
     <p *ngIf="retryMessage" class="load-retry">{{ retryMessage }}</p>
   </div>
 
-  <!-- ─── Page Header ─────────────────────────────────────────────────────── -->
   <header class="mp-hero">
     <div class="mp-hero__inner">
       <div class="mp-hero__left">
@@ -47,16 +44,13 @@
     </div>
   </header>
 
-  <!-- ─── Body ────────────────────────────────────────────────────────────── -->
-  <div class="mp-body">
 
-    <!-- Retry banner -->
+  <div class="mp-body">
     <div *ngIf="retryMessage && !loading" class="retry-banner" role="alert">
       <i class="ph ph-arrows-clockwise"></i>
       {{ retryMessage }}
     </div>
 
-    <!-- ── Empty state ─────────────────────────────────────────────────── -->
     <div *ngIf="!loading && products.length === 0" class="empty-state reveal">
       <div class="empty-state__icon">
         <i class="ph-fill ph-plant"></i>
@@ -69,11 +63,8 @@
       </a>
     </div>
 
-    <!-- ── Product grid ────────────────────────────────────────────────── -->
     <div *ngIf="!loading && products.length > 0" class="product-grid">
-      <article
-        *ngFor="let p of products; let i = index"
-        class="product-card reveal-item"
+      <article *ngFor="let p of products; let i = index" class="product-card reveal-item"
         [style.transition-delay]="(i % 3) * 80 + 'ms'">
 
         <!-- Image zone -->
@@ -81,10 +72,8 @@
           <img [src]="getImageUrl(p.imagePath)" [alt]="p.cropName" class="card-img" loading="lazy" />
           <div class="card-img-overlay" aria-hidden="true"></div>
 
-          <!-- Emoji badge -->
-          <span class="card-emoji" aria-hidden="true">{{ getCropEmoji(p.cropName) }}</span>
+          <!-- <span class="card-emoji" aria-hidden="true">{{(p.cropName) }}</span> -->
 
-          <!-- Name over image -->
           <div class="card-img-footer">
             <h3 class="card-crop">{{ p.cropName | titlecase }}</h3>
             <p class="card-date">
@@ -93,16 +82,12 @@
             </p>
           </div>
 
-          <!-- QR ready chip -->
           <span *ngIf="p.qrCodePath" class="qr-ready-chip">
             <i class="ph-fill ph-qr-code"></i> QR Ready
           </span>
         </div>
-
-        <!-- Body -->
         <div class="card-body">
 
-          <!-- Quality badge -->
           <div class="quality-row">
             <div class="quality-grade">{{ p.qualityGrade || 'A+' }}</div>
             <div class="quality-meta">
@@ -111,7 +96,6 @@
             </div>
           </div>
 
-          <!-- Meta info -->
           <div class="card-meta">
             <div class="meta-row">
               <span class="meta-key"><i class="ph ph-user"></i> Farmer</span>
@@ -123,37 +107,23 @@
             </div>
           </div>
 
-          <!-- Actions -->
           <div class="card-actions">
-            <button
-              *ngIf="!p.qrCodePath"
-              type="button"
-              class="btn btn--primary"
-              (click)="generateQr(p.id)">
+            <button *ngIf="!p.qrCodePath" type="button" class="btn btn--primary" (click)="generateQr(p.id)">
               <i class="ph-fill ph-qr-code"></i>
               Generate QR
             </button>
 
-            <button
-              *ngIf="p.qrCodePath"
-              type="button"
-              class="btn btn--primary"
-              (click)="downloadQr(p.id)">
+            <button *ngIf="p.qrCodePath" type="button" class="btn btn--primary" (click)="downloadQr(p.id)">
               <i class="ph ph-download-simple"></i>
               Download QR
             </button>
 
-            <a
-              *ngIf="p.qrCodePath"
-              [href]="getQrUrl(p.qrCodePath)"
-              target="_blank"
-              class="btn btn--ghost">
+            <a *ngIf="p.qrCodePath" [href]="getQrUrl(p.qrCodePath)" target="_blank" class="btn btn--ghost">
               <i class="ph ph-arrow-square-out"></i>
               View QR
             </a>
           </div>
 
-          <!-- QR preview -->
           <div *ngIf="p.qrCodePath" class="qr-preview">
             <img [src]="getQrUrl(p.qrCodePath)" [alt]="'QR for ' + p.cropName" class="qr-img" />
             <p class="qr-caption">
@@ -166,30 +136,18 @@
       </article>
     </div>
 
-    <!-- ── Pagination ──────────────────────────────────────────────────── -->
     <nav *ngIf="!loading && totalPages > 1" class="pagination reveal" aria-label="Products pagination">
-      <button
-        type="button"
-        class="page-btn page-btn--prev"
-        (click)="prevPage()"
-        [disabled]="page === 0">
+      <button type="button" class="page-btn page-btn--prev" (click)="prevPage()" [disabled]="page === 0">
         <i class="ph ph-arrow-left"></i>
         Previous
       </button>
 
       <div class="page-dots">
-        <span
-          *ngFor="let n of [].constructor(totalPages); let i = index"
-          class="page-dot"
-          [class.active]="i === page">
+        <span *ngFor="let n of [].constructor(totalPages); let i = index" class="page-dot" [class.active]="i === page">
         </span>
       </div>
 
-      <button
-        type="button"
-        class="page-btn page-btn--next"
-        (click)="nextPage()"
-        [disabled]="page >= totalPages - 1">
+      <button type="button" class="page-btn page-btn--next" (click)="nextPage()" [disabled]="page >= totalPages - 1">
         Next
         <i class="ph ph-arrow-right"></i>
       </button>
