@@ -1,0 +1,232 @@
+// ─── Tokens ───────────────────────────────────────────────────────────────────
+:host {
+  --primary:      #546B41;
+  --primary-deep: #3a4e2c;
+  --primary-mid:  #6a8752;
+  --primary-lite: #eef3e8;
+  --amber:        #A87C3A;
+  --text:         #1e2a18;
+  --text-muted:   #5a6e50;
+  --text-subtle:  #8a9e7a;
+  --border:       rgba(84,107,65,0.13);
+  --sidebar-w:    260px;
+
+  display: block;
+  font-family: 'Work Sans', system-ui, sans-serif;
+}
+
+// ─── Sidebar shell ────────────────────────────────────────────────────────────
+.sidebar {
+  background: linear-gradient(180deg, #ffffff 0%, #f9f8f0 100%);
+  border-right: 1px solid var(--border);
+  box-shadow: 2px 0 16px rgba(44,58,34,0.07);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 82px);
+  left: 0;
+  overflow: hidden;
+  position: fixed;
+  top: 82px;
+  width: var(--sidebar-w);
+  z-index: 50;
+  transition: transform 280ms cubic-bezier(0.22,1,0.36,1);
+
+  // Mobile: hidden off-screen, shown by parent .sidebar-open class
+  @media (max-width: 768px) {
+    transform: translateX(-100%);
+
+    :host-context(.al-root.sidebar-open) & {
+      transform: translateX(0);
+    }
+  }
+}
+
+// Subtle top accent bar
+.sidebar::before {
+  background: linear-gradient(90deg, var(--primary-deep), var(--primary), var(--primary-mid));
+  content: '';
+  display: block;
+  height: 3px;
+  width: 100%;
+}
+
+// ─── Brand ────────────────────────────────────────────────────────────────────
+.sidebar__brand {
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 12px;
+  padding: 20px 22px 18px;
+}
+
+.sidebar__brand-mark {
+  align-items: center;
+  background: linear-gradient(135deg, var(--primary-deep), var(--primary));
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(84,107,65,0.28);
+  color: #fff;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+  height: 40px;
+  justify-content: center;
+  width: 40px;
+}
+
+.sidebar__brand-name {
+  color: var(--text);
+  display: block;
+  font-family: 'Red Hat Display', system-ui, sans-serif;
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+
+  em {
+    color: var(--primary);
+    font-style: normal;
+  }
+}
+
+.sidebar__brand-tag {
+  color: var(--text-subtle);
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  margin-top: 2px;
+  text-transform: uppercase;
+}
+
+// ─── Section label ────────────────────────────────────────────────────────────
+.sidebar__section-label {
+  color: var(--text-subtle);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  margin: 20px 22px 8px;
+  text-transform: uppercase;
+}
+
+// ─── Nav ──────────────────────────────────────────────────────────────────────
+.sidebar__nav {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 2px;
+  overflow-y: auto;
+  padding: 0 10px;
+}
+
+.sidebar__link {
+  align-items: center;
+  border-radius: 12px;
+  color: var(--text-muted);
+  display: flex;
+  font-size: 0.9rem;
+  font-weight: 600;
+  gap: 12px;
+  padding: 11px 14px;
+  position: relative;
+  text-decoration: none;
+  transition: background 160ms, color 160ms, transform 160ms;
+
+  &:hover {
+    background: var(--primary-lite);
+    color: var(--primary);
+    transform: translateX(3px);
+
+    .sidebar__link-icon { background: var(--primary); color: #fff; }
+  }
+
+  &.active {
+    background: var(--primary-lite);
+    color: var(--primary-deep);
+    font-weight: 800;
+
+    .sidebar__link-icon {
+      background: var(--primary);
+      box-shadow: 0 2px 8px rgba(84,107,65,0.30);
+      color: #fff;
+    }
+
+    // Active indicator bar
+    &::before {
+      background: var(--primary);
+      border-radius: 0 2px 2px 0;
+      bottom: 10px;
+      content: '';
+      left: -10px;
+      position: absolute;
+      top: 10px;
+      width: 3px;
+    }
+  }
+}
+
+.sidebar__link-icon {
+  align-items: center;
+  background: rgba(84,107,65,0.08);
+  border-radius: 9px;
+  color: var(--primary);
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 1rem;
+  height: 34px;
+  justify-content: center;
+  transition: background 160ms, color 160ms, box-shadow 160ms;
+  width: 34px;
+}
+
+.sidebar__badge {
+  align-items: center;
+  animation: badge-pulse 2.4s ease-in-out infinite;
+  background: rgba(168,124,58,0.15);
+  border: 1px solid rgba(168,124,58,0.30);
+  border-radius: 999px;
+  color: #7a5520;
+  display: inline-flex;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  margin-left: auto;
+  padding: 2px 8px;
+  text-transform: uppercase;
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.55; }
+}
+
+// ─── Footer ───────────────────────────────────────────────────────────────────
+.sidebar__footer {
+  align-items: center;
+  background: linear-gradient(135deg, var(--primary-deep) 0%, var(--primary) 100%);
+  border-radius: 14px;
+  display: flex;
+  gap: 12px;
+  margin: 0 10px 16px;
+  padding: 14px 16px;
+}
+
+.sidebar__footer-icon {
+  color: rgba(255,255,255,0.75);
+  flex-shrink: 0;
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.sidebar__footer-title {
+  color: #fff;
+  font-size: 0.84rem;
+  font-weight: 700;
+  margin: 0 0 2px;
+}
+
+.sidebar__footer-sub {
+  color: rgba(255,255,255,0.55);
+  font-size: 0.72rem;
+  font-weight: 500;
+  margin: 0;
+}

@@ -1,37 +1,221 @@
-<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8 mt-8">
-  <div class="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-indigo-600 to-purple-700 p-1 shadow-2xl transform hover:scale-105 transition-all duration-500">
-    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition"></div>
-    <div class="relative bg-slate-900/90 backdrop-blur-xl rounded-3xl p-10">
-      <h3 class="text-indigo-300 text-xl font-semibold">Total Users</h3>
-      <p class="text-7xl font-black mt-6 text-white">{{ data?.totalUsers || 0 }}</p>
-      <p class="text-indigo-400 mt-3 text-lg">Active accounts</p>
+<div class="min-h-screen" style="background:#FCF9EA; color:#1e2a18; font-family:'Work Sans',system-ui,sans-serif">
+
+  <!-- ─── Page heading ──────────────────────────────────────────────────── -->
+  <div class="mb-8">
+    <div class="flex items-center gap-3 mb-2">
+      <span class="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase px-3 py-1 rounded-full"
+            style="background:#eef3e8; color:#546B41; border:1px solid rgba(84,107,65,0.18)">
+        <i class="ph-fill ph-squares-four"></i>
+        Admin Overview
+      </span>
+    </div>
+    <h1 class="text-4xl font-black tracking-tight" style="font-family:'Red Hat Display',system-ui,sans-serif; letter-spacing:-0.04em">
+      Dashboard
+    </h1>
+    <p class="mt-1 text-sm font-medium" style="color:#5a6e50">
+      Live snapshot of FarmChainX platform activity.
+    </p>
+  </div>
+
+  <!-- ─── Loading skeleton ───────────────────────────────────────────────── -->
+  <div *ngIf="loading" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+    <div *ngFor="let _ of [1,2,3,4]"
+         class="rounded-2xl h-36 animate-pulse"
+         style="background:rgba(84,107,65,0.07)">
     </div>
   </div>
 
-  <div class="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-600 to-teal-700 p-1 shadow-2xl transform hover:scale-105 transition-all duration-500">
-    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition"></div>
-    <div class="relative bg-slate-900/90 backdrop-blur-xl rounded-3xl p-10">
-      <h3 class="text-emerald-300 text-xl font-semibold">Total Products</h3>
-      <p class="text-7xl font-black mt-6 text-white">{{ data?.totalProducts || 0 }}</p>
-      <p class="text-emerald-400 mt-3 text-lg">In supply chain</p>
+  <!-- ─── Stat cards ─────────────────────────────────────────────────────── -->
+  <div *ngIf="!loading" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5 mb-8">
+
+    <div *ngFor="let s of stats"
+         class="relative overflow-hidden rounded-2xl bg-white transition-all duration-300 cursor-default group"
+         style="border:1.5px solid rgba(84,107,65,0.12); box-shadow:0 2px 12px rgba(44,58,34,0.07)"
+         [style.boxShadow]="'0 2px 12px ' + s.shadow">
+
+      <!-- Hover lift -->
+      <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"
+           style="background:rgba(255,255,255,0.5)"></div>
+
+      <!-- Top accent -->
+      <div class="h-1 w-full rounded-t-2xl" [style.background]="s.color"></div>
+
+      <div class="relative p-6">
+        <!-- Icon -->
+        <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-4 transition-transform duration-300 group-hover:scale-110"
+             [style.background]="s.bg"
+             [style.color]="s.color">
+          <i class="text-xl" [class]="s.icon"></i>
+        </div>
+
+        <!-- Value -->
+        <p class="text-5xl font-black leading-none mb-1"
+           style="font-family:'Red Hat Display',system-ui,sans-serif; letter-spacing:-0.04em"
+           [style.color]="s.color">
+          {{ getValue(s.key) | number }}
+        </p>
+
+        <!-- Labels -->
+        <p class="text-sm font-800 font-bold mt-2" style="color:#1e2a18">{{ s.label }}</p>
+        <p class="text-xs font-medium" style="color:#8a9e7a">{{ s.sub }}</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── Bottom grid ────────────────────────────────────────────────────── -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
+
+    <!-- Recent activity -->
+    <div class="lg:col-span-2 rounded-2xl bg-white"
+         style="border:1.5px solid rgba(84,107,65,0.12); box-shadow:0 2px 12px rgba(44,58,34,0.07)">
+
+      <div class="px-6 pt-6 pb-4 flex items-center justify-between"
+           style="border-bottom:1px solid rgba(84,107,65,0.09)">
+        <div>
+          <h2 class="text-base font-extrabold" style="font-family:'Red Hat Display',system-ui,sans-serif; color:#1e2a18">
+            Recent Activity
+          </h2>
+          <p class="text-xs font-medium mt-0.5" style="color:#8a9e7a">Live feed of platform events</p>
+        </div>
+        <span class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1 rounded-full"
+              style="background:#eef3e8; color:#546B41">
+          <span class="w-1.5 h-1.5 rounded-full inline-block animate-pulse" style="background:#546B41"></span>
+          Live
+        </span>
+      </div>
+
+      <ul class="divide-y" style="border-color:rgba(84,107,65,0.07)">
+        <li *ngFor="let item of activity"
+            class="flex items-center gap-4 px-6 py-4 transition-colors duration-150 hover:bg-stone-50 group">
+
+          <div class="flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center"
+               [style.background]="item.color + '18'"
+               [style.color]="item.color">
+            <i class="text-base" [class]="item.icon"></i>
+          </div>
+
+          <div class="flex-1 min-w-0">
+            <p class="text-sm font-600 font-semibold truncate" style="color:#1e2a18">{{ item.text }}</p>
+          </div>
+
+          <span class="flex-shrink-0 text-xs font-medium" style="color:#8a9e7a">{{ item.time }}</span>
+        </li>
+      </ul>
+
+    </div>
+
+    <!-- System health -->
+    <div class="flex flex-col gap-5">
+
+      <!-- Health card -->
+      <div class="rounded-2xl bg-white flex-1"
+           style="border:1.5px solid rgba(84,107,65,0.12); box-shadow:0 2px 12px rgba(44,58,34,0.07)">
+
+        <div class="px-6 pt-6 pb-4" style="border-bottom:1px solid rgba(84,107,65,0.09)">
+          <h2 class="text-base font-extrabold" style="font-family:'Red Hat Display',system-ui,sans-serif; color:#1e2a18">
+            System Health
+          </h2>
+          <p class="text-xs font-medium mt-0.5" style="color:#8a9e7a">All services operational</p>
+        </div>
+
+        <div class="px-6 py-4 flex flex-col gap-3">
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-sm font-semibold" style="color:#5a6e50">
+              <i class="ph-fill ph-link-simple text-base" style="color:#546B41"></i>
+              Blockchain Sync
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background:#eef3e8; color:#3a4e2c">
+              Live
+            </span>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-sm font-semibold" style="color:#5a6e50">
+              <i class="ph-fill ph-shield-check text-base" style="color:#546B41"></i>
+              Data Integrity
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background:#eef3e8; color:#3a4e2c">
+              100%
+            </span>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-sm font-semibold" style="color:#5a6e50">
+              <i class="ph-fill ph-lightning text-base" style="color:#A87C3A"></i>
+              Sync Latency
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background:#fdf3e0; color:#7a5520">
+              &lt; 1s
+            </span>
+          </div>
+
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2 text-sm font-semibold" style="color:#5a6e50">
+              <i class="ph-fill ph-warning text-base" style="color:#546B41"></i>
+              Counterfeit Risk
+            </div>
+            <span class="text-xs font-bold px-2.5 py-1 rounded-full" style="background:#eef3e8; color:#3a4e2c">
+              0%
+            </span>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="mt-2">
+            <div class="flex justify-between text-xs font-semibold mb-1.5" style="color:#8a9e7a">
+              <span>Platform uptime</span>
+              <span style="color:#546B41">99.9%</span>
+            </div>
+            <div class="w-full h-2 rounded-full" style="background:rgba(84,107,65,0.12)">
+              <div class="h-2 rounded-full transition-all duration-700" style="width:99.9%; background:linear-gradient(90deg,#3a4e2c,#546B41,#6a8752)"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Quick links -->
+      <div class="rounded-2xl bg-white"
+           style="border:1.5px solid rgba(84,107,65,0.12); box-shadow:0 2px 12px rgba(44,58,34,0.07)">
+
+        <div class="px-6 pt-5 pb-4" style="border-bottom:1px solid rgba(84,107,65,0.09)">
+          <h2 class="text-base font-extrabold" style="font-family:'Red Hat Display',system-ui,sans-serif; color:#1e2a18">
+            Quick Links
+          </h2>
+        </div>
+
+        <div class="px-6 py-4 flex flex-col gap-2">
+          <a routerLink="/admin/users"
+             class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150 group"
+             style="text-decoration:none"
+             onmouseover="this.style.background='#eef3e8'"
+             onmouseout="this.style.background='transparent'">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style="background:#eef3e8; color:#546B41">
+              <i class="ph-fill ph-users-three text-sm"></i>
+            </span>
+            <span class="text-sm font-semibold" style="color:#1e2a18">Manage Users</span>
+            <i class="ph ph-arrow-right ml-auto text-sm" style="color:#8a9e7a"></i>
+          </a>
+
+          <a routerLink="/admin/promotion-requests"
+             class="flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-150"
+             style="text-decoration:none"
+             onmouseover="this.style.background='#fdf3e0'"
+             onmouseout="this.style.background='transparent'">
+            <span class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0"
+                  style="background:#fdf3e0; color:#A87C3A">
+              <i class="ph-fill ph-bell-ringing text-sm"></i>
+            </span>
+            <span class="text-sm font-semibold" style="color:#1e2a18">Admin Requests</span>
+            <i class="ph ph-arrow-right ml-auto text-sm" style="color:#8a9e7a"></i>
+          </a>
+        </div>
+
+      </div>
+
     </div>
   </div>
 
-  <div class="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-blue-600 to-cyan-700 p-1 shadow-2xl transform hover:scale-105 transition-all duration-500">
-    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition"></div>
-    <div class="relative bg-slate-900/90 backdrop-blur-xl rounded-3xl p-10">
-      <h3 class="text-blue-300 text-xl font-semibold">Supply Logs</h3>
-      <p class="text-7xl font-black mt-6 text-white">{{ data?.totalLogs || 0 }}</p>
-      <p class="text-blue-400 mt-3 text-lg">Blockchain entries</p>
-    </div>
-  </div>
-
-  <div class="group relative overflow-hidden rounded-3xl bg-gradient-to-br from-purple-600 to-pink-700 p-1 shadow-2xl transform hover:scale-105 transition-all duration-500">
-    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-20 transition"></div>
-    <div class="relative bg-slate-900/90 backdrop-blur-xl rounded-3xl p-10">
-      <h3 class="text-purple-300 text-xl font-semibold">Feedbacks</h3>
-      <p class="text-7xl font-black mt-6 text-white">{{ data?.totalFeedbacks || 0 }}</p>
-      <p class="text-purple-400 mt-3 text-lg">Consumer reviews</p>
-    </div>
-  </div>
 </div>

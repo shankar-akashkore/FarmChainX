@@ -19,5 +19,7 @@ export class App {
   }
 
   get showNavbar(): boolean { return !this.hiddenRoutes; }
-  get showFooter(): boolean { return !this.hiddenRoutes; }
+  get showFooter(): boolean {
+    return !this.hiddenRoutes && !this.router.url.startsWith('/admin');
+  }
 }

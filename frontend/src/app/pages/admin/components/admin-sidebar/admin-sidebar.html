@@ -1,26 +1,56 @@
-<aside class="w-80 backdrop-blur-2xl bg-white/5 border-r border-white/10 flex flex-col">
-  <div class="p-10 border-b border-white/10">
-    <h2 class="text-4xl font-black bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-emerald-400">
-      FarmChainX
-    </h2>
-    <p class="text-gray-400 text-sm mt-2">Admin Dashboard</p>
-  </div>
+<aside class="sidebar">
 
-  <nav class="flex-1 p-6 space-y-3">
-    <a routerLink="/admin/overview" routerLinkActive="bg-white/10 border-l-4 border-emerald-400"
-       class="flex items-center gap-4 px-6 py-5 rounded-2xl hover:bg-white/10 transition text-lg font-medium">
+  <!-- Section label -->
+  <p class="sidebar__section-label">Management</p>
+
+  <!-- Navigation -->
+  <nav class="sidebar__nav" aria-label="Admin navigation">
+
+    <a
+      routerLink="/admin/overview"
+      routerLinkActive="active"
+      class="sidebar__link"
+      (click)="closeRequest.emit()">
+      <span class="sidebar__link-icon">
+        <i class="ph-fill ph-squares-four"></i>
+      </span>
       <span>Overview</span>
     </a>
 
-    <a routerLink="/admin/users" routerLinkActive="bg-white/10 border-l-4 border-emerald-400"
-       class="flex items-center gap-4 px-6 py-5 rounded-2xl hover:bg-white/10 transition text-lg font-medium">
+    <a
+      routerLink="/admin/users"
+      routerLinkActive="active"
+      class="sidebar__link"
+      (click)="closeRequest.emit()">
+      <span class="sidebar__link-icon">
+        <i class="ph-fill ph-users-three"></i>
+      </span>
       <span>All Users</span>
     </a>
 
-    <a routerLink="/admin/promotion-requests" routerLinkActive="bg-white/10 border-l-4 border-emerald-400"
-       class="flex items-center justify-between px-6 py-5 rounded-2xl hover:bg-white/10 transition text-lg font-medium">
+    <a
+      routerLink="/admin/promotion-requests"
+      routerLinkActive="active"
+      class="sidebar__link"
+      (click)="closeRequest.emit()">
+      <span class="sidebar__link-icon">
+        <i class="ph-fill ph-bell-ringing"></i>
+      </span>
       <span>Admin Requests</span>
-      <span class="bg-red-500/80 text-xs px-3 py-1 rounded-full animate-pulse">LIVE</span>
+      <span class="sidebar__badge">Live</span>
     </a>
+
   </nav>
+
+  <!-- Footer -->
+  <div class="sidebar__footer">
+    <div class="sidebar__footer-icon">
+      <i class="ph-fill ph-shield-check"></i>
+    </div>
+    <div>
+      <p class="sidebar__footer-title">Secure Console</p>
+      <p class="sidebar__footer-sub">FarmChainX v1.0</p>
+    </div>
+  </div>
+
 </aside>

@@ -1,34 +1,54 @@
-<div class="flex h-screen bg-gradient-to-br from-slate-950 via-purple-950 to-slate-950 text-white overflow-hidden">
-  
-  <div class="fixed inset-0 -z-10 overflow-hidden">
-    <div class="absolute top-20 -left-40 w-96 h-96 bg-purple-800 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
-    <div class="absolute bottom-20 -right-40 w-96 h-96 bg-emerald-700 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
-  </div>
+<div class="al-root" [class.sidebar-open]="sidebarOpen">
 
-  <app-admin-sidebar />
+  <!-- ─── Sidebar ───────────────────────────────────────────────────────── -->
+  <app-admin-sidebar (closeRequest)="sidebarOpen = false" />
 
-  <div class="flex-1 flex flex-col">
-    <header class="relative backdrop-blur-2xl bg-white/10 border-b border-white/10">
-      <div class="px-10 py-7 flex items-center justify-between">
-        <div>
-          <h1 class="text-5xl font-black tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-emerald-400">
-            Admin Panel
-          </h1>
-          <p class="text-gray-300 mt-2 text-lg">Welcome back, <span class="font-bold text-emerald-400">{{ currentAdminName() }}</span></p>
+  <!-- ─── Backdrop (mobile) ─────────────────────────────────────────────── -->
+  <div class="al-backdrop" (click)="sidebarOpen = false" aria-hidden="true"></div>
+
+  <!-- ─── Main column ───────────────────────────────────────────────────── -->
+  <div class="al-main">
+
+    <!-- Top bar -->
+    <header class="al-topbar">
+
+      <!-- Hamburger (mobile) -->
+      <button
+        type="button"
+        class="al-hamburger"
+        (click)="sidebarOpen = !sidebarOpen"
+        aria-label="Toggle sidebar">
+        <i class="ph ph-list"></i>
+      </button>
+
+      <div class="al-topbar__left">
+        <div class="al-topbar__icon" aria-hidden="true">
+          <i class="ph-fill ph-shield-check"></i>
         </div>
-        <div class="flex items-center gap-3">
-          <div class="w-3 h-3 bg-emerald-400 rounded-full animate-ping"></div>
-          <div class="w-3 h-3 bg-emerald-400 rounded-full absolute"></div>
-          <span class="text-sm">All systems operational</span>
+        <div>
+          <h1 class="al-topbar__title">Admin Panel</h1>
+          <p class="al-topbar__sub">
+            Welcome back, <strong>{{ currentAdminName() }}</strong>
+          </p>
         </div>
       </div>
-      <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-purple-500 to-transparent"></div>
+
+      <div class="al-topbar__right">
+        <span class="al-status">
+          <span class="al-status__dot"></span>
+          All systems operational
+        </span>
+      </div>
+
     </header>
 
-    <main class="flex-1 overflow-y-auto p-8">
-      <div class="max-w-7xl mx-auto">
+    <!-- Page content -->
+    <main class="al-content">
+      <div class="al-content__inner">
         <router-outlet />
       </div>
     </main>
+
   </div>
+
 </div>

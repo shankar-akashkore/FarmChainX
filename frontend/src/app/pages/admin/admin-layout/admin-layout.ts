@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AdminSidebar } from '../components/admin-sidebar/admin-sidebar';
 import { AuthService } from '../../../services/auth.service';
@@ -11,12 +11,11 @@ import { AuthService } from '../../../services/auth.service';
   styleUrl: './admin-layout.scss'
 })
 export class AdminLayout {
-
-  // ADD THIS CONSTRUCTOR + METHOD
-  constructor(private authService: AuthService) {}
+  private authService = inject(AuthService);
+  sidebarOpen = false;
 
   currentAdminName(): string {
     const name = this.authService.getName();
-    return name ? name.split(' ')[0] : 'Admin';   
-}
+    return name ? name.split(' ')[0].split('@')[0] : 'Admin';
+  }
 }
