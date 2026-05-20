@@ -1,38 +1,255 @@
-<div class="backdrop-blur-xl bg-white/5 border border-white/10 rounded-3xl shadow-2xl overflow-hidden">
-  <div class="px-10 py-8 bg-gradient-to-r from-indigo-600 to-purple-700">
-    <h2 class="text-4xl font-black text-white">All Users</h2>
-    <p class="text-indigo-200 mt-2 text-lg">Manage roles and permissions</p>
+<div class="min-h-full" style="background:#FCF9EA; font-family:'Work Sans',system-ui,sans-serif;">
+
+  <!-- ── Page Header ── -->
+  <div class="mb-8">
+    <!-- Eyebrow -->
+    <div class="flex items-center gap-2 mb-3">
+      <span class="inline-block w-5 h-0.5 rounded" style="background:#546B41;"></span>
+      <span class="text-xs font-bold tracking-widest uppercase" style="color:#546B41;">Admin Console</span>
+    </div>
+    <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
+      <div>
+        <h1 class="text-4xl font-black tracking-tight leading-none" style="font-family:'Red Hat Display',sans-serif; color:#1e2a18;">
+          All Users
+        </h1>
+        <p class="mt-1.5 text-sm font-medium" style="color:#5a6e50;">
+          View, search, and manage platform members by role.
+        </p>
+      </div>
+      <!-- Reload -->
+      <button
+        (click)="loadUsers()"
+        class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-bold border transition-all duration-150 hover:-translate-y-0.5 active:translate-y-0"
+        style="background:#eef3e8; color:#546B41; border-color:rgba(84,107,65,0.22);"
+        onmouseover="this.style.background='rgba(84,107,65,0.14)'"
+        onmouseout="this.style.background='#eef3e8'">
+        <i class="ph ph-arrows-clockwise text-base"></i>
+        Refresh
+      </button>
+    </div>
   </div>
 
-  <div class="overflow-x-auto">
-    <table class="w-full">
-      <thead class="bg-white/5">
-        <tr>
-          <th class="px-10 py-6 text-left text-sm font-bold text-gray-300">Name</th>
-          <th class="px-10 py-6 text-left text-sm font-bold text-gray-300">Email</th>
-          <th class="px-10 py-6 text-left text-sm font-bold text-gray-300">Role</th>
-          <th class="px-10 py-6 text-left text-sm font-bold text-gray-300">Action</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-white/10">
-        <tr *ngFor="let user of users" class="hover:bg-white/5 transition">
-          <td class="px-10 py-6 font-medium text-white">{{ user.name }}</td>
-          <td class="px-10 py-6 text-indigo-400">{{ user.email }}</td>
-          <td class="px-10 py-6">
-            <span class="px-4 py-2 rounded-full text-xs font-bold"
-                  [ngClass]="roleClass(user.primaryRole)">
-              {{ user.primaryRole }}
-            </span>
-          </td>
-          <td class="px-10 py-6">
-            <button *ngIf="!user.isAdmin" (click)="promote(user.id)"
-                    class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl shadow-lg transform hover:scale-110 transition">
-              Promote to Admin
-            </button>
-            <span *ngIf="user.isAdmin" class="text-emerald-400 font-bold text-lg">Admin</span>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- ── Stat Strip ── -->
+  <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-7">
+    <!-- Total -->
+    <div class="rounded-2xl p-4 border" style="background:#fff; border-color:rgba(84,107,65,0.14); box-shadow:0 2px 10px rgba(30,42,24,0.06);">
+      <div class="flex items-center gap-2.5 mb-2">
+        <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style="background:#eef3e8; color:#546B41;">
+          <i class="ph-fill ph-users"></i>
+        </span>
+        <span class="text-xs font-700 uppercase tracking-wider" style="color:#8a9e7a; font-weight:700;">Total</span>
+      </div>
+      <p class="text-3xl font-black leading-none" style="font-family:'Red Hat Display',sans-serif; color:#1e2a18;">{{ totalCount }}</p>
+      <p class="text-xs mt-1 font-medium" style="color:#8a9e7a;">Registered accounts</p>
+    </div>
+    <!-- Admins -->
+    <div class="rounded-2xl p-4 border" style="background:#fff; border-color:rgba(84,107,65,0.14); box-shadow:0 2px 10px rgba(30,42,24,0.06);">
+      <div class="flex items-center gap-2.5 mb-2">
+        <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style="background:#eef3e8; color:#2f3e24;">
+          <i class="ph-fill ph-shield-check"></i>
+        </span>
+        <span class="text-xs uppercase tracking-wider" style="color:#8a9e7a; font-weight:700;">Admins</span>
+      </div>
+      <p class="text-3xl font-black leading-none" style="font-family:'Red Hat Display',sans-serif; color:#1e2a18;">{{ adminCount }}</p>
+      <p class="text-xs mt-1 font-medium" style="color:#8a9e7a;">With admin access</p>
+    </div>
+    <!-- Farmers -->
+    <div class="rounded-2xl p-4 border" style="background:#fff; border-color:rgba(84,107,65,0.14); box-shadow:0 2px 10px rgba(30,42,24,0.06);">
+      <div class="flex items-center gap-2.5 mb-2">
+        <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style="background:#eef3e8; color:#546B41;">
+          <i class="ph-fill ph-plant"></i>
+        </span>
+        <span class="text-xs uppercase tracking-wider" style="color:#8a9e7a; font-weight:700;">Farmers</span>
+      </div>
+      <p class="text-3xl font-black leading-none" style="font-family:'Red Hat Display',sans-serif; color:#1e2a18;">{{ farmerCount }}</p>
+      <p class="text-xs mt-1 font-medium" style="color:#8a9e7a;">Harvest managers</p>
+    </div>
+    <!-- Consumers -->
+    <div class="rounded-2xl p-4 border" style="background:#fff; border-color:rgba(84,107,65,0.14); box-shadow:0 2px 10px rgba(30,42,24,0.06);">
+      <div class="flex items-center gap-2.5 mb-2">
+        <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm" style="background:#eef3e8; color:#A87C3A;">
+          <i class="ph-fill ph-user-circle"></i>
+        </span>
+        <span class="text-xs uppercase tracking-wider" style="color:#8a9e7a; font-weight:700;">Consumers</span>
+      </div>
+      <p class="text-3xl font-black leading-none" style="font-family:'Red Hat Display',sans-serif; color:#1e2a18;">{{ consumerCount }}</p>
+      <p class="text-xs mt-1 font-medium" style="color:#8a9e7a;">End-chain verifiers</p>
+    </div>
+  </div>
+
+  <!-- ── Search + Filter Bar ── -->
+  <div class="flex flex-col sm:flex-row gap-3 mb-5">
+    <!-- Search -->
+    <div class="relative flex-1">
+      <i class="ph ph-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-base pointer-events-none" style="color:#8a9e7a;"></i>
+      <input
+        type="text"
+        placeholder="Search by name or email…"
+        [(ngModel)]="searchQuery"
+        class="w-full pl-10 pr-4 h-11 rounded-xl border text-sm font-medium outline-none transition-all"
+        style="background:#fff; border-color:rgba(84,107,65,0.18); color:#1e2a18; box-shadow:0 2px 8px rgba(30,42,24,0.05);"
+        onfocus="this.style.borderColor='#546B41'; this.style.boxShadow='0 0 0 3px rgba(84,107,65,0.12)';"
+        onblur="this.style.borderColor='rgba(84,107,65,0.18)'; this.style.boxShadow='0 2px 8px rgba(30,42,24,0.05)';"
+      />
+    </div>
+    <!-- Role filter pills -->
+    <div class="flex items-center gap-1.5 flex-wrap">
+      <button
+        *ngFor="let f of roleFilters"
+        (click)="selectedRole = f.value"
+        class="px-3.5 py-2 rounded-xl text-xs font-bold border transition-all duration-150"
+        [style]="selectedRole === f.value
+          ? 'background:#546B41; color:#fff; border-color:#546B41; box-shadow:0 3px 10px rgba(84,107,65,0.28);'
+          : 'background:#fff; color:#5a6e50; border-color:rgba(84,107,65,0.18);'"
+      >
+        {{ f.label }}
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Table Card ── -->
+  <div class="rounded-2xl border overflow-hidden" style="background:#fff; border-color:rgba(84,107,65,0.14); box-shadow:0 4px 24px rgba(30,42,24,0.08);">
+
+    <!-- Loading skeleton -->
+    <div *ngIf="loading" class="p-8 space-y-4">
+      <div *ngFor="let i of [1,2,3,4,5]" class="flex items-center gap-4 animate-pulse">
+        <div class="w-10 h-10 rounded-full" style="background:#eef3e8;"></div>
+        <div class="flex-1 space-y-2">
+          <div class="h-3.5 rounded-lg w-1/3" style="background:#eef3e8;"></div>
+          <div class="h-3 rounded-lg w-1/2" style="background:#f4f1e4;"></div>
+        </div>
+        <div class="h-6 w-20 rounded-full" style="background:#eef3e8;"></div>
+        <div class="h-8 w-28 rounded-xl" style="background:#f4f1e4;"></div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!loading && filteredUsers.length === 0" class="flex flex-col items-center justify-center py-20 px-6 text-center">
+      <div class="w-16 h-16 rounded-2xl flex items-center justify-center mb-4 text-2xl" style="background:#eef3e8; color:#546B41;">
+        <i class="ph-fill ph-users"></i>
+      </div>
+      <p class="text-base font-bold" style="color:#1e2a18;">No users found</p>
+      <p class="text-sm mt-1" style="color:#8a9e7a;">Try adjusting your search or filter.</p>
+    </div>
+
+    <!-- Table -->
+    <div *ngIf="!loading && filteredUsers.length > 0" class="overflow-x-auto">
+      <table class="w-full">
+        <!-- Header -->
+        <thead>
+          <tr style="border-bottom:1px solid rgba(84,107,65,0.12); background:#fafaf6;">
+            <th class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wider" style="color:#8a9e7a;">#</th>
+            <th class="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider" style="color:#8a9e7a;">User</th>
+            <th class="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider hidden md:table-cell" style="color:#8a9e7a;">Email</th>
+            <th class="px-4 py-4 text-left text-xs font-bold uppercase tracking-wider" style="color:#8a9e7a;">Role</th>
+            <th class="px-6 py-4 text-right text-xs font-bold uppercase tracking-wider" style="color:#8a9e7a;">Action</th>
+          </tr>
+        </thead>
+
+        <!-- Body -->
+        <tbody>
+          <tr
+            *ngFor="let user of filteredUsers; let i = index"
+            class="transition-colors duration-100"
+            style="border-bottom:1px solid rgba(84,107,65,0.07);"
+            onmouseover="this.style.background='#fafaf6'"
+            onmouseout="this.style.background='transparent'"
+          >
+            <!-- Index -->
+            <td class="px-6 py-4">
+              <span class="text-xs font-bold tabular-nums" style="color:#8a9e7a;">{{ i + 1 }}</span>
+            </td>
+
+            <!-- User -->
+            <td class="px-4 py-4">
+              <div class="flex items-center gap-3">
+                <!-- Avatar -->
+                <div
+                  class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-black text-white flex-shrink-0"
+                  [style]="'background:' + getAvatarGradient(user.primaryRole)"
+                >
+                  {{ getInitials(user.name) }}
+                </div>
+                <div class="min-w-0">
+                  <p class="text-sm font-bold truncate" style="color:#1e2a18;">{{ user.name }}</p>
+                  <!-- email shown here on mobile -->
+                  <p class="text-xs font-medium truncate md:hidden" style="color:#8a9e7a;">{{ user.email }}</p>
+                </div>
+              </div>
+            </td>
+
+            <!-- Email (desktop) -->
+            <td class="px-4 py-4 hidden md:table-cell">
+              <span class="text-sm font-medium" style="color:#5a6e50;">{{ user.email }}</span>
+            </td>
+
+            <!-- Role badge -->
+            <td class="px-4 py-4">
+              <span
+                class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold"
+                [ngClass]="{
+                  'bg-green-100 text-green-800':   user.primaryRole === 'FARMER',
+                  'bg-blue-100 text-blue-800':     user.primaryRole === 'DISTRIBUTOR',
+                  'bg-amber-100 text-amber-800':   user.primaryRole === 'RETAILER',
+                  'bg-purple-100 text-purple-800': user.primaryRole === 'CONSUMER',
+                  'bg-gray-100 text-gray-700':     user.primaryRole === 'USER',
+                  'text-white':                    user.primaryRole === 'ADMIN'
+                }"
+                [style]="user.primaryRole === 'ADMIN' ? 'background:#546B41;' : ''"
+              >
+                <i class="ph-fill text-xs"
+                  [ngClass]="{
+                    'ph-plant':               user.primaryRole === 'FARMER',
+                    'ph-truck':               user.primaryRole === 'DISTRIBUTOR',
+                    'ph-storefront':          user.primaryRole === 'RETAILER',
+                    'ph-user-circle':         user.primaryRole === 'CONSUMER',
+                    'ph-shield-check':        user.primaryRole === 'ADMIN',
+                    'ph-user':                user.primaryRole === 'USER'
+                  }"
+                ></i>
+                {{ user.primaryRole }}
+              </span>
+            </td>
+
+            <!-- Action -->
+            <td class="px-6 py-4 text-right">
+              <!-- Already admin -->
+              <div *ngIf="user.isAdmin" class="inline-flex items-center gap-1.5 text-xs font-bold" style="color:#546B41;">
+                <i class="ph-fill ph-shield-check"></i>
+                Admin
+              </div>
+
+              <!-- Promote button -->
+              <button
+                *ngIf="!user.isAdmin"
+                (click)="promote(user.id)"
+                [disabled]="promotingId === user.id"
+                class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold border transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5 active:translate-y-0"
+                style="background:#eef3e8; color:#2f3e24; border-color:rgba(84,107,65,0.22); box-shadow:0 2px 8px rgba(84,107,65,0.12);"
+                onmouseover="this.style.background='#546B41'; this.style.color='#fff'; this.style.borderColor='#546B41'; this.style.boxShadow='0 4px 14px rgba(84,107,65,0.28)';"
+                onmouseout="this.style.background='#eef3e8'; this.style.color='#2f3e24'; this.style.borderColor='rgba(84,107,65,0.22)'; this.style.boxShadow='0 2px 8px rgba(84,107,65,0.12)';"
+              >
+                <i class="ph-fill ph-arrow-circle-up text-sm" *ngIf="promotingId !== user.id"></i>
+                <span class="inline-block w-3.5 h-3.5 rounded-full border-2 border-current border-t-transparent animate-spin" *ngIf="promotingId === user.id"></span>
+                {{ promotingId === user.id ? 'Promoting…' : 'Promote to Admin' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Table footer -->
+      <div class="px-6 py-3.5 flex items-center justify-between border-t" style="border-color:rgba(84,107,65,0.09); background:#fafaf6;">
+        <p class="text-xs font-medium" style="color:#8a9e7a;">
+          Showing <span class="font-bold" style="color:#1e2a18;">{{ filteredUsers.length }}</span>
+          of <span class="font-bold" style="color:#1e2a18;">{{ totalCount }}</span> users
+        </p>
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full animate-pulse" style="background:#546B41;"></span>
+          <span class="text-xs font-medium" style="color:#8a9e7a;">Live data</span>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
