@@ -1,6 +1,5 @@
 <div class="vp-root">
 
-  <!-- ─── Loading ────────────────────────────────────────────────────────── -->
   <div *ngIf="loading" class="vp-loading" role="status">
     <div class="vp-loading__ring">
       <span class="vp-loading__arc"></span>
@@ -10,7 +9,6 @@
     <p class="vp-loading__sub">Fetching immutable record</p>
   </div>
 
-  <!-- ─── Error ──────────────────────────────────────────────────────────── -->
   <div *ngIf="error && !loading" class="vp-error">
     <div class="vp-error__icon-wrap">
       <i class="ph-fill ph-warning-circle vp-error__icon"></i>
@@ -20,10 +18,8 @@
     <p class="vp-error__sub">This product is not registered on FarmChainX.</p>
   </div>
 
-  <!-- ─── Product ────────────────────────────────────────────────────────── -->
   <div *ngIf="product && !loading" class="vp-product">
 
-    <!-- Hero -->
     <section class="vp-hero">
       <div class="vp-hero__img-wrap">
         <img [src]="getImageUrl(product.imageUrl)" [alt]="product.cropName" class="vp-hero__img" />
@@ -46,7 +42,6 @@
       </div>
     </section>
 
-    <!-- Verified ribbon -->
     <div class="vp-ribbon" role="note">
       <span class="vp-ribbon__item"><i class="ph-fill ph-shield-check"></i> 100% Blockchain Verified</span>
       <span class="vp-ribbon__dot" aria-hidden="true"></span>
@@ -59,11 +54,8 @@
 
     <!-- Body -->
     <div class="vp-body">
-
-      <!-- ── Info cards ─────────────────────────────────────────────────── -->
       <section class="info-grid reveal" aria-label="Product details">
 
-        <!-- Quality -->
         <div class="quality-card">
           <div class="quality-card__grade">{{ product.qualityGrade || 'A+' }}</div>
           <div class="quality-card__meta">
@@ -75,7 +67,6 @@
           </div>
         </div>
 
-        <!-- Farm origin -->
         <div class="info-card">
           <div class="info-card__icon"><i class="ph-fill ph-map-pin"></i></div>
           <div>
@@ -84,7 +75,6 @@
           </div>
         </div>
 
-        <!-- Blockchain ID -->
         <div class="info-card">
           <div class="info-card__icon"><i class="ph-fill ph-fingerprint"></i></div>
           <div>
@@ -95,8 +85,7 @@
         </div>
 
       </section>
-
-      <!-- ── Supply chain timeline ──────────────────────────────────────── -->
+      
       <section class="vp-section reveal" aria-label="Supply chain journey">
         <div class="vp-section__head">
           <div class="vp-section__icon"><i class="ph-fill ph-path"></i></div>
@@ -138,7 +127,6 @@
         </ol>
       </section>
 
-      <!-- ── Consumer reviews ───────────────────────────────────────────── -->
       <section class="vp-section reveal" aria-label="Consumer reviews">
         <div class="vp-section__head">
           <div class="vp-section__icon"><i class="ph-fill ph-star"></i></div>
@@ -148,13 +136,10 @@
           </div>
         </div>
 
-        <!-- Empty -->
         <p *ngIf="feedbacks?.length === 0" class="feedback-empty">
           <i class="ph ph-chat-circle-dots"></i>
           No reviews yet — be the first to share your experience.
         </p>
-
-        <!-- Review cards -->
         <div class="feedback-list">
           <div *ngFor="let fb of feedbacks" class="feedback-card">
             <div class="feedback-card__head">
@@ -170,14 +155,10 @@
             <p class="feedback-comment">{{ fb.comment }}</p>
           </div>
         </div>
-
-        <!-- Already submitted -->
         <div *ngIf="userRole === 'Consumer' && !consumerCanGiveFeedback && currentUserId" class="feedback-notice feedback-notice--done">
           <i class="ph-fill ph-check-circle"></i>
           You have already submitted feedback for this product.
         </div>
-
-        <!-- Feedback form (consumer only) -->
         <div *ngIf="userRole === 'Consumer' && consumerCanGiveFeedback" class="feedback-form">
           <h3 class="feedback-form__title">
             <i class="ph-fill ph-pencil-simple"></i>
@@ -216,7 +197,6 @@
           </div>
         </div>
 
-        <!-- Not logged in -->
         <div *ngIf="!currentUserId" class="feedback-notice">
           <i class="ph ph-sign-in"></i>
           Sign in as a Consumer to submit feedback. You can still read reviews above.
@@ -228,7 +208,6 @@
 
       </section>
 
-      <!-- ── Chain actions (role-based) ──────────────────────────────────── -->
       <section *ngIf="showUpdatePossible()" class="vp-section reveal actions-section" aria-label="Supply chain actions">
         <div class="vp-section__head">
           <div class="vp-section__icon vp-section__icon--amber"><i class="ph-fill ph-git-branch"></i></div>
@@ -238,7 +217,6 @@
           </div>
         </div>
 
-        <!-- Distributor: first claim -->
         <div *ngIf="userRole === 'Distributor' && !hasDistributorTakenPossession()" class="action-block action-block--warning">
           <div class="action-block__copy">
             <h3 class="action-block__title">
@@ -253,7 +231,6 @@
           </button>
         </div>
 
-        <!-- Distributor: in possession -->
         <div *ngIf="userRole === 'Distributor' && hasDistributorTakenPossession()" class="action-block action-block--success">
           <div class="action-block__copy">
             <h3 class="action-block__title">
@@ -274,7 +251,6 @@
           </div>
         </div>
 
-        <!-- Retailer: confirm receipt -->
         <div *ngIf="userRole === 'Retailer'" class="action-block action-block--info">
           <div class="action-block__copy">
             <h3 class="action-block__title">
@@ -289,7 +265,6 @@
           </button>
         </div>
 
-        <!-- Inline chain form -->
         <div *ngIf="showAddForm" class="chain-form">
           <h3 class="chain-form__title">
             <i class="ph-fill ph-pencil-simple-line"></i>
@@ -353,7 +328,6 @@
 
       </section>
 
-      <!-- ── Completed notice ──────────────────────────────────────────── -->
       <div
         *ngIf="!showUpdatePossible() && (userRole === 'Distributor' || userRole === 'Retailer')"
         class="completed-notice reveal">

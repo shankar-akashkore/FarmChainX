@@ -1,54 +1,110 @@
-<main class="login-page">
-  <section class="login-visual" aria-label="FarmChainX access summary">
-    <div class="visual-blob visual-blob--top"></div>
+<main class="lp-root">
 
-    <div class="visual-content">
-      <a routerLink="/" class="brand-lockup" aria-label="FarmChainX home">
-        <span class="brand-mark">FX</span>
-        <span>
-          <strong>FarmChainX</strong>
-          <small>Traceable agriculture</small>
-        </span>
+  <!-- ══ Left — Immersive Visual Panel ══ -->
+  <aside class="lp-visual" aria-hidden="true">
+
+    <!-- Atmospheric layers -->
+    <div class="lp-vis__grain"></div>
+    <div class="lp-vis__orb lp-vis__orb--a"></div>
+    <div class="lp-vis__orb lp-vis__orb--b"></div>
+    <div class="lp-vis__orb lp-vis__orb--c"></div>
+
+    <!-- Field silhouette -->
+    <div class="lp-vis__field">
+      <span class="blade b1"></span><span class="blade b2"></span>
+      <span class="blade b3"></span><span class="blade b4"></span>
+      <span class="blade b5"></span><span class="blade b6"></span>
+      <span class="blade b7"></span><span class="blade b8"></span>
+      <span class="blade b9"></span><span class="blade b10"></span>
+      <span class="blade b11"></span><span class="blade b12"></span>
+      <span class="blade b13"></span><span class="blade b14"></span>
+      <span class="blade b15"></span>
+    </div>
+
+    <!-- Content -->
+    <div class="lp-vis__body">
+
+      <!-- Brand -->
+      <a routerLink="/" class="lp-brand">
+        <span class="lp-brand__icon"><i class="ph-fill ph-leaf"></i></span>
+        <span class="lp-brand__name">FarmChain<em>X</em></span>
       </a>
 
-      <div class="hero-copy">
-        <p class="eyebrow">Secure supply-chain access</p>
-        <h1>Track every harvest from field to final shelf.</h1>
-        <p>
-          Login to manage product uploads, scan QR codes, confirm supply-chain movement,
-          and monitor transparent product history.
+      <!-- Headline -->
+      <div class="lp-vis__headline">
+        <p class="lp-vis__eyebrow">
+          <span class="lp-vis__eyebrow-dot"></span>
+          Secure supply-chain access
+        </p>
+        <h1>
+          <span class="line">From</span>
+          <span class="line accent">field</span>
+          <span class="line">to shelf.</span>
+        </h1>
+        <p class="lp-vis__sub">
+          Manage harvests, verify provenance on-chain, and move products through
+          every supply-chain step — with full transparency.
         </p>
       </div>
 
-      <div class="trust-grid" aria-label="Platform capabilities">
-        <div>
+      <!-- Trust cards -->
+      <div class="lp-trust">
+        <div class="lp-trust__card">
+          <i class="ph-fill ph-users"></i>
           <strong>5</strong>
           <span>Role types</span>
         </div>
-        <div>
+        <div class="lp-trust__card">
+          <i class="ph-fill ph-qr-code"></i>
           <strong>QR</strong>
           <span>Verification</span>
         </div>
-        <div>
+        <div class="lp-trust__card">
+          <i class="ph-fill ph-link-simple-chain"></i>
           <strong>Hash</strong>
           <span>Chain logs</span>
         </div>
       </div>
-    </div>
-  </section>
 
-  <section class="login-panel" aria-label="Login form">
-    <div class="panel-card">
-      <div class="panel-heading">
-        <p class="eyebrow">Welcome back</p>
-        <h2>Login to your account</h2>
-        <p>Use your FarmChainX credentials to continue.</p>
+    </div>
+
+    <!-- Bottom ribbon -->
+    <div class="lp-vis__ribbon">
+      <i class="ph-fill ph-shield-check"></i>
+      <span>256-bit encrypted · GDPR compliant · On-chain audit trail</span>
+    </div>
+
+  </aside>
+
+  <!-- ══ Right — Login Panel ══ -->
+  <section class="lp-panel">
+
+    <!-- Mobile brand (hidden on desktop) -->
+    <a routerLink="/" class="lp-brand lp-brand--mobile">
+      <span class="lp-brand__icon"><i class="ph-fill ph-leaf"></i></span>
+      <span class="lp-brand__name">FarmChain<em>X</em></span>
+    </a>
+
+    <div class="lp-form-wrap">
+
+      <!-- Heading -->
+      <div class="lp-form__head">
+        <p class="lp-form__eyebrow">Welcome back</p>
+        <h2>Sign in to your account</h2>
+        <p class="lp-form__sub">Use your FarmChainX credentials to continue.</p>
       </div>
 
+      <!-- Form -->
       <form (ngSubmit)="login()" #f="ngForm" autocomplete="off" novalidate>
-        <label class="field">
-          <span>Email address</span>
+
+        <!-- Email -->
+        <div class="lp-field">
+          <label for="lp-email">
+            <i class="ph ph-envelope-simple"></i>
+            Email address
+          </label>
           <input
+            id="lp-email"
             name="email"
             type="email"
             placeholder="you@example.com"
@@ -56,43 +112,74 @@
             required
             email
           />
-        </label>
+        </div>
 
-        <label class="field">
-          <span>Password</span>
-          <div class="password-wrap">
+        <!-- Password -->
+        <div class="lp-field">
+          <label for="lp-password">
+            <i class="ph ph-lock-simple"></i>
+            Password
+          </label>
+          <div class="lp-pw-wrap">
             <input
+              id="lp-password"
               name="password"
               [type]="showPassword ? 'text' : 'password'"
-              placeholder="Enter password"
+              placeholder="Enter your password"
               [(ngModel)]="password"
               required
             />
-            <button type="button" class="password-toggle" (click)="togglePassword()">
-              {{ showPassword ? 'Hide' : 'Show' }}
+            <button type="button" class="lp-pw-toggle" (click)="togglePassword()" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+              <i [class]="showPassword ? 'ph ph-eye-slash' : 'ph ph-eye'"></i>
             </button>
           </div>
-        </label>
+        </div>
 
-        <p *ngIf="errorMessage" class="form-error" role="alert">{{ errorMessage }}</p>
+        <!-- Error -->
+        <div *ngIf="errorMessage" class="lp-error" role="alert">
+          <i class="ph-fill ph-warning-circle"></i>
+          {{ errorMessage }}
+        </div>
 
-        <button type="submit" class="submit-button" [disabled]="f.invalid || loading">
-          <span *ngIf="!loading">Login to Dashboard</span>
-          <span *ngIf="loading">Signing in...</span>
+        <!-- Submit -->
+        <button type="submit" class="lp-submit" [disabled]="f.invalid || loading">
+          <span class="lp-submit__inner" *ngIf="!loading">
+            <i class="ph-fill ph-sign-in"></i>
+            Sign in to Dashboard
+          </span>
+          <span class="lp-submit__inner" *ngIf="loading">
+            <span class="lp-spinner"></span>
+            Signing in…
+          </span>
+          <span class="lp-submit__shine"></span>
         </button>
+
       </form>
 
-      <div class="demo-strip" aria-label="Demo accounts">
-        <span>Try demo:</span>
-        <button type="button" (click)="useDemo('farmer@farmchainx.com')">Farmer</button>
-        <button type="button" (click)="useDemo('distributor@farmchainx.com')">Distributor</button>
-        <button type="button" (click)="useDemo('consumer@farmchainx.com')">Consumer</button>
+      <!-- Demo strip -->
+      <div class="lp-demo">
+        <span class="lp-demo__label">Quick demo</span>
+        <div class="lp-demo__pills">
+          <button type="button" class="lp-demo__pill" (click)="useDemo('farmer@farmchainx.com')">
+            <i class="ph-fill ph-plant"></i> Farmer
+          </button>
+          <button type="button" class="lp-demo__pill" (click)="useDemo('distributor@farmchainx.com')">
+            <i class="ph-fill ph-truck"></i> Distributor
+          </button>
+          <button type="button" class="lp-demo__pill" (click)="useDemo('consumer@farmchainx.com')">
+            <i class="ph-fill ph-user"></i> Consumer
+          </button>
+        </div>
       </div>
 
-      <p class="switch-link">
+      <!-- Switch -->
+      <p class="lp-switch">
         New to FarmChainX?
-        <a routerLink="/register">Create an account</a>
+        <a routerLink="/register">Create an account <i class="ph ph-arrow-right"></i></a>
       </p>
+
     </div>
+
   </section>
+
 </main>

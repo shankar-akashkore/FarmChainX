@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -19,11 +19,9 @@ export class Login {
   loading = false;
   errorMessage = '';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    private auth: AuthService
-  ) {}
+  private http   = inject(HttpClient);
+  private router = inject(Router);
+  private auth   = inject(AuthService);
 
   togglePassword() {
     this.showPassword = !this.showPassword;
@@ -37,7 +35,6 @@ export class Login {
 
   login() {
     if (this.loading) return;
-
     this.loading = true;
     this.errorMessage = '';
 
@@ -52,8 +49,7 @@ export class Login {
       },
       error: (err) => {
         this.loading = false;
-        const msg = err?.error?.error || 'Invalid email or password';
-        this.errorMessage = msg;
+        this.errorMessage = err?.error?.error || 'Invalid email or password';
       }
     });
   }

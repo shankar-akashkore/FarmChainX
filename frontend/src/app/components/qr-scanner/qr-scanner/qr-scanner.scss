@@ -3,7 +3,6 @@
   font-family: 'Work Sans', system-ui, sans-serif;
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
 .scan-root {
   background: #FCF9EA;
   min-height: 100vh;
@@ -13,7 +12,6 @@
   padding: 40px 16px;
 }
 
-// ─── Card ─────────────────────────────────────────────────────────────────────
 .scan-card {
   background: #fff;
   border: 1.5px solid rgba(84, 107, 65, 0.18);
@@ -24,7 +22,6 @@
   max-width: 420px;
 }
 
-// ─── Title ────────────────────────────────────────────────────────────────────
 .scan-title {
   align-items: center;
   color: #1e2a18;
@@ -42,7 +39,6 @@
   }
 }
 
-// ─── Tabs ─────────────────────────────────────────────────────────────────────
 .scan-tabs {
   display: flex;
   gap: 6px;
@@ -80,7 +76,6 @@
   }
 }
 
-// ─── Camera viewport ──────────────────────────────────────────────────────────
 .scan-viewport {
   background: #111a0c;
   border-radius: 14px;
@@ -97,7 +92,6 @@
   object-fit: cover;
 }
 
-// ─── Corner frame ─────────────────────────────────────────────────────────────
 .scan-frame {
   inset: 0;
   pointer-events: none;
@@ -172,7 +166,6 @@
   }
 }
 
-// ─── Torch button ─────────────────────────────────────────────────────────────
 .torch-btn {
   align-items: center;
   background: rgba(255, 255, 255, 0.12);
@@ -201,7 +194,6 @@
   }
 }
 
-// ─── Upload area ──────────────────────────────────────────────────────────────
 .upload-area {
   border-radius: 14px;
   overflow: hidden;
@@ -274,7 +266,6 @@
   width: 1px;
 }
 
-// ─── Preview ──────────────────────────────────────────────────────────────────
 .preview-wrap {
   align-items: center;
   display: flex;
@@ -327,7 +318,6 @@
   }
 }
 
-// ─── Bottom hint ──────────────────────────────────────────────────────────────
 .scan-hint {
   color: #8a9e7a;
   font-size: 0.78rem;
