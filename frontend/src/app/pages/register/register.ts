@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -20,30 +20,35 @@ export class RegisterPage {
   loading = false;
   errorMessage = '';
 
-  roles = [
+  private http   = inject(HttpClient);
+  private router = inject(Router);
+
+  readonly roles = [
     {
       value: 'FARMER',
       title: 'Farmer',
-      description: 'Upload harvests and generate trusted QR records.'
+      icon: 'ph-plant',
+      description: 'Upload harvests & generate QR records.'
     },
     {
       value: 'DISTRIBUTOR',
       title: 'Distributor',
-      description: 'Receive products and update supply movement.'
+      icon: 'ph-truck',
+      description: 'Receive products & update movement.'
     },
     {
       value: 'RETAILER',
       title: 'Retailer',
-      description: 'Confirm receipt and complete product custody.'
+      icon: 'ph-storefront',
+      description: 'Confirm receipt & complete custody.'
     },
     {
       value: 'CONSUMER',
       title: 'Consumer',
-      description: 'Scan products, verify origin, and leave feedback.'
+      icon: 'ph-user-circle',
+      description: 'Scan products, verify & give feedback.'
     }
   ];
-
-  constructor(private http: HttpClient, private router: Router) {}
 
   togglePassword() {
     this.showPassword = !this.showPassword;

@@ -1,67 +1,50 @@
-<main class="register-page">
-  <section class="register-intro" aria-label="FarmChainX onboarding">
-    <div class="intro-blob intro-blob--top"></div>
+<main class="rp-root">
 
-    <div class="intro-content">
-      <a routerLink="/" class="brand-lockup" aria-label="FarmChainX home">
-        <span class="brand-mark">FX</span>
-        <span>
-          <strong>FarmChainX</strong>
-          <small>Trusted food networks</small>
-        </span>
-      </a>
+  <!-- ══ Left — Form Panel ══ -->
+  <section class="rp-panel">
 
-      <div class="intro-copy">
-        <p class="eyebrow">Create your traceability identity</p>
-        <h1>Join the supply chain with a role that fits your work.</h1>
-        <p>
-          FarmChainX connects every product action to a trusted user, from upload and QR
-          verification to handover confirmation and consumer feedback.
-        </p>
-      </div>
+    <!-- Mobile brand -->
+    <a routerLink="/" class="rp-brand rp-brand--mobile">
+      <span class="rp-brand__icon"><i class="ph-fill ph-leaf"></i></span>
+      <span class="rp-brand__name">FarmChain<em>X</em></span>
+    </a>
 
-      <div class="process-list" aria-label="Registration benefits">
-        <div>
-          <span>01</span>
-          <strong>Choose role</strong>
-          <small>Farmer, distributor, retailer, or consumer.</small>
-        </div>
-        <div>
-          <span>02</span>
-          <strong>Access tools</strong>
-          <small>Your dashboard adapts to your responsibility.</small>
-        </div>
-        <div>
-          <span>03</span>
-          <strong>Build trust</strong>
-          <small>Each product action becomes part of the trail.</small>
-        </div>
-      </div>
-    </div>
-  </section>
+    <div class="rp-form-wrap">
 
-  <section class="register-panel" aria-label="Create account form">
-    <div class="panel-card">
-      <div class="panel-heading">
-        <p class="eyebrow">Start here</p>
+      <!-- Heading -->
+      <div class="rp-form__head">
+        <p class="rp-form__eyebrow">Join FarmChainX</p>
         <h2>Create your account</h2>
-        <p>Set up your FarmChainX access in a few seconds.</p>
+        <p class="rp-form__sub">Set up your traceability identity in seconds.</p>
       </div>
 
+      <!-- Form -->
       <form (ngSubmit)="submit()" #f="ngForm" autocomplete="off" novalidate>
-        <label class="field">
-          <span>Full name</span>
+
+        <!-- Name -->
+        <div class="rp-field">
+          <label for="rp-name">
+            <i class="ph ph-identification-card"></i>
+            Full name
+          </label>
           <input
+            id="rp-name"
             name="name"
-            placeholder="Enter your full name"
+            type="text"
+            placeholder="Your full name"
             [(ngModel)]="name"
             required
           />
-        </label>
+        </div>
 
-        <label class="field">
-          <span>Email address</span>
+        <!-- Email -->
+        <div class="rp-field">
+          <label for="rp-email">
+            <i class="ph ph-envelope-simple"></i>
+            Email address
+          </label>
           <input
+            id="rp-email"
             name="email"
             type="email"
             placeholder="you@example.com"
@@ -69,12 +52,17 @@
             required
             email
           />
-        </label>
+        </div>
 
-        <label class="field">
-          <span>Password</span>
-          <div class="password-wrap">
+        <!-- Password -->
+        <div class="rp-field">
+          <label for="rp-password">
+            <i class="ph ph-lock-simple"></i>
+            Password
+          </label>
+          <div class="rp-pw-wrap">
             <input
+              id="rp-password"
               name="password"
               [type]="showPassword ? 'text' : 'password'"
               placeholder="Minimum 4 characters"
@@ -82,40 +70,149 @@
               minlength="4"
               required
             />
-            <button type="button" class="password-toggle" (click)="togglePassword()">
-              {{ showPassword ? 'Hide' : 'Show' }}
+            <button type="button" class="rp-pw-toggle" (click)="togglePassword()" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'">
+              <i [class]="showPassword ? 'ph ph-eye-slash' : 'ph ph-eye'"></i>
             </button>
           </div>
-        </label>
+        </div>
 
-        <fieldset class="role-field">
-          <legend>Select your role</legend>
-          <div class="role-grid">
+        <!-- Role selection -->
+        <fieldset class="rp-role-set">
+          <legend>
+            <i class="ph ph-identification-badge"></i>
+            Select your role
+          </legend>
+          <div class="rp-role-grid">
             <button
               *ngFor="let item of roles"
               type="button"
-              class="role-card"
+              class="rp-role-card"
               [class.is-selected]="role === item.value"
               (click)="selectRole(item.value)">
-              <span class="role-check"></span>
-              <strong>{{ item.title }}</strong>
-              <small>{{ item.description }}</small>
+              <span class="rp-role-card__icon">
+                <i class="ph-fill" [class]="item.icon"></i>
+              </span>
+              <span class="rp-role-card__body">
+                <strong>{{ item.title }}</strong>
+                <small>{{ item.description }}</small>
+              </span>
+              <span class="rp-role-card__check">
+                <i class="ph-fill ph-check"></i>
+              </span>
             </button>
           </div>
         </fieldset>
 
-        <p *ngIf="errorMessage" class="form-error" role="alert">{{ errorMessage }}</p>
+        <!-- Error -->
+        <div *ngIf="errorMessage" class="rp-error" role="alert">
+          <i class="ph-fill ph-warning-circle"></i>
+          {{ errorMessage }}
+        </div>
 
-        <button type="submit" class="submit-button" [disabled]="f.invalid || !role || loading">
-          <span *ngIf="!loading">Create Account</span>
-          <span *ngIf="loading">Creating account...</span>
+        <!-- Submit -->
+        <button type="submit" class="rp-submit" [disabled]="f.invalid || !role || loading">
+          <span class="rp-submit__inner" *ngIf="!loading">
+            <i class="ph-fill ph-user-plus"></i>
+            Create Account
+          </span>
+          <span class="rp-submit__inner" *ngIf="loading">
+            <span class="rp-spinner"></span>
+            Creating account…
+          </span>
+          <span class="rp-submit__shine"></span>
         </button>
+
       </form>
 
-      <p class="switch-link">
-        Already registered?
-        <a routerLink="/login">Login here</a>
+      <!-- Switch -->
+      <p class="rp-switch">
+        Already have an account?
+        <a routerLink="/login">Sign in <i class="ph ph-arrow-right"></i></a>
       </p>
+
     </div>
   </section>
+
+  <!-- ══ Right — Visual Panel ══ -->
+  <aside class="rp-visual" aria-hidden="true">
+
+    <!-- Atmospheric layers -->
+    <div class="rp-vis__grain"></div>
+    <div class="rp-vis__orb rp-vis__orb--a"></div>
+    <div class="rp-vis__orb rp-vis__orb--b"></div>
+
+    <!-- Seedling growth illustration -->
+    <div class="rp-vis__seedling">
+      <div class="seedling__soil"></div>
+      <div class="seedling__stem">
+        <div class="seedling__leaf seedling__leaf--l"></div>
+        <div class="seedling__leaf seedling__leaf--r"></div>
+        <div class="seedling__leaf seedling__leaf--tl"></div>
+        <div class="seedling__leaf seedling__leaf--tr"></div>
+        <div class="seedling__bud"></div>
+      </div>
+    </div>
+
+    <!-- Content -->
+    <div class="rp-vis__body">
+
+      <!-- Brand -->
+      <a routerLink="/" class="rp-brand">
+        <span class="rp-brand__icon"><i class="ph-fill ph-leaf"></i></span>
+        <span class="rp-brand__name">FarmChain<em>X</em></span>
+      </a>
+
+      <!-- Headline -->
+      <div class="rp-vis__headline">
+        <p class="rp-vis__eyebrow">
+          <span class="rp-vis__eyebrow-dot"></span>
+          Your traceability identity
+        </p>
+        <h1>
+          <span class="line">Grow with</span>
+          <span class="line accent">trust.</span>
+        </h1>
+        <p class="rp-vis__sub">
+          Every role in the chain contributes to a transparent, tamper-proof
+          record — from soil to shelf.
+        </p>
+      </div>
+
+      <!-- Steps -->
+      <div class="rp-steps">
+        <div class="rp-step">
+          <span class="rp-step__num">01</span>
+          <div class="rp-step__body">
+            <strong>Choose role</strong>
+            <small>Farmer, distributor, retailer, or consumer.</small>
+          </div>
+        </div>
+        <div class="rp-step__line"></div>
+        <div class="rp-step">
+          <span class="rp-step__num">02</span>
+          <div class="rp-step__body">
+            <strong>Access tools</strong>
+            <small>Your dashboard adapts to your responsibility.</small>
+          </div>
+        </div>
+        <div class="rp-step__line"></div>
+        <div class="rp-step">
+          <span class="rp-step__num">03</span>
+          <div class="rp-step__body">
+            <strong>Build trust</strong>
+            <small>Every action becomes part of the on-chain trail.</small>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom ribbon -->
+    <div class="rp-vis__ribbon">
+      <i class="ph-fill ph-shield-check"></i>
+      <span>256-bit encrypted · GDPR compliant · On-chain audit trail</span>
+    </div>
+
+  </aside>
+
 </main>
